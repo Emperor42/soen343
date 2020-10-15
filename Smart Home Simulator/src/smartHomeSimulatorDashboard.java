@@ -23,10 +23,14 @@ public class smartHomeSimulatorDashboard extends Application {
         //for the simulation pane
         displaySimulationPane("Parent", "Kitchen", 15, root);
         //for the module pane
-        displayModuleTabs(root);
+        displayModuleTabs(root,1,0);
         displayModuleInterface(activeModule,1,1,root);
         
-        Scene scene = new Scene(root, 300, 250);
+        displayOutputTerminal(root, 1,3,"This is some output data");
+        
+        displayOutputSimulationView(root, 2,1,"This is my house");
+        
+        Scene scene = new Scene(root, 900, 300);
         
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
         primaryStage.setScene(scene);
@@ -77,7 +81,14 @@ public class smartHomeSimulatorDashboard extends Application {
         pane.add(temp,x,y);
     }
     
-    
+    /**
+     * 
+     * @param user
+     * @param location
+     * @param outTemp
+     * @param temp 
+     * @author Matthew Giancola 40019131
+     */
     public void displaySimulationPane(String user,String location, int outTemp, GridPane temp){
         //front Simulation heading
         Label simHeading = new Label("Simulation");
@@ -117,10 +128,18 @@ public class smartHomeSimulatorDashboard extends Application {
         
     }
     
-    public void displayModuleTabs(GridPane temp){
+    /**
+     * 
+     * @param append
+     * @param x
+     * @param y 
+     * @author Matthew Giancola 40019131
+     */
+    public void displayModuleTabs(GridPane append, int x, int y){
+        GridPane temp = new GridPane();
         //Temp will make properly modulr later
         Button btnSHS = new Button();
-        btnSHS.setText("OFF");
+        btnSHS.setText("SHS");
         btnSHS.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
@@ -128,23 +147,23 @@ public class smartHomeSimulatorDashboard extends Application {
         });
         temp.add(btnSHS, 1,0);
         Button btnSHC = new Button();
-        btnSHS.setText("OFF");
+        btnSHC.setText("SHC");
         btnSHC.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
             }
         });
-        temp.add(btnSHC, 1,0);
+        temp.add(btnSHC, 2,0);
         Button btnSHP = new Button();
-        btnSHP.setText("OFF");
+        btnSHP.setText("SHP");
         btnSHP.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
             }
         });
-        temp.add(btnSHP, 1,0);
+        temp.add(btnSHP, 3,0);
         Button btnSHH = new Button();
-        btnSHH.setText("OFF");
+        btnSHH.setText("SHH");
         btnSHH.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
@@ -152,13 +171,62 @@ public class smartHomeSimulatorDashboard extends Application {
         });
         temp.add(btnSHH, 4,0);
         Button btnPLUS = new Button();
-        btnPLUS.setText("OFF");
+        btnPLUS.setText("+");
         btnPLUS.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
             }
         });
         temp.add(btnPLUS, 5,0);
+        append.add(temp, x,y);
+    }
+    
+    /**
+     * 
+     * @param append
+     * @param x
+     * @param y
+     * @param data 
+     * @author Matthew Giancola 40019131
+     */
+    public void displayOutputTerminal(GridPane append, int x, int y, String data){
+        GridPane temp = new GridPane();
+        //front Simulation heading
+        Label outHeading = new Label("Output Console");
+        temp.add(outHeading,0,0);
+        //front Simulation heading
+        Label outData = new Label(data);
+        temp.add(outData,0,1);
+        append.add(temp, x,y);
+    }
+    
+    /**
+     * 
+     * @param append
+     * @param x
+     * @param y
+     * @param data 
+     * @author Matthew Giancola 40019131
+     */
+    public void displayOutputSimulationView(GridPane append, int x, int y, String data){
+        GridPane temp = new GridPane();
+        //front Simulation heading
+        Label outHeading = new Label("House View");
+        temp.add(outHeading,0,1);
+        //front Simulation heading
+        Label outData = new Label(tempStringReader(data));
+        temp.add(outData,0,0);
+        append.add(temp, x,y);
+    }
+    
+    /**
+     * 
+     * @param in
+     * @return Some element to display
+     * @author Matthew Giancola 40019131
+     */
+    public String tempStringReader(String in){
+        return in;
     }
     
 }
