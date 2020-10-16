@@ -5,8 +5,9 @@
         <group>
             <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/DigitalClock.java</file>
             <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/smartHomeSimulatorDashboard.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/Main.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/SetDateAndTime.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/houseLayout/ReadJsonFile.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/houseLayout/ShowGraphics.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/houseLayout/BuildJsonFile.java</file>
         </group>
     </open-files>
 </project-private>
