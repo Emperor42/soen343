@@ -1,7 +1,7 @@
 import static application.SetDateAndTime.changeDate;
 import static application.SetDateAndTime.changeTime;
 import static application.SetDateAndTime.d;
-import static application.SetDateAndTime.layout;
+//import static application.SetDateAndTime.Layout;				// Commented by Justin Loh to make the code work
 import java.time.LocalDate;
 import java.util.Calendar;
 import javafx.application.Application;
@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -97,7 +98,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param location
      * @param outTemp
      * @param temp 
-     * @author Matthew Giancola 40019131
+     * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
     public void displaySimulationPane(String user,String location, int outTemp, GridPane temp){
         //front Simulation heading
@@ -132,8 +133,28 @@ public class smartHomeSimulatorDashboard extends Application {
         temp.add(tempHeader,0,5);
         Label tempOut= new Label(outTemp+" C");
         temp.add(tempOut,0,6);
+        // Slider object to set a new temperature
+        Slider tempSlider = new Slider(-22, 30, 0.5);
+        tempSlider.setShowTickMarks(true);
+        tempSlider.setShowTickLabels(true);
+        tempSlider.setMajorTickUnit(1);
+        tempSlider.setBlockIncrement(1);
+        temp.add(tempSlider, 0, 7);
+        
+        // Button to set temperature
+        Button setTemp = new Button();
+        setTemp.setText("Set Temperature");
+        setTemp.setOnAction(e->{
+        	int newTemp = (int) tempSlider.getValue();
+        	temp.getChildren().remove(tempOut);
+        	tempOut.setText(newTemp+" C");
+        	temp.add(tempOut, 0, 6);
+		});
+        temp.add(setTemp, 0, 8);
+        
+        
         //time and Date
-        loadDateAndTime(temp, 0, 7);
+        loadDateAndTime(temp, 0, 10);
         
     }
     
@@ -281,7 +302,7 @@ public class smartHomeSimulatorDashboard extends Application {
 		d.bindToCurrentTime();
 		
 		//add all children to the layout
-		
+		VBox layout = application.SetDateAndTime.layout;			//  this segment added by justin Loh so code will run 
                 layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
 		layout.getChildren().add(new Label("Date Unset"));
 		// button to apply changes to times

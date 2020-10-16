@@ -21,11 +21,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.DateTimeStringConverter;
+
+/**
+*
+* @author Justin Loh 40073776
+*/
+
 public class SetDateAndTime {
 	public static DigitalClock d = new DigitalClock();
 	
         public static VBox layout = new VBox();
-        
+
 	public static void display(String title,String message){
 		
 		// set the message and title
@@ -69,7 +75,7 @@ public class SetDateAndTime {
 		timeInputs.getChildren().addAll(hrBox,minBox,am_pmBox);
 		
 		//Create a button to set time
-		Button btnTime = new Button("Set a time'");
+		Button btnTime = new Button("Set a time");
 		
 		//create default clock which has value of current time
 		d.bindToCurrentTime();

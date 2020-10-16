@@ -19,6 +19,7 @@ import javafx.stage.Stage;
  * ss Second in minute
  * aa Am/pm marker
  * Time is the system time for the local timezone.
+ * Written by Justin Loh King Wei 40073776 
  */
 public class DigitalClock extends Label {
   public DigitalClock() {
