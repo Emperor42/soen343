@@ -1,10 +1,20 @@
+import static application.SetDateAndTime.changeDate;
+import static application.SetDateAndTime.changeTime;
+import static application.SetDateAndTime.d;
+import static application.SetDateAndTime.layout;
+import java.time.LocalDate;
+import java.util.Calendar;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -30,7 +40,7 @@ public class smartHomeSimulatorDashboard extends Application {
         
         displayOutputSimulationView(root, 2,1,"This is my house");
         
-        Scene scene = new Scene(root, 900, 300);
+        Scene scene = new Scene(root, 900, 450);
         
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
         primaryStage.setScene(scene);
@@ -123,8 +133,7 @@ public class smartHomeSimulatorDashboard extends Application {
         Label tempOut= new Label(outTemp+" C");
         temp.add(tempOut,0,6);
         //time and Date
-        Label dateTime = new Label("NOW -- NEEDS TO BE PROPERLY SET!");
-        temp.add(dateTime, 0, 7);
+        loadDateAndTime(temp, 0, 7);
         
     }
     
@@ -227,6 +236,69 @@ public class smartHomeSimulatorDashboard extends Application {
      */
     public String tempStringReader(String in){
         return in;
+    }
+    
+    public void loadDateAndTime(GridPane append, int x, int y){
+        //append.add(new Label("SOME TIME"),x,y);
+        
+		Label label = new Label("TIME");
+		//Create Datepicker Item
+		DatePicker datePicker = new DatePicker();
+		
+		
+		//Create button to set date
+		Button btndate = new Button("Set the Date");
+		
+		
+		
+		//Input drop down boxes for hr min and am/pm
+		HBox timeInputs = new HBox();
+		ChoiceBox<String> hrBox = new ChoiceBox<>();
+	     hrBox.setValue("0");
+		for(int i = 1 ;i<13;i++) {
+			String j = Integer.toString(i);
+			hrBox.getItems().add(j);
+		}
+		ChoiceBox<String> minBox = new ChoiceBox<>();
+	minBox.setValue("00");
+		for(int i = 0 ;i<60;i++) {
+			String j = Integer.toString(i);
+			minBox .getItems().add(j);
+		}
+		ChoiceBox<String> am_pmBox = new ChoiceBox<>();
+		am_pmBox.setValue("am");
+		am_pmBox.getItems().add("am");
+		am_pmBox.getItems().add("pm");
+		
+		
+		
+		timeInputs.getChildren().addAll(hrBox,minBox,am_pmBox);
+		
+		//Create a button to set time
+		Button btnTime = new Button("Set a time'");
+		
+		//create default clock which has value of current time
+		d.bindToCurrentTime();
+		
+		//add all children to the layout
+		
+                layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
+		layout.getChildren().add(new Label("Date Unset"));
+		// button to apply changes to times
+		btndate.setOnAction(e->{
+			LocalDate localDate = datePicker.getValue();
+			Label dateLabel = new Label(localDate.toString());
+			changeDate(layout,dateLabel);
+		});
+		
+		// button to apply changes to date
+		btnTime.setOnAction(e->{
+			int hr=  Integer.parseInt(hrBox.getValue());
+			int min= Integer.parseInt(minBox.getValue());
+			int am_pm= am_pmBox.getValue()=="am"? 0:1;
+			changeTime(layout,hr,min,Calendar.getInstance().SECOND,am_pm);}
+				);
+        append.add(application.SetDateAndTime.layout,x,y);
     }
     
 }
