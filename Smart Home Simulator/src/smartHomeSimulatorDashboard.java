@@ -61,7 +61,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param module which module to use.
      * @param pane the GridPane to use.
      * @param x the x position on the given GridPane 
-     * @param y the y position on the given GridPane 
+     * @param y the y position on the given GridPane
      * @author Matthew Giancola 40019131
      */
     public void displayModuleInterface(int module,int x, int y, GridPane pane){
@@ -133,7 +133,6 @@ public class smartHomeSimulatorDashboard extends Application {
         temp.add(tempHeader,0,5);
         Label tempOut= new Label(outTemp+" C");
         temp.add(tempOut,0,6);
-        
         // Slider object to set a new temperature
         Slider tempSlider = new Slider(-22, 30, 0.5);
         tempSlider.setShowTickMarks(true);
@@ -304,7 +303,7 @@ public class smartHomeSimulatorDashboard extends Application {
 		
 		//add all children to the layout
 		VBox layout = application.SetDateAndTime.layout;			//  this segment added by justin Loh so code will run 
-        layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
+                layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
 		layout.getChildren().add(new Label("Date Unset"));
 		// button to apply changes to times
 		btndate.setOnAction(e->{
