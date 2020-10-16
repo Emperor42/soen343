@@ -7,7 +7,10 @@ import java.util.Calendar;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -15,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -30,6 +34,7 @@ public class smartHomeSimulatorDashboard extends Application {
     
     @Override
     public void start(Stage primaryStage) {
+        houseLayout.BuildJsonFile.Prep();
         GridPane root = new GridPane();
         //for the simulation pane
         displaySimulationPane("Parent", "Kitchen", 15, root);
@@ -39,9 +44,9 @@ public class smartHomeSimulatorDashboard extends Application {
         
         displayOutputTerminal(root, 1,3,"This is some output data");
         
-        displayOutputSimulationView(root, 2,1,"This is my house");
+        displayOutputSimulationView(root, 2,1,"This is my house", primaryStage);
         
-        Scene scene = new Scene(root, 900, 450);
+        Scene scene = new Scene(root, 1000, 450);
         
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
         primaryStage.setScene(scene);
@@ -52,6 +57,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        houseLayout.BuildJsonFile.Prep();
         launch(args);
     }
     
@@ -238,14 +244,25 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param data 
      * @author Matthew Giancola 40019131
      */
-    public void displayOutputSimulationView(GridPane append, int x, int y, String data){
+    public void displayOutputSimulationView(GridPane append, int x, int y, String data,Stage stage ){
         GridPane temp = new GridPane();
         //front Simulation heading
         Label outHeading = new Label("House View");
-        temp.add(outHeading,0,1);
+        temp.add(outHeading,0,2);
         //front Simulation heading
         Label outData = new Label(tempStringReader(data));
-        temp.add(outData,0,0);
+        temp.add(outData,0,1);
+        //graphics from houeLayout
+        //stage.setTitle("Drawing Operations Test");
+        Pane root = new Pane();
+        Canvas canvas = new Canvas(600, 600);
+        GraphicsContext gc;
+        gc = canvas.getGraphicsContext2D();
+        houseLayout.ShowGraphics.paint(gc);
+        root.getChildren().add(canvas);
+        //stage.setScene(new Scene(root));
+        //stage.show();
+        temp.add(root,0,0);
         append.add(temp, x,y);
     }
     
