@@ -4,6 +4,9 @@ import static application.SetDateAndTime.d;
 //import static application.SetDateAndTime.Layout;				// Commented by Justin Loh to make the code work
 import java.time.LocalDate;
 import java.util.Calendar;
+
+import houseLayout.Person;
+import houseLayout.Room;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,6 +33,9 @@ public class smartHomeSimulatorDashboard extends Application {
     
     public boolean runSimulation= false;
     public int activeModule = 0;
+    public static GridPane SimulationPane ;
+    public static GridPane RoomControlPane ;
+    public static Room[] roomArray = new Room[10];
     
     
     @Override
@@ -37,15 +43,13 @@ public class smartHomeSimulatorDashboard extends Application {
         houseLayout.BuildJsonFile.Prep();
         GridPane root = new GridPane();
         //for the simulation pane
-        displaySimulationPane("Parent", "Kitchen", 15, root);
+        displaySimulationPane("Parent", "Kitchen", 15, root, primaryStage);
         //for the module pane
         displayModuleTabs(root,1,0);
         displayModuleInterface(activeModule,1,1,root);
         
         displayOutputTerminal(root, 1,3,"This is some output data");
-        
-        displayOutputSimulationView(root, 2,1,"This is my house", primaryStage);
-        
+
         Scene scene = new Scene(root, 1000, 450);
         
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
@@ -106,22 +110,26 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param temp 
      * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
-    public void displaySimulationPane(String user,String location, int outTemp, GridPane temp){
+    public void displaySimulationPane(String user,String location, int outTemp, GridPane temp, Stage primaryStage){
         //front Simulation heading
         Label simHeading = new Label("Simulation");
         temp.add(simHeading,0,0);
         //Simulation On and Off Button
         Button simOnOff = new Button();
-        simOnOff.setText("OFF");
+        simOnOff.setText("Begin Simulation");
         simOnOff.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
                 runSimulation=!runSimulation;
                 if(!runSimulation){
-                    simOnOff.setText("OFF");
-                }
+                    simOnOff.setText("Initiate Simulation");
+                    temp.getChildren().remove(SimulationPane);				// remove simulation
+                    temp.getChildren().remove(RoomControlPane);		//remove room control panel
+                    }
                 else {
-                    simOnOff.setText("ON");
+                    simOnOff.setText("Exit Simulation");
+                    displayOutputSimulationView(temp, 2,1,"This is my house", primaryStage);		// display simulation
+                    displayRoomsandOccupants(temp, 1,4);			//display room control panel
                 }
             }
         });
@@ -161,7 +169,7 @@ public class smartHomeSimulatorDashboard extends Application {
         
         //time and Date
         loadDateAndTime(temp, 0, 10);
-        
+   
     }
     
     /**
@@ -241,10 +249,72 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param append
      * @param x
      * @param y
+     * @author Justin Loh 40073776
+     */
+    public void displayRoomsandOccupants(GridPane append, int x, int y){
+        GridPane temp = new GridPane();
+        //Room Control Heading
+        Label outHeading = new Label("Room Control : ");
+        temp.add(outHeading,0,0);
+        
+        
+        //Room control elements begin here
+        
+        //choice box with rooms parsed from json file
+        ChoiceBox<String> roomBox = new ChoiceBox<>();
+        
+        for(int i =0 ;i<roomArray.length;i++) {
+        	if(roomArray[i]!=null) {
+        	roomBox.getItems().add(roomArray[i].getName());
+        	}
+        }
+        temp.add(roomBox,0,1);
+        
+        // button which shows room information based on choicebox
+        Button btnRoom = new Button("Select a room");
+        temp.add(btnRoom,0,2);
+        btnRoom.setOnAction(e->{
+        	Room r = new Room();
+        	String roomName = roomBox.getValue();
+        	  for(int i =0 ;i<roomArray.length;i++) {
+        		  if(roomArray[i]!=null) {
+              	if(roomArray[i].getName().equals(roomName)) {
+              	r = roomArray[i];
+              	}
+        		  }
+              }
+        	
+        
+       	r.addOccupants(new Person("amy"));
+       	r.addOccupants(new Person("ben"));
+       	r.addOccupants(new Person("doodoohead"));
+        	Label occupantHeading = new Label("Occupants of "+r.getName()+" are : ");
+        	
+        	VBox occupantBox = new VBox();
+        	if(r.getNoOfOccupants()!=0) {
+        		occupantBox.getChildren().add(occupantHeading);
+        	for (int i = 0;i<r.getNoOfOccupants();i++) {
+        		occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+        	}
+        	}
+        	else {
+        		occupantBox.getChildren().add(new Label(r.getName()+" is empty"));
+        	}
+        	temp.add(occupantBox,0,3);
+		});
+        RoomControlPane = temp;
+        append.add(temp, x,y);
+    }
+    
+    /**
+     * 
+     * @param append
+     * @param x
+     * @param y
      * @param data 
      * @author Matthew Giancola 40019131
      */
-    public void displayOutputSimulationView(GridPane append, int x, int y, String data,Stage stage ){
+    public void displayOutputSimulationView(GridPane append, int x, int y, String data,Stage stage ){     // display output of rooms
         GridPane temp = new GridPane();
         //front Simulation heading
         Label outHeading = new Label("House View");
@@ -258,19 +328,25 @@ public class smartHomeSimulatorDashboard extends Application {
         Canvas canvas = new Canvas(600, 600);
         GraphicsContext gc;
         gc = canvas.getGraphicsContext2D();
-        houseLayout.ShowGraphics.paint(gc);
+        houseLayout.ShowGraphics.paint(gc,roomArray);											// added roomArray parameter-justin 
         root.getChildren().add(canvas);
         //stage.setScene(new Scene(root));
         //stage.show();
         temp.add(root,0,0);
+        SimulationPane = temp;
         append.add(temp, x,y);
+        for(int i =0 ;i<roomArray.length;i++) {
+        	if(roomArray[i]!=null) {
+       	 System.out.println("room array inludes"+roomArray[i].getName());
+        	}
+       }
     }
     
     /**
      * 
      * @param in
      * @return Some element to display
-     * @author Matthew Giancola 40019131
+     * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
     public String tempStringReader(String in){
         return in;
@@ -313,14 +389,14 @@ public class smartHomeSimulatorDashboard extends Application {
 		timeInputs.getChildren().addAll(hrBox,minBox,am_pmBox);
 		
 		//Create a button to set time
-		Button btnTime = new Button("Set a time'");
+		Button btnTime = new Button("Set a time");
 		
 		//create default clock which has value of current time
 		d.bindToCurrentTime();
 		
 		//add all children to the layout
 		VBox layout = application.SetDateAndTime.layout;			//  this segment added by justin Loh so code will run 
-                layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
+        layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
 		layout.getChildren().add(new Label("Date Unset"));
 		// button to apply changes to times
 		btndate.setOnAction(e->{
