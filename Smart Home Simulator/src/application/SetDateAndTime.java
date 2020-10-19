@@ -82,8 +82,8 @@ public class SetDateAndTime {
 		
 		//add all children to the layout
 		
-                layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
-                Scene scene = new Scene(layout, 300, 250);
+        layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
+        Scene scene = new Scene(layout, 300, 250);
 		window.setScene(scene);
 		window.show();
 		
