@@ -78,6 +78,7 @@ public class smartHomeSimulatorDashboard extends Application {
         GridPane temp = new GridPane();
         switch (module) {
             case 0:
+                pane.
                 Button btn = new Button();
                 btn.setText("Say 'Hello World'");
                 btn.setOnAction(new EventHandler<ActionEvent>() {    
