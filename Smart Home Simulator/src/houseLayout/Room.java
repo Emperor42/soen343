@@ -13,29 +13,54 @@ public class Room {
 	public void setName(String name) {
 		Name = name;
 	}
-
-
-
+        /**
+         * A function to see if the given name from the Room JSON is the same as this room
+         * @param given
+         * @return true if the names are the same
+         * @author Matthew Giancola (40019131)
+         */
+        public boolean isRoom(String given){
+            return Name.equals(given);
+        }
+        
+        public String UpdatedOutput(String given){
+            return given +"\n"+" ("+noOfOccupants+")";
+        }
+        
+        public boolean doorBlocked(){
+            return doorBlocked;
+        }
+        
+        public boolean windowBlocked(){
+            return windowBlocked;
+        }
+        
 	int windows;
 	int doors;
 	Person[] occupants = new Person[10]; // limit of 10 people per room
 	int noOfOccupants = 0;
-	
+	//simple boolean for a blocked window/door
+        public boolean windowBlocked=false;
+        public boolean doorBlocked = false;
+        public boolean lightBlocked = false;
+        
 	public void addOccupants(Person p) {
+            noOfOccupants++;
 		for(int i = 0;i<11;i++) {
 			if (occupants[i]==null) {
 				occupants[i]=p;
-				noOfOccupants++;
+				
 				break;
 			}	
 		}
 	}
 	
 	void removeOccupants(Person p) {
+            noOfOccupants--;
 		for(int i = 0;i<11;i++) {
 			if (occupants[i].name.equals(p.name)) {
 				occupants[i]=null;
-				noOfOccupants--;
+				
 				break;
 			}	
 		}

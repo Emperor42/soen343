@@ -1,0 +1,45 @@
+{
+	"Profile" : [
+		
+		{
+			"profileName" : "Parent",
+			"windowAccess" : true, 
+			"doorAccess" : true, 
+			"garageAccess" : true, 
+			"lightAccess" : true,
+			"houseAccess" : true,
+			"offPropertyAccess" : true
+		},
+		
+		{
+			"profileName" : "Child",
+			"windowAccess" : true, 
+			"doorAccess" : false, 
+			"garageAccess" : false, 
+			"lightAccess" : true,
+			"houseAccess" : false,
+			"offPropertyAccess" : false
+		},
+		
+		{
+			"profileName" : "Guest",
+			"windowAccess" : true, 
+			"doorAccess" : false, 
+			"garageAccess" : false, 
+			"lightAccess" : true,
+			"houseAccess" : false,
+			"offPropertyAccess" : false
+		},
+		
+		{
+			"profileName" : "Stranger",
+			"windowAccess" : false, 
+			"doorAccess" : false, 
+			"garageAccess" : false, 
+			"lightAccess" : false,
+			"houseAccess" : false,
+			"offPropertyAccess" : false
+		}
+		
+	]
+}

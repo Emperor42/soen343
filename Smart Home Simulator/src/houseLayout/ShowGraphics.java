@@ -20,47 +20,99 @@ public class ShowGraphics{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+        private static Color mainDrawingColour = Color.BLUE;
+        private static Color onColour = Color.GREEN;
+        private static Color offColour = Color.RED;
 
 		
-		private static void drawRoomLeft(GraphicsContext g, String s) {
+		private static void drawRoomLeft(GraphicsContext g, String s, Room data) {
 			
-			g.strokeRect(0, 0, 150, 100);
-	        g.strokeRect(0, 0, 25, 25);
-	        g.strokeText("W", 10, 15);          //Represents the windows
-	        g.translate(25, 0);
-	        g.strokeRect(95, 0, 30, 30);
-	        g.strokeText("D", 105, 15);
-	        g.strokeText(s, 20, 50);
-	        g.translate(-25, 75);
-	        g.strokeOval(0, 0, 50, 25);
-	        g.strokeText("L", 25, 20);		    //Represents the lights
-	        g.translate(0, 25);
+                    g.strokeRect(0, 0, 150, 100);
+                    g.strokeRect(0, 0, 25, 25);
+                    if(data.windowBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("W", 10, 15);          //Represents the windows
+                    g.setStroke(mainDrawingColour);
+                    g.translate(25, 0);
+                    g.strokeRect(95, 0, 30, 30);
+                    if(data.doorBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("D", 105, 15);
+                    g.setStroke(mainDrawingColour);
+                    g.strokeText(s, 20, 50);
+                    g.translate(-25, 75);
+                    g.strokeOval(0, 0, 50, 25);
+                    if(data.lightBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("L", 25, 20);		    //Represents the lights
+                    g.setStroke(mainDrawingColour);
+                    g.translate(0, 25);
 			
 		}
 		
 		//All bedrooms are on the right which contain a bed, door, window and two lights
-		private static void drawRoomRight(GraphicsContext g, String s) {
+		private static void drawRoomRight(GraphicsContext g, String s, Room data) {
 			
-			g.strokeRect(0, 0, 150, 100);
-	        g.strokeRect(0, 0, 25, 25);
-	        g.strokeText("D", 10, 15);
-	        g.translate(25, 0);
-	        g.strokeRect(100, 0, 25, 25);
-	        g.strokeText("W", 105, 15); 
-	        g.strokeText(s, 20, 50);
-	        g.translate(-25, 75);
-	        g.strokeOval(0, 0, 50, 25);
-	        g.strokeText("L", 125, 20);
-	        g.strokeRect(65, 0, 25, 25);
-	        g.strokeText("B", 75, 15); 			//Represents Bed
-	        g.strokeOval(100, 0, 50, 25);
-	        g.strokeText("L", 25, 20);
-	        g.translate(0, 25);	
+                    g.strokeRect(0, 0, 150, 100);
+                    g.strokeRect(0, 0, 25, 25);
+                    if(data.doorBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("D", 10, 15);
+                    g.setStroke(mainDrawingColour);
+                    g.translate(25, 0);
+                    g.strokeRect(100, 0, 25, 25);
+                    if(data.windowBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("W", 105, 15); 
+                    g.setStroke(mainDrawingColour);
+                    g.strokeText(s, 20, 50);
+                    g.translate(-25, 75);
+                    g.strokeOval(0, 0, 50, 25);
+                    if(data.lightBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("L", 125, 20);
+                    g.setStroke(mainDrawingColour);
+                    g.strokeRect(65, 0, 25, 25);
+                    g.strokeText("B", 75, 15); 			//Represents Bed
+                    g.strokeOval(100, 0, 50, 25);
+                    if(data.lightBlocked){
+                        g.setStroke(offColour);
+                    }
+                    else{
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("L", 25, 20);
+                    g.setStroke(mainDrawingColour);
+                    g.translate(0, 25);	
 			
 		}
 		
 	    public static void paint(GraphicsContext g, Room[] roomArray){
-                g.setStroke(Color.GREEN);
+                g.setStroke(mainDrawingColour);
                 g.setLineWidth(1);
                 g.strokeText("L", 25, 20);
 	    	ReadJsonFile readJson = new ReadJsonFile("myJSON.json");
@@ -89,32 +141,34 @@ public class ShowGraphics{
                 }
                 
                 g.clearRect(0, 0, 600, 600);
-                //g.setStroke(Color.GREEN);
+                //g.setStroke(mainDrawingColour);
                 //g.setLineWidth(5);
                 //g.strokeText("L", 25, 20);
 	    	for (int i=0; i<readJson.getRoomArray().size(); i++) {
+                        //loop through the given room array to find the correct room to use
+                        Room data = null;
+                        for (int k=0;k<roomArray.length;k++){
+                            if (roomArray[k].isRoom(readJson.getRoomArray().get(i).toString())){
+                                data = roomArray[k];
+                                System.out.println(readJson.getRoomArray().get(i).toString()+" "+data.noOfOccupants);
+                                
+                                break;
+                            }
+                        }
 	    		if (i<4)
-	    			drawRoomLeft(g, readJson.getRoomArray().get(i).toString());
+	    			drawRoomLeft(g, data.UpdatedOutput(readJson.getRoomArray().get(i).toString()), data);
 	    		if (i==4)
 	    		{
 	    			g.strokeRect(150, -400, 100, 400);
 	    			g.translate(250, -400);
 	    		}
 	    		if (i>=4)
-	    			drawRoomRight(g, readJson.getRoomArray().get(i).toString());
+	    			drawRoomRight(g, data.UpdatedOutput(readJson.getRoomArray().get(i).toString()), data);
 	    	}
 	    	
 	    }
 	    
-            /*
-	    public static void main(String[] args){
-	        JFrame frame= new JFrame("JavaTutorial.net");    
-	        frame.getContentPane().add(new ShowGraphics());
-	        frame.setSize(600, 600);
-	        frame.setVisible(true);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setResizable(false);        
-	    }
-            */
+            
 
 	}
+}

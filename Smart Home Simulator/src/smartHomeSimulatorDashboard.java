@@ -1,3 +1,4 @@
+import application.Profile;
 import static application.SetDateAndTime.changeDate;
 import static application.SetDateAndTime.changeTime;
 import static application.SetDateAndTime.d;
@@ -7,6 +8,7 @@ import java.util.Calendar;
 
 import houseLayout.Person;
 import houseLayout.Room;
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +21,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -36,6 +39,11 @@ public class smartHomeSimulatorDashboard extends Application {
     public static GridPane SimulationPane ;
     public static GridPane RoomControlPane ;
     public static Room[] roomArray = new Room[10];
+    //root pane for the drawing, we attach the component to this
+    private Pane root = new Pane();
+    private GraphicsContext gc;
+    application.Profile currentUser = new application.Profile("Parent");
+    application.ProfileManagement profileManager = new application.ProfileManagement();
     
     
     @Override
@@ -78,26 +86,34 @@ public class smartHomeSimulatorDashboard extends Application {
         GridPane temp = new GridPane();
         switch (module) {
             case 0:
-                pane.
                 Button btn = new Button();
-                btn.setText("Say 'Hello World'");
+                btn.setText("Change From User: "+currentUser.getProfileName());
                 btn.setOnAction(new EventHandler<ActionEvent>() {    
                     @Override
                     public void handle(ActionEvent event) {
-                        System.out.println("Hello World!");
+                        TextInputDialog dialog = new TextInputDialog("Parent");
+                        dialog.setTitle("Request Another Profile");
+                        dialog.setHeaderText("Profile Search");
+                        dialog.setContentText("Please enter your profile name:");
+                        String nextProfile;
+                        // Traditional way to get the response value.
+                        Optional<String> result = dialog.showAndWait();
+                        if (result.isPresent()){
+                            //System.out.println("Your name: " + result.get());
+                            nextProfile = result.get();
+                        } else {
+                            nextProfile = "Parent";
+                        }
+                        Profile foundProfile = profileManager.findProfileFromName(nextProfile);
+                        if (foundProfile!=null){
+                            System.out.println("Profile Changed to: "+foundProfile.getProfileName());
+                            currentUser = foundProfile;
+                            btn.setText("Change From User: "+currentUser.getProfileName());
+                        }
                     }
                 });
                 temp.add(btn, 0,0);
 
-                Button btn1 = new Button();
-                btn1.setText("Say Not 'Hello World'");
-                btn1.setOnAction(new EventHandler<ActionEvent>() {    
-                    @Override
-                    public void handle(ActionEvent event) {
-                        System.out.println("Not Hello World!");
-                    }
-                });
-                temp.add(btn1, 1,0);
                 break;
         }
         pane.add(temp,x,y);
@@ -129,8 +145,10 @@ public class smartHomeSimulatorDashboard extends Application {
                     }
                 else {
                     simOnOff.setText("Exit Simulation");
+                    
                     displayOutputSimulationView(temp, 2,1,"This is my house", primaryStage);		// display simulation
-                    displayRoomsandOccupants(temp, 1,4);			//display room control panel
+                    displayRoomsandOccupants(temp, 1,4, primaryStage);			//display room control panel
+                    
                 }
             }
         });
@@ -188,6 +206,8 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHS.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule =0;
             }
         });
         temp.add(btnSHS, 1,0);
@@ -196,6 +216,7 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHC.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
+                activeModule =1;
             }
         });
         temp.add(btnSHC, 2,0);
@@ -204,6 +225,8 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHP.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule =2;
             }
         });
         temp.add(btnSHP, 3,0);
@@ -212,6 +235,8 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHH.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule =3;
             }
         });
         temp.add(btnSHH, 4,0);
@@ -220,6 +245,8 @@ public class smartHomeSimulatorDashboard extends Application {
         btnPLUS.setOnAction(new EventHandler<ActionEvent>() {    
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule =4;
             }
         });
         temp.add(btnPLUS, 5,0);
@@ -252,7 +279,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param y
      * @author Justin Loh 40073776
      */
-    public void displayRoomsandOccupants(GridPane append, int x, int y){
+    public void displayRoomsandOccupants(GridPane append, int x, int y, Stage primaryStage){
         GridPane temp = new GridPane();
         //Room Control Heading
         Label outHeading = new Label("Room Control : ");
@@ -275,7 +302,8 @@ public class smartHomeSimulatorDashboard extends Application {
         Button btnRoom = new Button("Select a room");
         temp.add(btnRoom,0,2);
         btnRoom.setOnAction(e->{
-        	Room r = new Room();
+        	//Room r = new Room();
+                Room r=null;
         	String roomName = roomBox.getValue();
         	  for(int i =0 ;i<roomArray.length;i++) {
         		  if(roomArray[i]!=null) {
@@ -290,6 +318,7 @@ public class smartHomeSimulatorDashboard extends Application {
        	r.addOccupants(new Person("ben"));
        	r.addOccupants(new Person("doodoohead"));
         	Label occupantHeading = new Label("Occupants of "+r.getName()+" are : ");
+                
         	
         	VBox occupantBox = new VBox();
         	if(r.getNoOfOccupants()!=0) {
@@ -302,6 +331,7 @@ public class smartHomeSimulatorDashboard extends Application {
         		occupantBox.getChildren().add(new Label(r.getName()+" is empty"));
         	}
         	temp.add(occupantBox,0,3);
+                displayOutputSimulationView(temp, 2,1,"This is my house", primaryStage);
 		});
         RoomControlPane = temp;
         append.add(temp, x,y);
@@ -316,19 +346,12 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayOutputSimulationView(GridPane append, int x, int y, String data,Stage stage ){     // display output of rooms
+        System.out.println("ROOMS: "+roomArray.length);
         GridPane temp = new GridPane();
-        //front Simulation heading
-        Label outHeading = new Label("House View");
-        temp.add(outHeading,0,2);
-        //front Simulation heading
-        Label outData = new Label(tempStringReader(data));
-        temp.add(outData,0,1);
-        //graphics from houeLayout
-        //stage.setTitle("Drawing Operations Test");
-        Pane root = new Pane();
         Canvas canvas = new Canvas(600, 600);
-        GraphicsContext gc;
+        
         gc = canvas.getGraphicsContext2D();
+        //gc.clearRect(0,0,600,600);
         houseLayout.ShowGraphics.paint(gc,roomArray);											// added roomArray parameter-justin 
         root.getChildren().add(canvas);
         //stage.setScene(new Scene(root));
@@ -342,6 +365,7 @@ public class smartHomeSimulatorDashboard extends Application {
         	}
        }
     }
+  
     
     /**
      * 
