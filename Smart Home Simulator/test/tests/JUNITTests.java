@@ -5,6 +5,7 @@
  */
 package tests;
 
+import java.util.Calendar;
 import org.json.simple.JSONArray;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -36,6 +37,7 @@ public class JUNITTests {
 	rooms.add("Master BR");
 	rooms.add("Child BR");
 	rooms.add("Guest BR");
+        houseLayout.BuildJsonFile.Prep();
         houseLayout.ReadJsonFile tmp = new houseLayout.ReadJsonFile("myTestJSON");
         assertEquals(rooms, tmp.getRoomArray());
     }
@@ -43,54 +45,66 @@ public class JUNITTests {
     @Test
     public void ManageUserProfileTest() {
         System.out.println("TESTING FOR USE CASE: Manage user profile");
-        assertEquals(true,true);
+        System.out.println("Not Fully Implemented!");
+        assertEquals(true,false);
     }
     
     @Test
     public void SetDateAndTimeTest() {
         System.out.println("TESTING FOR USE CASE: Set date and time");
-        assertEquals(true,true);
+        application.DigitalClock tick = new application.DigitalClock();
+        tick.bindToCurrentTime();
+        assertEquals(Calendar.getInstance(),tick.getTime());
     }
     
     @Test
     public void LogInUsingAnExistingUserProfileAndSetHouseLocationTest() {
         System.out.println("TESTING FOR USE CASE: Log in using an existing user profile and set house location");
+        System.out.println("Not Fully Implemented!");
         assertEquals(true,true);
     }
     
     @Test
     public void ControlTheSimulationTest() {
         System.out.println("TESTING FOR USE CASE: Control the simulation");
-        assertEquals(true,true);
+        System.out.println("Not Fully Implemented!");
+        assertEquals(true,false);
     }
     
     @Test
     public void ModifyDateAndTimeTest() {
         System.out.println("TESTING FOR USE CASE: Modify date and time");
+        application.DigitalClock tick = new application.DigitalClock();
+        tick.bindToCurrentTime();
+        assertEquals(Calendar.getInstance(),tick.getTime());
         assertEquals(true,true);
     }
     
     @Test
     public void MoveTheLoggedUserTest() {
         System.out.println("TESTING FOR USE CASE: Move the logged user");
-        assertEquals(true,true);
+        System.out.println("Not Fully Implemented!");
+        assertEquals(true,false);
     }
     
     @Test
     public void MovePeopleTest() {
         System.out.println("TESTING FOR USE CASE: Move people");
-        assertEquals(true,true);
+        System.out.println("Not Fully Implemented!");
+        assertEquals(true,false);
     }
     
     @Test
     public void ModifyTemperatureOutsideHomeTest() {
         System.out.println("TESTING FOR USE CASE: Modify temperature outside home");
-        assertEquals(true,true);
+        System.out.println("Not Fully Implemented!");
+        assertEquals(true,false);
     }
     
     @Test
     public void BlockWindowsTest() {
         System.out.println("TESTING FOR USE CASE: Block windows");
-        assertEquals(true,true);
+        System.out.println("Not Fully Implemented!");
+        assertEquals(true,false);
     }
 }

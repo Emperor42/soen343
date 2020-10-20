@@ -11,6 +11,20 @@ public class Profile {
             houseAccess = false,
             offPropertyAccess = false;
 
+    public Profile(String a,boolean b,boolean c, boolean d, boolean e,boolean f,boolean g){
+        profileName = a;
+        windowAccess =b;
+        doorAccess =c;
+        garageAccess = d;
+        lightAccess = e;
+        houseAccess = f;
+        offPropertyAccess = g;
+    }
+    
+    public String displayProfile(){
+        return profileName+ " Window Access: "+windowAccess+"\n"+ " door Access: "+doorAccess+"\n"+ " garage Access: "+garageAccess+"\n"+ " light Access: "+lightAccess+"\n"+ " house Access: "+houseAccess+"\n"+ " off Property Access: "+offPropertyAccess+"\n";
+    }
+    
     public Profile(String profileName) {
         this.profileName = profileName;
     }

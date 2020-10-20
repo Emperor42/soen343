@@ -10,6 +10,8 @@ import org.json.simple.parser.JSONParser;
 
 public class ProfileManagement {
 
+    
+    final boolean ha = true;
     static JSONArray profileArray;
 
     public ProfileManagement() {
@@ -17,6 +19,18 @@ public class ProfileManagement {
     }
 
     public Profile findProfileFromName(String name) {
+        if (ha){
+            switch(name){
+                case "Parent":
+                    return new Profile("Parent",true,true,true,true,true,true);
+                case "Child":
+                    return new Profile("Child",true,true,true,false,true,false);
+                case "Guest":
+                    return new Profile("Guest",true,true,false,false,false,false);
+                case "Stranger":
+                    return new Profile("Stranger",false,false,false,false,false,false);
+            }
+        }
         if (profileArray == null) {
             JSONParser parser = new JSONParser();
             try (FileReader reader = new FileReader("profiles.json")) {
