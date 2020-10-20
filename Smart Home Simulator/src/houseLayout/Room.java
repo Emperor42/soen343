@@ -51,22 +51,22 @@ public class Room {
     public boolean lightBlocked = false;
 
     public void addOccupants(Person p) {
-        noOfOccupants++;
+
         for (int i = 0; i < 11; i++) {
             if (occupants[i] == null) {
                 occupants[i] = p;
-
+                noOfOccupants++;
                 break;
             }
         }
     }
 
-    void removeOccupants(Person p) {
-        noOfOccupants--;
+    public void removeOccupants(Person p) {
+
         for (int i = 0; i < 11; i++) {
             if (occupants[i].name.equals(p.name)) {
                 occupants[i] = null;
-
+                noOfOccupants--;
                 break;
             }
         }
@@ -109,8 +109,8 @@ public class Room {
             System.out.println(occupants[i].name);
         }
     }
-    
-    public void blockWindows(){
+
+    public void blockWindows() {
         windowBlocked = !windowBlocked;
         System.out.println(windowBlocked);
     }

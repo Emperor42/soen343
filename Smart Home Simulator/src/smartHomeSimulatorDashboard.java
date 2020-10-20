@@ -59,7 +59,7 @@ public class smartHomeSimulatorDashboard extends Application {
     Button bPLUS = new Button("+");
     //Canvas mainCanvas = new Canvas(600,600);
     Label occupantsInRoom = new Label("Select Room");
-    Label currentUserLabel = new Label("Enter Valid User Name");
+    GridPane currentUserLabel = new GridPane();
     Label currentLocation = new Label("Select Room");
     VBox listOfOccupants = new VBox();
     //active room
@@ -126,7 +126,7 @@ public class smartHomeSimulatorDashboard extends Application {
                             System.out.println("Profile Changed to: " + foundProfile.getProfileName());
                             currentUser = foundProfile;
                             btnChangeUser.setText("Change From User: " + currentUser.getProfileName());
-                            currentUserLabel.setText(currentUser.displayProfile());
+                            currentUser.displayProfile(currentUserLabel);
                         }
                     }
                 });
@@ -144,7 +144,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param temp
      * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
-    public void displaySimulationPane(Label userName, Label userLocation, int outTemp, GridPane temp, Stage primaryStage, Label occupantHeading, VBox occupants) {
+    public void displaySimulationPane(GridPane userName, Label userLocation, int outTemp, GridPane temp, Stage primaryStage, Label occupantHeading, VBox occupants) {
         //front Simulation heading, STATIC LABEL
         Label simHeading = new Label("Simulation");
         temp.add(simHeading, 0, 0);
@@ -337,7 +337,7 @@ public class smartHomeSimulatorDashboard extends Application {
             }
             //was throwing a multiple appending error
             RoomControlPane.getChildren().remove(occupantBox);
-            RoomControlPane.add(occupantBox, 0, 5);
+            RoomControlPane.add(occupantBox, 0, 6);
             displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
         });
         // button which shows room information based on choicebox
@@ -388,7 +388,41 @@ public class smartHomeSimulatorDashboard extends Application {
             }
             //was throwing a multiple appending error
             RoomControlPane.getChildren().remove(occupantBox);
-            RoomControlPane.add(occupantBox, 0, 5);
+            RoomControlPane.add(occupantBox, 0, 6);
+            displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
+        });
+        
+        // button which shows room information based on choicebox
+        Button btDropRoom = new Button("Remove Person");
+        RoomControlPane.add(btDropRoom, 0, 5);
+        btDropRoom.setOnAction(e -> {
+            //Room r = new Room();
+            Room r = null;
+            String roomName = roomBox.getValue();
+            for (int i = 0; i < roomArray.length; i++) {
+                if (roomArray[i] != null) {
+                    if (roomArray[i].getName().equals(roomName)) {
+                        r = roomArray[i];
+                        activeRoom = r;
+                        currentLocation.setText(r.getName());
+                    }
+                }
+            }
+            //r.addOccupants(new Person(currentUser.getProfileName()));
+            r.removeOccupants(new Person(currentUser.getProfileName()));
+            occupantHeading.setText("Occupants of " + r.getName() + " are : ");
+            occupantBox.getChildren().clear();
+            if (r.getNoOfOccupants() != 0) {
+                occupantBox.getChildren().add(occupantHeading);
+                for (int i = 0; i < r.getNoOfOccupants(); i++) {
+                    occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+                }
+            } else {
+                occupantBox.getChildren().add(new Label(r.getName() + " is empty"));
+            }
+            //was throwing a multiple appending error
+            RoomControlPane.getChildren().remove(occupantBox);
+            RoomControlPane.add(occupantBox, 0, 6);
             displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
         });
         //RoomControlPane = temp;
