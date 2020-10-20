@@ -44,7 +44,7 @@ public class smartHomeSimulatorDashboard extends Application {
     //root pane for the drawing, we attach the component to this
     private Pane root = new Pane();
     private GraphicsContext gc;
-    application.Profile currentUser = new application.Profile("Parent");
+    application.Profile currentUser = new application.Profile("Parent",true,true,true,true,true,true);
     application.ProfileManagement profileManager = new application.ProfileManagement();
     //Moved alues Start Here
     GridPane rootLayoutMain = new GridPane();
@@ -59,9 +59,11 @@ public class smartHomeSimulatorDashboard extends Application {
     Button bPLUS = new Button("+");
     //Canvas mainCanvas = new Canvas(600,600);
     Label occupantsInRoom = new Label("Select Room");
-    Label currentUserLabel = new Label(currentUser.getProfileName());
+    Label currentUserLabel = new Label("Enter Valid User Name");
     Label currentLocation = new Label("Select Room");
     VBox listOfOccupants = new VBox();
+    //active room
+    Room activeRoom;
 
     @Override
     public void start(Stage primaryStage) {
@@ -101,7 +103,7 @@ public class smartHomeSimulatorDashboard extends Application {
     public void displayModuleInterface(int module, int x, int y, GridPane pane, GridPane temp, Button btnChangeUser) {
         switch (module) {
             case 0:
-                btnChangeUser.setText("Change From User: " + currentUser.getProfileName());
+                btnChangeUser.setText("Enter A Valid User Name");
                 btnChangeUser.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -124,11 +126,11 @@ public class smartHomeSimulatorDashboard extends Application {
                             System.out.println("Profile Changed to: " + foundProfile.getProfileName());
                             currentUser = foundProfile;
                             btnChangeUser.setText("Change From User: " + currentUser.getProfileName());
+                            currentUserLabel.setText(currentUser.displayProfile());
                         }
                     }
                 });
                 temp.add(btnChangeUser, 0, 0);
-
                 break;
         }
         pane.add(temp, x, y);
@@ -201,7 +203,6 @@ public class smartHomeSimulatorDashboard extends Application {
 
         //time and Date
         loadDateAndTime(temp, 0, 10);
-
     }
 
     /**
@@ -308,8 +309,8 @@ public class smartHomeSimulatorDashboard extends Application {
         }
         RoomControlPane.add(roomBox, 0, 1);
         // button which shows room information based on choicebox
-        Button btnRoom = new Button("Select a room");
-        RoomControlPane.add(btnRoom, 0, 2);
+        Button btnRoom = new Button("Add Person");
+        RoomControlPane.add(btnRoom, 0, 3);
         btnRoom.setOnAction(e -> {
             //Room r = new Room();
             Room r = null;
@@ -318,6 +319,7 @@ public class smartHomeSimulatorDashboard extends Application {
                 if (roomArray[i] != null) {
                     if (roomArray[i].getName().equals(roomName)) {
                         r = roomArray[i];
+                        activeRoom = r;
                         currentLocation.setText(r.getName());
                     }
                 }
@@ -335,11 +337,69 @@ public class smartHomeSimulatorDashboard extends Application {
             }
             //was throwing a multiple appending error
             RoomControlPane.getChildren().remove(occupantBox);
-            RoomControlPane.add(occupantBox, 0, 3);
+            RoomControlPane.add(occupantBox, 0, 5);
+            displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
+        });
+        // button which shows room information based on choicebox
+
+        Button btnRoomObject = new Button("Block Windows");
+        RoomControlPane.add(btnRoomObject, 0, 2);
+        btnRoomObject.setOnAction(e -> {
+            String roomName = roomBox.getValue();
+            for (int i = 0; i < roomArray.length; i++) {
+                if (roomArray[i] != null) {
+                    if (roomArray[i].getName().equals(roomName)) {
+                        activeRoom = roomArray[i];
+                    }
+                }
+            }
+            utilBlockWindows();
+            displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
+        });
+        
+        //
+        
+        // button which shows room information based on choicebox
+        Button btnPickRoom = new Button("Select Room");
+        RoomControlPane.add(btnPickRoom, 0, 4);
+        btnPickRoom.setOnAction(e -> {
+            //Room r = new Room();
+            Room r = null;
+            String roomName = roomBox.getValue();
+            for (int i = 0; i < roomArray.length; i++) {
+                if (roomArray[i] != null) {
+                    if (roomArray[i].getName().equals(roomName)) {
+                        r = roomArray[i];
+                        activeRoom = r;
+                        currentLocation.setText(r.getName());
+                    }
+                }
+            }
+            //r.addOccupants(new Person(currentUser.getProfileName()));
+            occupantHeading.setText("Occupants of " + r.getName() + " are : ");
+            occupantBox.getChildren().clear();
+            if (r.getNoOfOccupants() != 0) {
+                occupantBox.getChildren().add(occupantHeading);
+                for (int i = 0; i < r.getNoOfOccupants(); i++) {
+                    occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+                }
+            } else {
+                occupantBox.getChildren().add(new Label(r.getName() + " is empty"));
+            }
+            //was throwing a multiple appending error
+            RoomControlPane.getChildren().remove(occupantBox);
+            RoomControlPane.add(occupantBox, 0, 5);
             displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
         });
         //RoomControlPane = temp;
         append.add(RoomControlPane, x, y);
+    }
+
+    public void utilBlockWindows() {
+        if (activeRoom != null) {
+            System.out.println("Noy Null Room");
+            activeRoom.blockWindows();
+        }
     }
 
     /**

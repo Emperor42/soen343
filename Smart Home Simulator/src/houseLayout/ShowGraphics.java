@@ -1,15 +1,8 @@
-//ISSUE1 CLEAR
 package houseLayout;
 
-//import java.awt.Graphics;
 import javafx.scene.canvas.GraphicsContext;
 //import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-//import javax.annotation.processing.SupportedSourceVersion;
-//import javax.lang.model.SourceVersion;
-
-//import javax.swing.JFrame;
-//import javax.swing.JPanel;
 import org.json.simple.JSONArray;
 
 import org.json.simple.JSONObject;
@@ -23,16 +16,19 @@ public class ShowGraphics {
 
     private static void drawRoomLeft(GraphicsContext g, String s, Room data) {
         g.strokeRect(0, 0, 150, 100);
-        g.strokeRect(0, 0, 25, 25);
         if (data.windowBlocked) {
             g.setStroke(offColour);
         } else {
             g.setStroke(onColour);
         }
+        g.strokeRect(0, 0, 25, 25);
+        
         g.strokeText("W", 10, 15);          //Represents the windows
-        g.setStroke(mainDrawingColour);
+        
         g.translate(25, 0);
+        g.setStroke(mainDrawingColour);
         g.strokeRect(95, 0, 30, 30);
+        
         if (data.doorBlocked) {
             g.setStroke(offColour);
         } else {
@@ -65,12 +61,13 @@ public class ShowGraphics {
         g.strokeText("D", 10, 15);
         g.setStroke(mainDrawingColour);
         g.translate(25, 0);
-        g.strokeRect(100, 0, 25, 25);
         if (data.windowBlocked) {
             g.setStroke(offColour);
         } else {
             g.setStroke(onColour);
         }
+        g.strokeRect(100, 0, 25, 25);
+        
         g.strokeText("W", 105, 15);
         g.setStroke(mainDrawingColour);
         g.strokeText(s, 20, 50);

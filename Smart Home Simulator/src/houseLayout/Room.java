@@ -109,4 +109,9 @@ public class Room {
             System.out.println(occupants[i].name);
         }
     }
+    
+    public void blockWindows(){
+        windowBlocked = !windowBlocked;
+        System.out.println(windowBlocked);
+    }
 }

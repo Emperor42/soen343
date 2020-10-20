@@ -63,6 +63,11 @@ public class DigitalClock extends Label {
         t.setCycleCount(Animation.INDEFINITE);
         t.play();
     }
+    
+    public Calendar getTime(){
+        return time;
+    }
+    
 }
 
 class StringUtilities {
@@ -85,4 +90,6 @@ class StringUtilities {
 
         return sb.toString();
     }
+    
+    
 }
