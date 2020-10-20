@@ -116,10 +116,12 @@ public class ShowGraphics {
             readJson.setRoomArray(rooms);
             // Parses items from the Json file into a room object and stores it into the roomArray variable in the main class -justin
             for (int i = 0; i < readJson.getRoomArray().size(); i++) {
-                Room room = new Room();
-                room.setName(readJson.getRoomArray().get(i).toString());
-                roomArray[i] = room;
-                System.out.println("++" + roomArray[i].getName());
+                if(roomArray[i]==null){
+                    Room room = new Room();
+                    room.setName(readJson.getRoomArray().get(i).toString());
+                    roomArray[i] = room;
+                    System.out.println("++" + roomArray[i].getName());
+                }
             }
             g.clearRect(0, 0, 600, 600);
             //g.setStroke(mainDrawingColour);
