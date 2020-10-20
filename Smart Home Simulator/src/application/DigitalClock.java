@@ -42,7 +42,9 @@ public class DigitalClock extends Label {
 	    );
 	bindToCurrentTime();
   }
-  
+  /**
+   * binds the digital clock to the current time
+   */
   public void bindToCurrentTime() {
 	  time = Calendar.getInstance();
 	  bindToThisTime(time.get(Calendar.HOUR),time.get(Calendar.MINUTE),time.get(Calendar.SECOND),time.get(Calendar.AM_PM));
@@ -50,7 +52,13 @@ public class DigitalClock extends Label {
 
   public static Timeline t;
   Calendar time;
-
+/**
+ * binds the digital clocks to a new time depending on the arguments
+ * @param hr
+ * @param min
+ * @param sec
+ * @param am_pm
+ */
   public void bindToThisTime( int hr,int min ,int sec, int am_pm) {
 	 
 	  time = Calendar.getInstance();
