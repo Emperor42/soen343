@@ -1,3 +1,4 @@
+
 import application.Profile;
 import static application.SetDateAndTime.changeDate;
 import static application.SetDateAndTime.changeTime;
@@ -33,35 +34,49 @@ import javafx.stage.Stage;
  * @author Matthew Giancola 40019131
  */
 public class smartHomeSimulatorDashboard extends Application {
-    
-    public boolean runSimulation= false;
+
+    public boolean runSimulation = false;
     public int activeModule = 0;
-    public static GridPane SimulationPane ;
-    public static GridPane RoomControlPane ;
+    public static GridPane SimulationPane = new GridPane();
+    public static GridPane RoomControlPane = new GridPane();
     public static Room[] roomArray = new Room[10];
+    private int newTemp = 20;
     //root pane for the drawing, we attach the component to this
     private Pane root = new Pane();
     private GraphicsContext gc;
     application.Profile currentUser = new application.Profile("Parent");
     application.ProfileManagement profileManager = new application.ProfileManagement();
-    
-    
+    //Moved alues Start Here
+    GridPane rootLayoutMain = new GridPane();
+    Scene primaryScene = new Scene(rootLayoutMain, 1000, 450);
+    Label consoleOutput = new Label("This is some Output");
+    GridPane currentModuleInterface = new GridPane();
+    Button changeUser = new Button("Change From User: " + currentUser.getProfileName());
+    Button bSHS = new Button("SHS");
+    Button bSHC = new Button("SHC");
+    Button bSHP = new Button("SHP");
+    Button bSHH = new Button("SHH");
+    Button bPLUS = new Button("+");
+    //Canvas mainCanvas = new Canvas(600,600);
+    Label occupantsInRoom = new Label("Select Room");
+    Label currentUserLabel = new Label(currentUser.getProfileName());
+    Label currentLocation = new Label("Select Room");
+    VBox listOfOccupants = new VBox();
+
     @Override
     public void start(Stage primaryStage) {
         houseLayout.BuildJsonFile.Prep();
-        GridPane root = new GridPane();
-        //for the simulation pane
-        displaySimulationPane("Parent", "Kitchen", 15, root, primaryStage);
-        //for the module pane
-        displayModuleTabs(root,1,0);
-        displayModuleInterface(activeModule,1,1,root);
-        
-        displayOutputTerminal(root, 1,3,"This is some output data");
 
-        Scene scene = new Scene(root, 1000, 450);
-        
+        //for the simulation pane
+        displaySimulationPane(currentUserLabel, currentLocation, 15, rootLayoutMain, primaryStage, occupantsInRoom, listOfOccupants);
+        //for the module pane
+        displayModuleTabs(rootLayoutMain, 1, 0, bSHS, bSHC, bSHP, bSHH, bPLUS);
+        displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
+
+        displayOutputTerminal(rootLayoutMain, 1, 3, consoleOutput);
+
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
 
@@ -72,25 +87,25 @@ public class smartHomeSimulatorDashboard extends Application {
         houseLayout.BuildJsonFile.Prep();
         launch(args);
     }
-    
+
     /**
-     * Use a numerical value to display different parts of the interface to the GridPane
-     * TODO: Make modular using some interface or other component
+     * Use a numerical value to display different parts of the interface to the
+     * GridPane TODO: Make modular using some interface or other component
+     *
      * @param module which module to use.
      * @param pane the GridPane to use.
-     * @param x the x position on the given GridPane 
+     * @param x the x position on the given GridPane
      * @param y the y position on the given GridPane
      * @author Matthew Giancola 40019131
      */
-    public void displayModuleInterface(int module,int x, int y, GridPane pane){
-        GridPane temp = new GridPane();
+    public void displayModuleInterface(int module, int x, int y, GridPane pane, GridPane temp, Button btnChangeUser) {
         switch (module) {
             case 0:
-                Button btn = new Button();
-                btn.setText("Change From User: "+currentUser.getProfileName());
-                btn.setOnAction(new EventHandler<ActionEvent>() {    
+                btnChangeUser.setText("Change From User: " + currentUser.getProfileName());
+                btnChangeUser.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+                        //Dialogue BOxes are tamp values we dont need to worry about them
                         TextInputDialog dialog = new TextInputDialog("Parent");
                         dialog.setTitle("Request Another Profile");
                         dialog.setHeaderText("Profile Search");
@@ -98,74 +113,73 @@ public class smartHomeSimulatorDashboard extends Application {
                         String nextProfile;
                         // Traditional way to get the response value.
                         Optional<String> result = dialog.showAndWait();
-                        if (result.isPresent()){
+                        if (result.isPresent()) {
                             //System.out.println("Your name: " + result.get());
                             nextProfile = result.get();
                         } else {
                             nextProfile = "Parent";
                         }
                         Profile foundProfile = profileManager.findProfileFromName(nextProfile);
-                        if (foundProfile!=null){
-                            System.out.println("Profile Changed to: "+foundProfile.getProfileName());
+                        if (foundProfile != null) {
+                            System.out.println("Profile Changed to: " + foundProfile.getProfileName());
                             currentUser = foundProfile;
-                            btn.setText("Change From User: "+currentUser.getProfileName());
+                            btnChangeUser.setText("Change From User: " + currentUser.getProfileName());
                         }
                     }
                 });
-                temp.add(btn, 0,0);
+                temp.add(btnChangeUser, 0, 0);
 
                 break;
         }
-        pane.add(temp,x,y);
+        pane.add(temp, x, y);
     }
-    
+
     /**
-     * 
+     *
      * @param user
      * @param location
      * @param outTemp
-     * @param temp 
+     * @param temp
      * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
-    public void displaySimulationPane(String user,String location, int outTemp, GridPane temp, Stage primaryStage){
-        //front Simulation heading
+    public void displaySimulationPane(Label userName, Label userLocation, int outTemp, GridPane temp, Stage primaryStage, Label occupantHeading, VBox occupants) {
+        //front Simulation heading, STATIC LABEL
         Label simHeading = new Label("Simulation");
-        temp.add(simHeading,0,0);
-        //Simulation On and Off Button
+        temp.add(simHeading, 0, 0);
+        //Simulation On and Off Button, GRANDFATHER IN
         Button simOnOff = new Button();
         simOnOff.setText("Begin Simulation");
-        simOnOff.setOnAction(new EventHandler<ActionEvent>() {    
+        simOnOff.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                runSimulation=!runSimulation;
-                if(!runSimulation){
+                runSimulation = !runSimulation;
+                if (!runSimulation) {
                     simOnOff.setText("Initiate Simulation");
                     temp.getChildren().remove(SimulationPane);				// remove simulation
                     temp.getChildren().remove(RoomControlPane);		//remove room control panel
-                    }
-                else {
+                } else {
                     simOnOff.setText("Exit Simulation");
-                    
-                    displayOutputSimulationView(temp, 2,1,"This is my house", primaryStage);		// display simulation
-                    displayRoomsandOccupants(temp, 1,4, primaryStage);			//display room control panel
-                    
+
+                    displayOutputSimulationView(temp, 2, 1, "This is my house", primaryStage);		// display simulation
+                    displayRoomsandOccupants(temp, 1, 4, primaryStage, occupantHeading, occupants);			//display room control panel
+
                 }
             }
         });
-        temp.add(simOnOff, 0,1);
+        temp.add(simOnOff, 0, 1);
         //User Name
-        Label userName= new Label(user);
-        temp.add(userName,0,2);
+        //Label userName = new Label(user);
+        temp.add(userName, 0, 2);
         //User Location
-        Label userLocationHeader= new Label("Location");
-        temp.add(userLocationHeader,0,3);
-        Label userLocation= new Label(location);
-        temp.add(userLocation,0,4);
+        Label userLocationHeader = new Label("Location");
+        temp.add(userLocationHeader, 0, 3);
+        //Label userLocation = new Label(location);
+        temp.add(userLocation, 0, 4);
         //Outdoor Temperature
-        Label tempHeader= new Label("Outside Temperature");
-        temp.add(tempHeader,0,5);
-        Label tempOut= new Label(outTemp+" C");
-        temp.add(tempOut,0,6);
+        Label tempHeader = new Label("Outside Temperature");
+        temp.add(tempHeader, 0, 5);
+        Label tempOut = new Label(outTemp + " C");
+        temp.add(tempOut, 0, 6);
         // Slider object to set a new temperature
         Slider tempSlider = new Slider(-22, 30, 0.5);
         tempSlider.setShowTickMarks(true);
@@ -173,271 +187,266 @@ public class smartHomeSimulatorDashboard extends Application {
         tempSlider.setMajorTickUnit(1);
         tempSlider.setBlockIncrement(1);
         temp.add(tempSlider, 0, 7);
-        
+
         // Button to set temperature
         Button setTemp = new Button();
         setTemp.setText("Set Temperature");
-        setTemp.setOnAction(e->{
-        	int newTemp = (int) tempSlider.getValue();
-        	temp.getChildren().remove(tempOut);
-        	tempOut.setText(newTemp+" C");
-        	temp.add(tempOut, 0, 6);
-		});
+        setTemp.setOnAction(e -> {
+            newTemp = (int) tempSlider.getValue();
+            temp.getChildren().remove(tempOut);
+            tempOut.setText(newTemp + " C");
+            temp.add(tempOut, 0, 6);
+        });
         temp.add(setTemp, 0, 8);
-        
-        
+
         //time and Date
         loadDateAndTime(temp, 0, 10);
-   
+
     }
-    
+
     /**
-     * 
-     * @param append
-     * @param x
-     * @param y 
-     * @author Matthew Giancola 40019131
-     */
-    public void displayModuleTabs(GridPane append, int x, int y){
-        GridPane temp = new GridPane();
-        //Temp will make properly modulr later
-        Button btnSHS = new Button();
-        btnSHS.setText("SHS");
-        btnSHS.setOnAction(new EventHandler<ActionEvent>() {    
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Dummy Function");
-                activeModule =0;
-            }
-        });
-        temp.add(btnSHS, 1,0);
-        Button btnSHC = new Button();
-        btnSHC.setText("SHC");
-        btnSHC.setOnAction(new EventHandler<ActionEvent>() {    
-            @Override
-            public void handle(ActionEvent event) {
-                activeModule =1;
-            }
-        });
-        temp.add(btnSHC, 2,0);
-        Button btnSHP = new Button();
-        btnSHP.setText("SHP");
-        btnSHP.setOnAction(new EventHandler<ActionEvent>() {    
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Dummy Function");
-                activeModule =2;
-            }
-        });
-        temp.add(btnSHP, 3,0);
-        Button btnSHH = new Button();
-        btnSHH.setText("SHH");
-        btnSHH.setOnAction(new EventHandler<ActionEvent>() {    
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Dummy Function");
-                activeModule =3;
-            }
-        });
-        temp.add(btnSHH, 4,0);
-        Button btnPLUS = new Button();
-        btnPLUS.setText("+");
-        btnPLUS.setOnAction(new EventHandler<ActionEvent>() {    
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Dummy Function");
-                activeModule =4;
-            }
-        });
-        temp.add(btnPLUS, 5,0);
-        append.add(temp, x,y);
-    }
-    
-    /**
-     * 
+     *
      * @param append
      * @param x
      * @param y
-     * @param data 
      * @author Matthew Giancola 40019131
      */
-    public void displayOutputTerminal(GridPane append, int x, int y, String data){
+    public void displayModuleTabs(GridPane append, int x, int y, Button btnSHS, Button btnSHC, Button btnSHP, Button btnSHH, Button btnPLUS) {
+        GridPane temp = new GridPane();
+        //Temp will make properly modulr later
+        //Button btnSHS = new Button();
+        btnSHS.setText("SHS");
+        btnSHS.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule = 0;
+            }
+        });
+        temp.add(btnSHS, 1, 0);
+        //Button btnSHC = new Button();
+        btnSHC.setText("SHC");
+        btnSHC.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                activeModule = 1;
+            }
+        });
+        temp.add(btnSHC, 2, 0);
+        //Button btnSHP = new Button();
+        btnSHP.setText("SHP");
+        btnSHP.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule = 2;
+            }
+        });
+        temp.add(btnSHP, 3, 0);
+        //Button btnSHH = new Button();
+        btnSHH.setText("SHH");
+        btnSHH.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule = 3;
+            }
+        });
+        temp.add(btnSHH, 4, 0);
+        //Button btnPLUS = new Button();
+        btnPLUS.setText("+");
+        btnPLUS.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Dummy Function");
+                activeModule = 4;
+            }
+        });
+        temp.add(btnPLUS, 5, 0);
+        append.add(temp, x, y);
+    }
+
+    /**
+     *
+     * @param append
+     * @param x
+     * @param y
+     * @param data
+     * @author Matthew Giancola 40019131
+     */
+    public void displayOutputTerminal(GridPane append, int x, int y, Label outData) {
         GridPane temp = new GridPane();
         //front Simulation heading
         Label outHeading = new Label("Output Console");
-        temp.add(outHeading,0,0);
+        temp.add(outHeading, 0, 0);
         //front Simulation heading
-        Label outData = new Label(data);
-        temp.add(outData,0,1);
-        append.add(temp, x,y);
+        temp.add(outData, 0, 1);
+        append.add(temp, x, y);
     }
-    
+
     /**
-     * 
+     *
      * @param append
      * @param x
      * @param y
      * @author Justin Loh 40073776
      */
-    public void displayRoomsandOccupants(GridPane append, int x, int y, Stage primaryStage){
-        GridPane temp = new GridPane();
+    public void displayRoomsandOccupants(GridPane append, int x, int y, Stage primaryStage, Label occupantHeading, VBox occupantBox) {
+        //GridPane temp = new GridPane();
         //Room Control Heading
+        append.getChildren().remove(RoomControlPane);
+        RoomControlPane.getChildren().clear();
         Label outHeading = new Label("Room Control : ");
-        temp.add(outHeading,0,0);
-        
-        
+        RoomControlPane.add(outHeading, 0, 0);
         //Room control elements begin here
-        
         //choice box with rooms parsed from json file
         ChoiceBox<String> roomBox = new ChoiceBox<>();
-        
-        for(int i =0 ;i<roomArray.length;i++) {
-        	if(roomArray[i]!=null) {
-        	roomBox.getItems().add(roomArray[i].getName());
-        	}
+        for (int i = 0; i < roomArray.length; i++) {
+            if (roomArray[i] != null) {
+                roomBox.getItems().add(roomArray[i].getName());
+            }
         }
-        temp.add(roomBox,0,1);
-        
+        RoomControlPane.add(roomBox, 0, 1);
         // button which shows room information based on choicebox
         Button btnRoom = new Button("Select a room");
-        temp.add(btnRoom,0,2);
-        btnRoom.setOnAction(e->{
-        	//Room r = new Room();
-                Room r=null;
-        	String roomName = roomBox.getValue();
-        	  for(int i =0 ;i<roomArray.length;i++) {
-        		  if(roomArray[i]!=null) {
-              	if(roomArray[i].getName().equals(roomName)) {
-              	r = roomArray[i];
-              	}
-        		  }
-              }
-        	
-        
-       	r.addOccupants(new Person("amy"));
-       	r.addOccupants(new Person("ben"));
-       	r.addOccupants(new Person("doodoohead"));
-        	Label occupantHeading = new Label("Occupants of "+r.getName()+" are : ");
-                
-        	
-        	VBox occupantBox = new VBox();
-        	if(r.getNoOfOccupants()!=0) {
-        		occupantBox.getChildren().add(occupantHeading);
-        	for (int i = 0;i<r.getNoOfOccupants();i++) {
-        		occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
-        	}
-        	}
-        	else {
-        		occupantBox.getChildren().add(new Label(r.getName()+" is empty"));
-        	}
-        	temp.add(occupantBox,0,3);
-                displayOutputSimulationView(temp, 2,1,"This is my house", primaryStage);
-		});
-        RoomControlPane = temp;
-        append.add(temp, x,y);
+        RoomControlPane.add(btnRoom, 0, 2);
+        btnRoom.setOnAction(e -> {
+            //Room r = new Room();
+            Room r = null;
+            String roomName = roomBox.getValue();
+            for (int i = 0; i < roomArray.length; i++) {
+                if (roomArray[i] != null) {
+                    if (roomArray[i].getName().equals(roomName)) {
+                        r = roomArray[i];
+                        currentLocation.setText(r.getName());
+                    }
+                }
+            }
+            r.addOccupants(new Person(currentUser.getProfileName()));
+            occupantHeading.setText("Occupants of " + r.getName() + " are : ");
+            occupantBox.getChildren().clear();
+            if (r.getNoOfOccupants() != 0) {
+                occupantBox.getChildren().add(occupantHeading);
+                for (int i = 0; i < r.getNoOfOccupants(); i++) {
+                    occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+                }
+            } else {
+                occupantBox.getChildren().add(new Label(r.getName() + " is empty"));
+            }
+            //was throwing a multiple appending error
+            RoomControlPane.getChildren().remove(occupantBox);
+            RoomControlPane.add(occupantBox, 0, 3);
+            displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
+        });
+        //RoomControlPane = temp;
+        append.add(RoomControlPane, x, y);
     }
-    
+
     /**
-     * 
+     *
      * @param append
      * @param x
      * @param y
-     * @param data 
+     * @param data
      * @author Matthew Giancola 40019131
      */
-    public void displayOutputSimulationView(GridPane append, int x, int y, String data,Stage stage ){     // display output of rooms
-        System.out.println("ROOMS: "+roomArray.length);
-        GridPane temp = new GridPane();
+    public void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
+        System.out.println("ROOMS: " + roomArray.length);
+        //GridPane temp = new GridPane();
+        append.getChildren().remove(SimulationPane);
+        SimulationPane.getChildren().clear();
         Canvas canvas = new Canvas(600, 600);
-        
         gc = canvas.getGraphicsContext2D();
         //gc.clearRect(0,0,600,600);
-        houseLayout.ShowGraphics.paint(gc,roomArray);											// added roomArray parameter-justin 
+        houseLayout.ShowGraphics.paint(gc, roomArray);
+        root.getChildren().clear();
+        // added roomArray parameter-justin
         root.getChildren().add(canvas);
         //stage.setScene(new Scene(root));
         //stage.show();
-        temp.add(root,0,0);
-        SimulationPane = temp;
-        append.add(temp, x,y);
-        for(int i =0 ;i<roomArray.length;i++) {
-        	if(roomArray[i]!=null) {
-       	 System.out.println("room array inludes"+roomArray[i].getName());
-        	}
-       }
+        SimulationPane.add(root, 0, 0);
+        //SimulationPane = temp;
+        append.add(SimulationPane, x, y);
+        for (int i = 0; i < roomArray.length; i++) {
+            if (roomArray[i] != null) {
+                System.out.println("room array inludes" + roomArray[i].getName());
+            }
+        }
     }
-  
-    
+
     /**
-     * 
+     *
      * @param in
      * @return Some element to display
      * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
-    public String tempStringReader(String in){
+    public String tempStringReader(String in) {
         return in;
     }
-    
-    public void loadDateAndTime(GridPane append, int x, int y){
+
+    /**
+     *
+     * @param append
+     * @param x
+     * @param y Function Grandfathered in
+     */
+    public void loadDateAndTime(GridPane append, int x, int y) {
         //append.add(new Label("SOME TIME"),x,y);
-        
-		Label label = new Label("TIME");
-		//Create Datepicker Item
-		DatePicker datePicker = new DatePicker();
-		
-		
-		//Create button to set date
-		Button btndate = new Button("Set the Date");
-		
-		
-		
-		//Input drop down boxes for hr min and am/pm
-		HBox timeInputs = new HBox();
-		ChoiceBox<String> hrBox = new ChoiceBox<>();
-	     hrBox.setValue("0");
-		for(int i = 1 ;i<13;i++) {
-			String j = Integer.toString(i);
-			hrBox.getItems().add(j);
-		}
-		ChoiceBox<String> minBox = new ChoiceBox<>();
-	minBox.setValue("00");
-		for(int i = 0 ;i<60;i++) {
-			String j = Integer.toString(i);
-			minBox .getItems().add(j);
-		}
-		ChoiceBox<String> am_pmBox = new ChoiceBox<>();
-		am_pmBox.setValue("am");
-		am_pmBox.getItems().add("am");
-		am_pmBox.getItems().add("pm");
-		
-		
-		
-		timeInputs.getChildren().addAll(hrBox,minBox,am_pmBox);
-		
-		//Create a button to set time
-		Button btnTime = new Button("Set a time");
-		
-		//create default clock which has value of current time
-		d.bindToCurrentTime();
-		
-		//add all children to the layout
-		VBox layout = application.SetDateAndTime.layout;			//  this segment added by justin Loh so code will run 
-        layout.getChildren().addAll(label,datePicker,d,timeInputs,btndate,btnTime);
-		layout.getChildren().add(new Label("Date Unset"));
-		// button to apply changes to times
-		btndate.setOnAction(e->{
-			LocalDate localDate = datePicker.getValue();
-			Label dateLabel = new Label(localDate.toString());
-			changeDate(layout,dateLabel);
-		});
-		
-		// button to apply changes to date
-		btnTime.setOnAction(e->{
-			int hr=  Integer.parseInt(hrBox.getValue());
-			int min= Integer.parseInt(minBox.getValue());
-			int am_pm= am_pmBox.getValue()=="am"? 0:1;
-			changeTime(layout,hr,min,Calendar.getInstance().SECOND,am_pm);}
-				);
-        append.add(application.SetDateAndTime.layout,x,y);
+
+        Label label = new Label("TIME");
+        //Create Datepicker Item
+        DatePicker datePicker = new DatePicker();
+
+        //Create button to set date
+        Button btndate = new Button("Set the Date");
+
+        //Input drop down boxes for hr min and am/pm
+        HBox timeInputs = new HBox();
+        ChoiceBox<String> hrBox = new ChoiceBox<>();
+        hrBox.setValue("0");
+        for (int i = 1; i < 13; i++) {
+            String j = Integer.toString(i);
+            hrBox.getItems().add(j);
+        }
+        ChoiceBox<String> minBox = new ChoiceBox<>();
+        minBox.setValue("00");
+        for (int i = 0; i < 60; i++) {
+            String j = Integer.toString(i);
+            minBox.getItems().add(j);
+        }
+        ChoiceBox<String> am_pmBox = new ChoiceBox<>();
+        am_pmBox.setValue("am");
+        am_pmBox.getItems().add("am");
+        am_pmBox.getItems().add("pm");
+
+        timeInputs.getChildren().addAll(hrBox, minBox, am_pmBox);
+
+        //Create a button to set time
+        Button btnTime = new Button("Set a time");
+
+        //create default clock which has value of current time
+        d.bindToCurrentTime();
+
+        //add all children to the layout
+        VBox layout = application.SetDateAndTime.layout;			//  this segment added by justin Loh so code will run
+        layout.getChildren().addAll(label, datePicker, d, timeInputs, btndate, btnTime);
+        layout.getChildren().add(new Label("Date Unset"));
+        // button to apply changes to times
+        btndate.setOnAction(e -> {
+            LocalDate localDate = datePicker.getValue();
+            Label dateLabel = new Label(localDate.toString());
+            changeDate(layout, dateLabel);
+        });
+
+        // button to apply changes to date
+        btnTime.setOnAction(e -> {
+            int hr = Integer.parseInt(hrBox.getValue());
+            int min = Integer.parseInt(minBox.getValue());
+            int am_pm = am_pmBox.getValue() == "am" ? 0 : 1;
+            changeTime(layout, hr, min, Calendar.getInstance().SECOND, am_pm);
+        }
+        );
+        append.add(application.SetDateAndTime.layout, x, y);
     }
-    
+
 }

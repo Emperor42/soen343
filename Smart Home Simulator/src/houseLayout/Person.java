@@ -1,3 +1,4 @@
+//ISSUE 1 CLEAR
 package houseLayout;
 
 //@author justin loh 
