@@ -1,3 +1,4 @@
+//ISSUE 1 CLEAR
 package houseLayout;
 
 import java.io.File;
@@ -17,40 +18,33 @@ import org.json.simple.parser.JSONParser;
 
 public class ReadJsonFile {
 
-	private JSONArray roomArray;
+    private JSONArray roomArray;
 
-	public ReadJsonFile(String fileName) {
-		JSONParser parser = new JSONParser();	
-		try (FileReader reader = new FileReader(fileName))
-		{
-                    System.out.println("I found the file...");
-			Object obj = parser.parse(reader);
-			JSONObject jsonObject = (JSONObject) obj;
-			roomArray = (JSONArray) jsonObject.get("Rooms");
-	        reader.close();
-		}
-		catch (FileNotFoundException e) {
-                    System.out.println("I could not find the file");
-			e.getMessage();
-		}
-		catch (IOException e) {
-			e.getMessage();
-		}
+    public ReadJsonFile(String fileName) {
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(fileName)) {
+            System.out.println("I found the file...");
+            Object obj = parser.parse(reader);
+            JSONObject jsonObject = (JSONObject) obj;
+            roomArray = (JSONArray) jsonObject.get("Rooms");
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("I could not find the file");
+            e.getMessage();
+        } catch (IOException e) {
+            e.getMessage();
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
 
-		catch (org.json.simple.parser.ParseException e) {
-			e.printStackTrace();
-		}
-		
-	}
+    }
 
-	public JSONArray getRoomArray() {
-		return roomArray;
-	}
+    public JSONArray getRoomArray() {
+        return roomArray;
+    }
 
-	public void setRoomArray(JSONArray roomArray) {
-		this.roomArray = roomArray;
-	}
-
-
+    public void setRoomArray(JSONArray roomArray) {
+        this.roomArray = roomArray;
+    }
 
 }
