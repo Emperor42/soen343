@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/json-simple-1.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/Smart Home Simulator/dist/lib/json-simple-1.1.1.jar!/" />
+    <libelement value="file://Smart Home Simulator/dist/run2100774732/lib/json-simple-1.1.1.jar" />
+    <libelement value="file://Smart Home Simulator/dist/run2100774732/Smart Home Simulator.jar" />
+    <libelement value="file://Smart Home Simulator/dist/run655526785/lib/json-simple-1.1.1.jar" />
+    <libelement value="file://Smart Home Simulator/dist/run655526785/Smart Home Simulator.jar" />
+    <libelement value="file://Smart Home Simulator/dist/run72277279/lib/json-simple-1.1.1.jar" />
+    <libelement value="file://Smart Home Simulator/dist/run72277279/Smart Home Simulator.jar" />
+    <libelement value="jar://$MODULE_DIR$/Smart Home Simulator/dist/Smart Home Simulator.jar!/" />
+    <src_description expected_position="1">
+      <src_folder value="file://$MODULE_DIR$/Smart Home Simulator/src" expected_position="1" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/Smart Home Simulator/build/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Smart Home Simulator/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="json-simple-1.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/json-simple-1.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="json-simple-1.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/Smart Home Simulator/dist/lib/json-simple-1.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator/dist/run2100774732/lib/json-simple-1.1.1.jar">
+        <CLASSES>
+          <root url="file://Smart Home Simulator/dist/run2100774732/lib/json-simple-1.1.1.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator.jar">
+        <CLASSES>
+          <root url="file://Smart Home Simulator/dist/run2100774732/Smart Home Simulator.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator/dist/run655526785/lib/json-simple-1.1.1.jar">
+        <CLASSES>
+          <root url="file://Smart Home Simulator/dist/run655526785/lib/json-simple-1.1.1.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator/dist/run655526785/Smart Home Simulator.jar">
+        <CLASSES>
+          <root url="file://Smart Home Simulator/dist/run655526785/Smart Home Simulator.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator/dist/run72277279/lib/json-simple-1.1.1.jar">
+        <CLASSES>
+          <root url="file://Smart Home Simulator/dist/run72277279/lib/json-simple-1.1.1.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator/dist/run72277279/Smart Home Simulator.jar">
+        <CLASSES>
+          <root url="file://Smart Home Simulator/dist/run72277279/Smart Home Simulator.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Smart Home Simulator/dist/Smart Home Simulator.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/Smart Home Simulator/dist/Smart Home Simulator.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="JavaFX" level="project" />
+  </component>
+</module>
