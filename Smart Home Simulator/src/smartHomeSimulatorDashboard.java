@@ -1,4 +1,5 @@
 
+import application.AdjustableClock;
 import application.Profile;
 import static application.SetDateAndTime.changeDate;
 import static application.SetDateAndTime.changeTime;
@@ -28,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  *
@@ -39,8 +41,11 @@ public class smartHomeSimulatorDashboard extends Application {
     public int activeModule = 0;
     public static GridPane SimulationPane = new GridPane();
     public static GridPane RoomControlPane = new GridPane();
+    public static GridPane AdjustableClockPane = new GridPane();
     public static Room[] roomArray = new Room[10];
     private int newTemp = 20;
+    private double newTimeSpeed = 0;
+    private AdjustableClock adjClock;
     //root pane for the drawing, we attach the component to this
     private Pane root = new Pane();
     private GraphicsContext gc;
@@ -159,12 +164,13 @@ public class smartHomeSimulatorDashboard extends Application {
                     simOnOff.setText("Initiate Simulation");
                     temp.getChildren().remove(SimulationPane);				// remove simulation
                     temp.getChildren().remove(RoomControlPane);		//remove room control panel
+                    temp.getChildren().remove(AdjustableClockPane);		//remove room control panel
                 } else {
                     simOnOff.setText("Exit Simulation");
 
                     displayOutputSimulationView(temp, 2, 1, "This is my house", primaryStage);		// display simulation
                     displayRoomsandOccupants(temp, 1, 4, primaryStage, occupantHeading, occupants);			//display room control panel
-
+                    displayAdjustableClock(temp, 1, 5);
                 }
             }
         });
@@ -429,6 +435,81 @@ public class smartHomeSimulatorDashboard extends Application {
         append.add(RoomControlPane, x, y);
     }
 
+    
+    
+    /**
+    *
+    * @param append
+    * @param x
+    * @param y
+    * @author Justin Loh 40073776
+    */
+    public void displayAdjustableClock(GridPane append, int x, int y) {
+    	
+    	append.getChildren().remove(AdjustableClockPane);
+    	AdjustableClockPane.getChildren().clear();
+        Label outHeading = new Label("Adjustable Simulation Time Speed : ");
+        AdjustableClockPane.add(outHeading, 0, 0);
+        
+        adjClock = new AdjustableClock();
+        AdjustableClockPane.add(adjClock, 0, 1);
+   
+        // slider to change time speed
+        Slider timeSlider = new Slider(0, 3, 0);
+        timeSlider.setMin(0);
+        timeSlider.setMax(3);
+        timeSlider.setValue(1);
+        timeSlider.setMinorTickCount(0);
+        timeSlider.setMajorTickUnit(1);
+        timeSlider.setSnapToTicks(true);
+        timeSlider.setShowTickMarks(true);
+        timeSlider.setShowTickLabels(true);
+        
+        // display custom text on slider
+        timeSlider.setLabelFormatter(new StringConverter<Double>() {
+            public String toString(Double n) {
+                if (n < 0.5) return "Slow";
+                if (n < 1.5) return "Normal";
+                if (n < 2.5) return "Fast";
+
+                return "Super Fast";
+            }
+
+			@Override
+			public Double fromString(String arg0) {
+				return null;
+			}
+
+        });
+        
+        // add slider to pane
+        AdjustableClockPane.add(timeSlider, 0, 2);
+        
+        // button to set time speed
+        Button setSpeed = new Button();
+        setSpeed.setText("Set Time Speed");
+        setSpeed.setOnAction(e -> {
+        	newTimeSpeed = timeSlider.getValue();
+             AdjustableClockPane.getChildren().remove(adjClock);
+             adjClock.changeSpeed(timeSlider.getValue());
+             AdjustableClockPane.add(adjClock, 0, 1);
+        });
+        AdjustableClockPane.add(setSpeed, 0, 3);
+        
+        // button to reset time speed
+        Button resetSpeed = new Button();
+        resetSpeed.setText("Reset");
+        resetSpeed.setOnAction(e -> {
+        	newTimeSpeed = timeSlider.getValue();
+             AdjustableClockPane.getChildren().remove(adjClock);
+             adjClock= new AdjustableClock();
+             AdjustableClockPane.add(adjClock, 0, 1);
+        });
+        AdjustableClockPane.add(resetSpeed, 0, 4);
+        
+        append.add(AdjustableClockPane, x, y);
+    }
+    
     public void utilBlockWindows() {
         if (activeRoom != null) {
             System.out.println("Noy Null Room");
@@ -522,7 +603,7 @@ public class smartHomeSimulatorDashboard extends Application {
         d.bindToCurrentTime();
 
         //add all children to the layout
-        VBox layout = application.SetDateAndTime.layout;			//  this segment added by justin Loh so code will run
+        VBox layout = application.SetDateAndTime.layout;			
         layout.getChildren().addAll(label, datePicker, d, timeInputs, btndate, btnTime);
         layout.getChildren().add(new Label("Date Unset"));
         // button to apply changes to times
