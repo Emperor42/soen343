@@ -29,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  *
@@ -436,7 +437,13 @@ public class smartHomeSimulatorDashboard extends Application {
 
     
     
-    // Justin Loh
+    /**
+    *
+    * @param append
+    * @param x
+    * @param y
+    * @author Justin Loh 40073776
+    */
     public void displayAdjustableClock(GridPane append, int x, int y) {
     	
     	append.getChildren().remove(AdjustableClockPane);
@@ -446,25 +453,59 @@ public class smartHomeSimulatorDashboard extends Application {
         
         adjClock = new AdjustableClock();
         AdjustableClockPane.add(adjClock, 0, 1);
-        
-        Slider timeSlider = new Slider(0.5,2,1);
+   
+        // slider to change time speed
+        Slider timeSlider = new Slider(0, 3, 0);
+        timeSlider.setMin(0);
+        timeSlider.setMax(3);
+        timeSlider.setValue(1);
+        timeSlider.setMinorTickCount(0);
+        timeSlider.setMajorTickUnit(1);
+        timeSlider.setSnapToTicks(true);
         timeSlider.setShowTickMarks(true);
         timeSlider.setShowTickLabels(true);
-        timeSlider.setMajorTickUnit(0.5);
-        timeSlider.setBlockIncrement(10);
         
+        // display custom text on slider
+        timeSlider.setLabelFormatter(new StringConverter<Double>() {
+            public String toString(Double n) {
+                if (n < 0.5) return "Slow";
+                if (n < 1.5) return "Normal";
+                if (n < 2.5) return "Fast";
+
+                return "Super Fast";
+            }
+
+			@Override
+			public Double fromString(String arg0) {
+				return null;
+			}
+
+        });
+        
+        // add slider to pane
         AdjustableClockPane.add(timeSlider, 0, 2);
         
+        // button to set time speed
         Button setSpeed = new Button();
         setSpeed.setText("Set Time Speed");
         setSpeed.setOnAction(e -> {
         	newTimeSpeed = timeSlider.getValue();
              AdjustableClockPane.getChildren().remove(adjClock);
-             int mutliplier = (int) (newTimeSpeed * 1000);
-             adjClock = new AdjustableClock(mutliplier);
+             adjClock.changeSpeed(timeSlider.getValue());
              AdjustableClockPane.add(adjClock, 0, 1);
         });
         AdjustableClockPane.add(setSpeed, 0, 3);
+        
+        // button to reset time speed
+        Button resetSpeed = new Button();
+        resetSpeed.setText("Reset");
+        resetSpeed.setOnAction(e -> {
+        	newTimeSpeed = timeSlider.getValue();
+             AdjustableClockPane.getChildren().remove(adjClock);
+             adjClock= new AdjustableClock();
+             AdjustableClockPane.add(adjClock, 0, 1);
+        });
+        AdjustableClockPane.add(resetSpeed, 0, 4);
         
         append.add(AdjustableClockPane, x, y);
     }
