@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import shp.SmartHomeSecurity;
 
 /**
  *
@@ -143,8 +144,8 @@ public class smartHomeSimulatorDashboard extends Application {
 
     /**
      *
-     * @param user
-     * @param location
+     * @param userName
+     * @param userLocation
      * @param outTemp
      * @param temp
      * @author Matthew Giancola 40019131 & Justin Loh 40073776
@@ -245,7 +246,7 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHP.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Dummy Function");
+                SmartHomeSecurity.display("Smart Home Security Settings", "Welcome to the Security Control Panel");
                 activeModule = 2;
             }
         });
@@ -278,7 +279,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param append
      * @param x
      * @param y
-     * @param data
+     * @param outData
      * @author Matthew Giancola 40019131
      */
     public void displayOutputTerminal(GridPane append, int x, int y, Label outData) {
