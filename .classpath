@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="Smart Home Simulator/dist/run72277279/Smart Home Simulator.jar"/>
 	<classpathentry kind="lib" path="Smart Home Simulator/dist/Smart Home Simulator.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/javafx"/>
 	<classpathentry kind="output" path="Smart Home Simulator/build/classes"/>
 </classpath>
