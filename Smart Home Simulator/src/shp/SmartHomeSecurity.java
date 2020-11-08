@@ -23,7 +23,6 @@ public class SmartHomeSecurity {
 
     public static Button saveAndClose = new Button("Save All Changes and Close Window"); // set static in case need to remove/readd
 
-    public static int hr;
     public static int min;
 
     public static Label timeLabel;
@@ -34,8 +33,8 @@ public class SmartHomeSecurity {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(350);
-        window.setMinHeight(350);
+        window.setMinWidth(450);
+        window.setMinHeight(450);
         Label label = new Label(message);
         layout.add(label,0,1);
         Label headingAwayMode = new Label("Set Away Mode :");
@@ -94,21 +93,17 @@ public class SmartHomeSecurity {
             minBox.getItems().add(j);
         }
 
-        Label hoursLabel = new Label("Set Hours");
-        temp.add(hoursLabel, 0 ,3);
-        temp.add(hrBox, 0, 4);
         Label minLabel = new Label("Set Minutes");
-        temp.add(minLabel, 0 ,5);
-        temp.add(minBox  , 0, 6);
+        temp.add(minLabel, 0 ,3);
+        temp.add(minBox  , 0, 4);
 
 
         Button btngetTime = new Button("Set Time Amount for Authority Intervention");
         temp.add(btngetTime   , 0, 7);
         btngetTime.setOnAction(e -> {
-                    hr = Integer.parseInt(hrBox.getValue());
                     min = Integer.parseInt(minBox.getValue());
                     temp.getChildren().remove(timeLabel);
-                    timeLabel = new Label("Set for: "+hr+" Hours and "+min+" Minutes");
+                    timeLabel = new Label("Time is set at "+min+" Minutes");
                     temp.add(timeLabel  , 0, 8);
                 });
 
@@ -123,9 +118,65 @@ public class SmartHomeSecurity {
         Label headingLightControl= new Label("This is the light control panel");
         temp.add(headingLightControl, 0, 1);
 
+        GridPane lightPane = new GridPane();
+        displayLightRow(lightPane,0,"KITCHEN LIGHT");           //dummy light
+        displayLightRow(lightPane,1,"BATHROOM LIGHT");
+        temp.add(lightPane, 0, 2);
 
         lightControlPane=temp;
         append.add(temp, x, y);
+    }
+
+    public static void displayLightRow(GridPane append,int x , String lightName ){
+
+        Label headinglightName = new Label(lightName);
+        append.add(headinglightName,0,x);
+
+        HBox timeSetBox = new HBox();
+
+        HBox timeInput1 = new HBox();
+        ChoiceBox<String> hrBox1 = new ChoiceBox<>();
+        hrBox1.setValue("0");
+        for (int i = 1; i < 13; i++) {
+            String j = Integer.toString(i);
+            hrBox1.getItems().add(j);
+        }
+        ChoiceBox<String> minBox1 = new ChoiceBox<>();
+        minBox1.setValue("00");
+        for (int i = 0; i < 60; i++) {
+            String j = Integer.toString(i);
+            minBox1.getItems().add(j);
+        }
+        ChoiceBox<String> am_pmBox1 = new ChoiceBox<>();
+        am_pmBox1.setValue("am");
+        am_pmBox1.getItems().add("am");
+        am_pmBox1.getItems().add("pm");
+
+        timeInput1.getChildren().addAll(hrBox1, minBox1, am_pmBox1);
+
+        HBox timeInput2 = new HBox();
+        ChoiceBox<String> hrBox2 = new ChoiceBox<>();
+        hrBox2.setValue("0");
+        for (int i = 1; i < 13; i++) {
+            String j = Integer.toString(i);
+            hrBox2.getItems().add(j);
+        }
+        ChoiceBox<String> minBox2 = new ChoiceBox<>();
+        minBox2.setValue("00");
+        for (int i = 0; i < 60; i++) {
+            String j = Integer.toString(i);
+            minBox2.getItems().add(j);
+        }
+        ChoiceBox<String> am_pmBox2 = new ChoiceBox<>();
+        am_pmBox2.setValue("am");
+        am_pmBox2.getItems().add("am");
+        am_pmBox2.getItems().add("pm");
+
+        timeInput2.getChildren().addAll(hrBox2, minBox2, am_pmBox2);
+
+        timeSetBox.getChildren().addAll(timeInput1, new Label(" to "), timeInput2);
+
+        append.add(timeSetBox,1,x);
     }
 
 }
