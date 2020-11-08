@@ -1,5 +1,6 @@
 
 import application.AdjustableClock;
+import application.DigitalClock;
 import application.Profile;
 import static application.SetDateAndTime.changeDate;
 import static application.SetDateAndTime.changeTime;
@@ -11,6 +12,8 @@ import java.util.Calendar;
 import houseLayout.Person;
 import houseLayout.Room;
 import java.util.Optional;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import shc.SmartHomeCore;
 import shp.SmartHomeSecurity;
@@ -39,7 +43,7 @@ import shp.SmartHomeSecurity;
  */
 public class smartHomeSimulatorDashboard extends Application {
 
-    public boolean runSimulation = false;
+    public static boolean runSimulation = false;
     public int activeModule = 0;
     public static GridPane SimulationPane = new GridPane();
     public static GridPane RoomControlPane = new GridPane();
@@ -84,10 +88,12 @@ public class smartHomeSimulatorDashboard extends Application {
         //displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
 
         displayOutputTerminal(rootLayoutMain, 1, 3, consoleOutput);
-
+     
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
         primaryStage.setScene(primaryScene);
         primaryStage.show();
+        
+        //add a checker for the stage
     }
 
     /**
@@ -194,6 +200,22 @@ public class smartHomeSimulatorDashboard extends Application {
                 }
             }
         });
+         
+        DigitalClock.t.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(0),
+                        new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        if (ta==null || ts==null){//if these have not been set
+                            System.out.println("HERE");
+                            if (runSimulation){//if the simulation is on
+                                 displayOutputSimulationView(temp, 2, 1, "This is my house", primaryStage);		// display simulation
+                            }
+                        }
+                    }
+                }
+                ));
+        
         temp.add(simOnOff, 0, 1);
         //User Name
         //Label userName = new Label(user);
@@ -539,6 +561,9 @@ public class smartHomeSimulatorDashboard extends Application {
         }
     }
 
+    GridPane ta;
+    int tx, ty;
+    Stage ts;
     /**
      *
      * @param append
@@ -548,6 +573,12 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
+        if (ta==null || ts==null){
+            ta = append;
+            tx=x;
+            ty=y;
+            ts = stage;
+        }
         System.out.println("ROOMS: " + SmartHomeCore.roomArray.length);
         //GridPane temp = new GridPane();
         append.getChildren().remove(SimulationPane);
@@ -564,11 +595,13 @@ public class smartHomeSimulatorDashboard extends Application {
         SimulationPane.add(root, 0, 0);
         //SimulationPane = temp;
         append.add(SimulationPane, x, y);
+        /*
         for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
             if (SmartHomeCore.roomArray[i] != null) {
                 System.out.println("room array inludes" + SmartHomeCore.roomArray[i].getName());
             }
         }
+        */
     }
 
     /**
@@ -645,5 +678,6 @@ public class smartHomeSimulatorDashboard extends Application {
         );
         append.add(application.SetDateAndTime.layout, x, y);
     }
+    
 
 }

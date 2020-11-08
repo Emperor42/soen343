@@ -111,14 +111,17 @@ public class Room {
     }
 
     public void blockWindows() {
+        System.out.println("window "+windowBlocked);
         windowBlocked = !windowBlocked;
     }
     
     public void blockLight() {
+        System.out.println("light "+lightBlocked);
         lightBlocked = !lightBlocked;
     }
     
     public void blockDoor() {
+        System.out.println("door "+doorBlocked);
         doorBlocked = !doorBlocked;
     }
 }

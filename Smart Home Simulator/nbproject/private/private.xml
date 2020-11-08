@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/test/tests/JUNITTests.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/DigitalClock.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/ProfileManagement.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/Profile.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/smartHomeSimulatorDashboard.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/application/SetDateAndTime.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/houseLayout/ShowGraphics.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/soen343/Smart%20Home%20Simulator/src/houseLayout/Room.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/shc/SmartHomeCore.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/houseLayout/ShowGraphics.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/shp/SmartHomeSecurity.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/smartHomeSimulatorDashboard.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/houseLayout/Room.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/application/DigitalClock.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/application/AdjustableClock.java</file>
         </group>
     </open-files>
 </project-private>

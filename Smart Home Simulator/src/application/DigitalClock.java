@@ -13,12 +13,11 @@ import java.util.Calendar;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 /**
  * Creates a digital clock display as a simple label. Format of the clock
  * display is hh:mm:ss aa, where: hh Hour in am/pm (1-12) mm Minute in hour ss
  * Second in minute aa Am/pm marker Time is the system time for the local
- * timezone. Written by Justin Loh King Wei 40073776
+ * timezone. Written by Justin Loh King Wei 40073776 updated with Matthew Giancola 40019131
  */
 public class DigitalClock extends Label {
 

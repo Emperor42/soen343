@@ -41,7 +41,9 @@ public class SmartHomeCore {
         btnSHC.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                activeRoom.blockLight();
+                if (activeRoom!=null){
+                    activeRoom.blockLight();
+                }
             }
         });
         aux.add(btnSHC, 0, 0);
@@ -50,7 +52,9 @@ public class SmartHomeCore {
         btnSHCd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                activeRoom.blockLight();
+                if (activeRoom!=null){
+                    activeRoom.blockLight();
+                }
             }
         });
         aux.add(btnSHCd, 0, 1);
