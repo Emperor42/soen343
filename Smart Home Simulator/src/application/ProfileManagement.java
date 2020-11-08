@@ -60,7 +60,7 @@ public class ProfileManagement {
 
     public void saveProfile(Profile parent, Profile children, Profile guest, Profile stranger)
     {
-        JSONObject parentPermission = new JSONObject();
+        JSONObject parentPermission = new JSONObject(); // create object given the information of the object profile
             parentPermission.put("profileName", parent.getProfileName());
             parentPermission.put("windowAccess", parent.getWindowAccess());
             parentPermission.put("doorAccess", parent.getDoorAccess());
@@ -69,7 +69,7 @@ public class ProfileManagement {
             parentPermission.put("houseAccess", parent.getHouseAccess());
             parentPermission.put("offPropertyAccess", parent.getOffPropertyAccess());
 
-            JSONObject childrenPermission = new JSONObject();
+            JSONObject childrenPermission = new JSONObject(); // create object given the information of the object profile
             childrenPermission.put("profileName", children.getProfileName());
             childrenPermission.put("windowAccess", children.getWindowAccess());
             childrenPermission.put("doorAccess", children.getDoorAccess());
@@ -78,7 +78,7 @@ public class ProfileManagement {
             childrenPermission.put("houseAccess", children.getHouseAccess());
             childrenPermission.put("offPropertyAccess", children.getOffPropertyAccess());
 
-            JSONObject guestPermission = new JSONObject();
+            JSONObject guestPermission = new JSONObject(); // create object given the information of the object profile
             guestPermission.put("profileName", guest.getProfileName());
             guestPermission.put("windowAccess", guest.getWindowAccess());
             guestPermission.put("doorAccess", guest.getDoorAccess());
@@ -87,7 +87,7 @@ public class ProfileManagement {
             guestPermission.put("houseAccess", guest.getHouseAccess());
             guestPermission.put("offPropertyAccess", guest.getOffPropertyAccess());
 
-            JSONObject strangerPermission = new JSONObject();
+            JSONObject strangerPermission = new JSONObject(); // create object given the information of the object profile
             strangerPermission.put("profileName", stranger.getProfileName());
             strangerPermission.put("windowAccess", stranger.getWindowAccess());
             strangerPermission.put("doorAccess", stranger.getDoorAccess());
@@ -96,16 +96,14 @@ public class ProfileManagement {
             strangerPermission.put("houseAccess", stranger.getHouseAccess());
             strangerPermission.put("offPropertyAccess", stranger.getOffPropertyAccess());
 
-
-        JSONArray userPermission =  new JSONArray();
+        JSONArray userPermission =  new JSONArray(); // save all JSON object into a array
         userPermission.add(parentPermission);
         userPermission.add(childrenPermission);
         userPermission.add(guestPermission);
         userPermission.add(strangerPermission);
 
-        JSONObject profile = new JSONObject();
+        JSONObject profile = new JSONObject(); // name the array Profile
         profile.put("Profile", userPermission);
-
 
         try (FileWriter file = new FileWriter("profiles.json",false)) {
  
