@@ -492,6 +492,7 @@ public class smartHomeSimulatorDashboard extends Application {
         setSpeed.setOnAction(e -> {
         	newTimeSpeed = timeSlider.getValue();
              AdjustableClockPane.getChildren().remove(adjClock);
+//            System.out.println(adjClock.getTime().get(Calendar.HOUR_OF_DAY));   COMPARE TIME VALUES WITH THIS - JUSTIN
              adjClock.changeSpeed(timeSlider.getValue());
              AdjustableClockPane.add(adjClock, 0, 1);
         });
