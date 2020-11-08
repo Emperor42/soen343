@@ -69,7 +69,7 @@ public class ProfileManagement {
             parentPermission.put("houseAccess", parent.getHouseAccess());
             parentPermission.put("offPropertyAccess", parent.getOffPropertyAccess());
 
-            JSONObject childrenPermission = new JSONObject(); // create object given the information of the object profile
+        JSONObject childrenPermission = new JSONObject(); // create object given the information of the object profile
             childrenPermission.put("profileName", children.getProfileName());
             childrenPermission.put("windowAccess", children.getWindowAccess());
             childrenPermission.put("doorAccess", children.getDoorAccess());
@@ -78,7 +78,7 @@ public class ProfileManagement {
             childrenPermission.put("houseAccess", children.getHouseAccess());
             childrenPermission.put("offPropertyAccess", children.getOffPropertyAccess());
 
-            JSONObject guestPermission = new JSONObject(); // create object given the information of the object profile
+        JSONObject guestPermission = new JSONObject(); // create object given the information of the object profile
             guestPermission.put("profileName", guest.getProfileName());
             guestPermission.put("windowAccess", guest.getWindowAccess());
             guestPermission.put("doorAccess", guest.getDoorAccess());
@@ -87,7 +87,7 @@ public class ProfileManagement {
             guestPermission.put("houseAccess", guest.getHouseAccess());
             guestPermission.put("offPropertyAccess", guest.getOffPropertyAccess());
 
-            JSONObject strangerPermission = new JSONObject(); // create object given the information of the object profile
+        JSONObject strangerPermission = new JSONObject(); // create object given the information of the object profile
             strangerPermission.put("profileName", stranger.getProfileName());
             strangerPermission.put("windowAccess", stranger.getWindowAccess());
             strangerPermission.put("doorAccess", stranger.getDoorAccess());
