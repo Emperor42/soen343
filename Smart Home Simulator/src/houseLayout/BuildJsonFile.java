@@ -20,6 +20,7 @@ public class BuildJsonFile {
         rooms.add("Master BR");
         rooms.add("Child BR");
         rooms.add("Guest BR");
+        rooms.add("Building Entrance");
 
         JSONObject container = new JSONObject();
         container.put("Rooms", rooms);

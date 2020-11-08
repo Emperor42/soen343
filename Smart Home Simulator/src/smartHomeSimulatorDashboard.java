@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import shc.SmartHomeCore;
 import shp.SmartHomeSecurity;
 
 /**
@@ -43,6 +44,7 @@ public class smartHomeSimulatorDashboard extends Application {
     public static GridPane SimulationPane = new GridPane();
     public static GridPane RoomControlPane = new GridPane();
     public static GridPane AdjustableClockPane = new GridPane();
+    Label outHeading = new Label("Output Console");
     public static Room[] roomArray = new Room[10];
     private int newTemp = 20;
     private double newTimeSpeed = 0;
@@ -73,6 +75,7 @@ public class smartHomeSimulatorDashboard extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        
         houseLayout.BuildJsonFile.Prep();
 
         //for the simulation pane
@@ -80,9 +83,8 @@ public class smartHomeSimulatorDashboard extends Application {
         //for the module pane
         displayModuleTabs(rootLayoutMain, 1, 0, bSHS, bSHC, bSHP, bSHH, bPLUS);
         displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
-
+        //SmartHomeCore.update(roomArray);
         displayOutputTerminal(rootLayoutMain, 1, 3, consoleOutput);
-
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
         primaryStage.setScene(primaryScene);
         primaryStage.show();
@@ -107,6 +109,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayModuleInterface(int module, int x, int y, GridPane pane, GridPane temp, Button btnChangeUser) {
+        
         switch (module) {
             case 0:
                 btnChangeUser.setText("Enter A Valid User Name");
@@ -137,6 +140,12 @@ public class smartHomeSimulatorDashboard extends Application {
                     }
                 });
                 temp.add(btnChangeUser, 0, 0);
+                break;
+            case 1:
+                temp = SmartHomeCore.update(roomArray);
+                break;
+            case 2: 
+                temp = SmartHomeSecurity.update();
                 break;
         }
         pane.add(temp, x, y);
@@ -228,7 +237,9 @@ public class smartHomeSimulatorDashboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
+                rootLayoutMain.getChildren().remove(currentModuleInterface);
                 activeModule = 0;
+                displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHS, 1, 0);
@@ -237,7 +248,10 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHC.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                //SmartHomeCore.display("Smart Home Core Settings","", roomArray);
+                rootLayoutMain.getChildren().remove(currentModuleInterface);
                 activeModule = 1;
+                displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHC, 2, 0);
@@ -246,8 +260,10 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHP.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SmartHomeSecurity.display("Smart Home Security Settings", "Welcome to the Security Control Panel");
+                //SmartHomeSecurity.display("Smart Home Security Settings", "Welcome to the Security Control Panel");
+                rootLayoutMain.getChildren().remove(currentModuleInterface);
                 activeModule = 2;
+                displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHP, 3, 0);
@@ -257,7 +273,9 @@ public class smartHomeSimulatorDashboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
+                rootLayoutMain.getChildren().remove(currentModuleInterface);
                 activeModule = 3;
+                displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHH, 4, 0);
@@ -267,7 +285,9 @@ public class smartHomeSimulatorDashboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
+                rootLayoutMain.getChildren().remove(currentModuleInterface);
                 activeModule = 4;
+                displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnPLUS, 5, 0);
@@ -285,7 +305,6 @@ public class smartHomeSimulatorDashboard extends Application {
     public void displayOutputTerminal(GridPane append, int x, int y, Label outData) {
         GridPane temp = new GridPane();
         //front Simulation heading
-        Label outHeading = new Label("Output Console");
         temp.add(outHeading, 0, 0);
         //front Simulation heading
         temp.add(outData, 0, 1);
@@ -528,6 +547,7 @@ public class smartHomeSimulatorDashboard extends Application {
      */
     public void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
         System.out.println("ROOMS: " + roomArray.length);
+        SmartHomeCore.update(roomArray);
         //GridPane temp = new GridPane();
         append.getChildren().remove(SimulationPane);
         SimulationPane.getChildren().clear();

@@ -13,7 +13,9 @@ public class ShowGraphics {
     private static Color mainDrawingColour = Color.BLUE;
     private static Color onColour = Color.GREEN;
     private static Color offColour = Color.RED;
-
+    private static Color closedColour = Color.YELLOWGREEN;
+    
+    
     private static void drawRoomLeft(GraphicsContext g, String s, Room data) {
         g.strokeRect(0, 0, 150, 100);
         if (data.windowBlocked) {
@@ -108,6 +110,7 @@ public class ShowGraphics {
             rooms.add("Master BR");
             rooms.add("Child BR");
             rooms.add("Guest BR");
+            
             JSONObject container = new JSONObject();
             container.put("Rooms", rooms);
             readJson.setRoomArray(rooms);
@@ -139,6 +142,35 @@ public class ShowGraphics {
                 }
                 if (i == 4) {
                     g.strokeRect(150, -400, 100, 400);
+                    //main entrance doors
+                     g.strokeRect(150, 0, 25, 25);
+                    if (shc.SmartHomeCore.mainDoorLocked) {
+                        g.setStroke(offColour);
+                    } else if (shc.SmartHomeCore.mainDoorClosed) {
+                        g.setStroke(closedColour);
+                    } else {
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("D", 155, 15);
+                    g.setStroke(mainDrawingColour);
+                    // outdoor lights
+                     g.strokeRect(175, 0, 25, 25);
+                    if (!shc.SmartHomeCore.outdoorLights) {
+                        g.setStroke(offColour);
+                    } else {
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("L", 180, 15);
+                    g.setStroke(mainDrawingColour);
+                    // entrance lights
+                     g.strokeRect(175, -25, 25, 25);
+                    if (!shc.SmartHomeCore.entranceLights) {
+                        g.setStroke(offColour);
+                    } else {
+                        g.setStroke(onColour);
+                    }
+                    g.strokeText("L", 180, -10);
+                    g.setStroke(mainDrawingColour);
                     g.translate(250, -400);
                 }
                 if (i >= 4) {

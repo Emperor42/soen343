@@ -49,7 +49,8 @@ public class Room {
     public boolean windowBlocked = false;
     public boolean doorBlocked = false;
     public boolean lightBlocked = false;
-
+    public boolean autoRoom = false;
+    
     public void addOccupants(Person p) {
 
         for (int i = 0; i < 11; i++) {
@@ -112,6 +113,17 @@ public class Room {
 
     public void blockWindows() {
         windowBlocked = !windowBlocked;
-        System.out.println(windowBlocked);
+    }
+    
+    public void blockDoors() {
+        doorBlocked = !doorBlocked;
+    }
+    
+    public void blockLights() {
+        lightBlocked = !lightBlocked;
+    }
+    
+    public void auto() {
+        autoRoom = !autoRoom;
     }
 }
