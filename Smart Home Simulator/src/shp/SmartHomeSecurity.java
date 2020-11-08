@@ -70,6 +70,34 @@ public class SmartHomeSecurity {
         window.setScene(scene);
         window.show();
     }
+    
+     public static GridPane module() {
+         System.out.println("Run");
+        Label headingAwayMode = new Label("Set Away Mode :");
+        layout.add(headingAwayMode,0,2);
+
+        ToggleButton buttonOn = new ToggleButton("ON");
+        ToggleButton buttonOff = new ToggleButton("OFF");
+        HBox toggleBox = new HBox();
+        toggleBox.getChildren().addAll(buttonOn,buttonOff);
+
+        ToggleGroup group = new ToggleGroup();
+        buttonOn .setToggleGroup(group);
+        buttonOff.setToggleGroup(group);
+        buttonOff.setSelected(true);
+        layout.add(toggleBox,0,4);
+
+        buttonOn.setOnAction(event -> {
+            System.out.println("ON");
+            displayAwayModePane(layout, 0,5);
+        });
+
+        buttonOff.setOnAction(event -> {
+            System.out.println("OFF");
+            layout.getChildren().remove(awayModePane);
+        });
+        return layout;
+    }
 
     public static void displayAwayModePane(GridPane append, int x, int y){
         GridPane temp = new GridPane();
@@ -178,6 +206,7 @@ public class SmartHomeSecurity {
 
         append.add(timeSetBox,1,x);
     }
+    
 
 }
 

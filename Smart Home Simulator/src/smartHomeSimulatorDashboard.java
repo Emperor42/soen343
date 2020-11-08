@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import shc.SmartHomeCore;
 import shp.SmartHomeSecurity;
 
 /**
@@ -43,7 +44,9 @@ public class smartHomeSimulatorDashboard extends Application {
     public static GridPane SimulationPane = new GridPane();
     public static GridPane RoomControlPane = new GridPane();
     public static GridPane AdjustableClockPane = new GridPane();
-    public static Room[] roomArray = new Room[10];
+    //Check if this is first run
+    boolean first = true;
+    //
     private int newTemp = 20;
     private double newTimeSpeed = 0;
     private AdjustableClock adjClock;
@@ -68,8 +71,7 @@ public class smartHomeSimulatorDashboard extends Application {
     GridPane currentUserLabel = new GridPane();
     Label currentLocation = new Label("Select Room");
     VBox listOfOccupants = new VBox();
-    //active room
-    Room activeRoom;
+    
 
     @Override
     public void start(Stage primaryStage) {
@@ -79,7 +81,7 @@ public class smartHomeSimulatorDashboard extends Application {
         displaySimulationPane(currentUserLabel, currentLocation, 15, rootLayoutMain, primaryStage, occupantsInRoom, listOfOccupants);
         //for the module pane
         displayModuleTabs(rootLayoutMain, 1, 0, bSHS, bSHC, bSHP, bSHH, bPLUS);
-        displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
+        //displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
 
         displayOutputTerminal(rootLayoutMain, 1, 3, consoleOutput);
 
@@ -107,6 +109,12 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayModuleInterface(int module, int x, int y, GridPane pane, GridPane temp, Button btnChangeUser) {
+        //pane.getChildren().remove(temp);
+        if(first){
+            SmartHomeSecurity.module();
+            //SmartHomeCore.module();
+        }
+        temp.getChildren().clear();
         switch (module) {
             case 0:
                 btnChangeUser.setText("Enter A Valid User Name");
@@ -138,8 +146,19 @@ public class smartHomeSimulatorDashboard extends Application {
                 });
                 temp.add(btnChangeUser, 0, 0);
                 break;
+            case 1:
+                temp.add(SmartHomeCore.module(),0,0);
+                System.out.println("SHC");
+                break;
+            case 2:
+                temp.add(SmartHomeSecurity.module(),0,0);
+                System.out.println("SHS--not showing!");
+                break;
         }
-        pane.add(temp, x, y);
+        if (first){
+            pane.add(temp, x, y);
+            first = false;
+        }
     }
 
     /**
@@ -229,6 +248,7 @@ public class smartHomeSimulatorDashboard extends Application {
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
                 activeModule = 0;
+                displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHS, 1, 0);
@@ -238,6 +258,7 @@ public class smartHomeSimulatorDashboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 activeModule = 1;
+                displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHC, 2, 0);
@@ -246,8 +267,9 @@ public class smartHomeSimulatorDashboard extends Application {
         btnSHP.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SmartHomeSecurity.display("Smart Home Security Settings", "Welcome to the Security Control Panel");
+                //SmartHomeSecurity.display("Smart Home Security Settings", "Welcome to the Security Control Panel");
                 activeModule = 2;
+                displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHP, 3, 0);
@@ -258,6 +280,7 @@ public class smartHomeSimulatorDashboard extends Application {
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
                 activeModule = 3;
+                displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnSHH, 4, 0);
@@ -268,10 +291,12 @@ public class smartHomeSimulatorDashboard extends Application {
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
                 activeModule = 4;
+                displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }
         });
         temp.add(btnPLUS, 5, 0);
         append.add(temp, x, y);
+        displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
     }
 
     /**
@@ -283,12 +308,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayOutputTerminal(GridPane append, int x, int y, Label outData) {
-        GridPane temp = new GridPane();
-        //front Simulation heading
-        Label outHeading = new Label("Output Console");
-        temp.add(outHeading, 0, 0);
-        //front Simulation heading
-        temp.add(outData, 0, 1);
+        GridPane temp = SmartHomeCore.terminalModule();
         append.add(temp, x, y);
     }
 
@@ -309,9 +329,9 @@ public class smartHomeSimulatorDashboard extends Application {
         //Room control elements begin here
         //choice box with rooms parsed from json file
         ChoiceBox<String> roomBox = new ChoiceBox<>();
-        for (int i = 0; i < roomArray.length; i++) {
-            if (roomArray[i] != null) {
-                roomBox.getItems().add(roomArray[i].getName());
+        for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
+            if (SmartHomeCore.roomArray[i] != null) {
+                roomBox.getItems().add(SmartHomeCore.roomArray[i].getName());
             }
         }
         RoomControlPane.add(roomBox, 0, 1);
@@ -322,11 +342,11 @@ public class smartHomeSimulatorDashboard extends Application {
             //Room r = new Room();
             Room r = null;
             String roomName = roomBox.getValue();
-            for (int i = 0; i < roomArray.length; i++) {
-                if (roomArray[i] != null) {
-                    if (roomArray[i].getName().equals(roomName)) {
-                        r = roomArray[i];
-                        activeRoom = r;
+            for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
+                if (SmartHomeCore.roomArray[i] != null) {
+                    if (SmartHomeCore.roomArray[i].getName().equals(roomName)) {
+                        r = SmartHomeCore.roomArray[i];
+                        SmartHomeCore.activeRoom = r;
                         currentLocation.setText(r.getName());
                     }
                 }
@@ -353,10 +373,10 @@ public class smartHomeSimulatorDashboard extends Application {
         RoomControlPane.add(btnRoomObject, 0, 2);
         btnRoomObject.setOnAction(e -> {
             String roomName = roomBox.getValue();
-            for (int i = 0; i < roomArray.length; i++) {
-                if (roomArray[i] != null) {
-                    if (roomArray[i].getName().equals(roomName)) {
-                        activeRoom = roomArray[i];
+            for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
+                if (SmartHomeCore.roomArray[i] != null) {
+                    if (SmartHomeCore.roomArray[i].getName().equals(roomName)) {
+                        SmartHomeCore.activeRoom = SmartHomeCore.roomArray[i];
                     }
                 }
             }
@@ -373,11 +393,11 @@ public class smartHomeSimulatorDashboard extends Application {
             //Room r = new Room();
             Room r = null;
             String roomName = roomBox.getValue();
-            for (int i = 0; i < roomArray.length; i++) {
-                if (roomArray[i] != null) {
-                    if (roomArray[i].getName().equals(roomName)) {
-                        r = roomArray[i];
-                        activeRoom = r;
+            for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
+                if (SmartHomeCore.roomArray[i] != null) {
+                    if (SmartHomeCore.roomArray[i].getName().equals(roomName)) {
+                        r = SmartHomeCore.roomArray[i];
+                        SmartHomeCore.activeRoom = r;
                         currentLocation.setText(r.getName());
                     }
                 }
@@ -406,11 +426,11 @@ public class smartHomeSimulatorDashboard extends Application {
             //Room r = new Room();
             Room r = null;
             String roomName = roomBox.getValue();
-            for (int i = 0; i < roomArray.length; i++) {
-                if (roomArray[i] != null) {
-                    if (roomArray[i].getName().equals(roomName)) {
-                        r = roomArray[i];
-                        activeRoom = r;
+            for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
+                if (SmartHomeCore.roomArray[i] != null) {
+                    if (SmartHomeCore.roomArray[i].getName().equals(roomName)) {
+                        r = SmartHomeCore.roomArray[i];
+                        SmartHomeCore.activeRoom = r;
                         currentLocation.setText(r.getName());
                     }
                 }
@@ -513,9 +533,9 @@ public class smartHomeSimulatorDashboard extends Application {
     }
     
     public void utilBlockWindows() {
-        if (activeRoom != null) {
+        if (SmartHomeCore.activeRoom != null) {
             System.out.println("Noy Null Room");
-            activeRoom.blockWindows();
+            SmartHomeCore.activeRoom.blockWindows();
         }
     }
 
@@ -528,25 +548,25 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
-        System.out.println("ROOMS: " + roomArray.length);
+        System.out.println("ROOMS: " + SmartHomeCore.roomArray.length);
         //GridPane temp = new GridPane();
         append.getChildren().remove(SimulationPane);
         SimulationPane.getChildren().clear();
         Canvas canvas = new Canvas(600, 600);
         gc = canvas.getGraphicsContext2D();
         //gc.clearRect(0,0,600,600);
-        houseLayout.ShowGraphics.paint(gc, roomArray);
+        houseLayout.ShowGraphics.paint(gc, SmartHomeCore.roomArray);
         root.getChildren().clear();
-        // added roomArray parameter-justin
+        // added SmartHomeCore.roomArray parameter-justin
         root.getChildren().add(canvas);
         //stage.setScene(new Scene(root));
         //stage.show();
         SimulationPane.add(root, 0, 0);
         //SimulationPane = temp;
         append.add(SimulationPane, x, y);
-        for (int i = 0; i < roomArray.length; i++) {
-            if (roomArray[i] != null) {
-                System.out.println("room array inludes" + roomArray[i].getName());
+        for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
+            if (SmartHomeCore.roomArray[i] != null) {
+                System.out.println("room array inludes" + SmartHomeCore.roomArray[i].getName());
             }
         }
     }

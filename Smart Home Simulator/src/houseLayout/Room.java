@@ -112,6 +112,13 @@ public class Room {
 
     public void blockWindows() {
         windowBlocked = !windowBlocked;
-        System.out.println(windowBlocked);
+    }
+    
+    public void blockLight() {
+        lightBlocked = !lightBlocked;
+    }
+    
+    public void blockDoor() {
+        doorBlocked = !doorBlocked;
     }
 }
