@@ -57,7 +57,7 @@ public class smartHomeSimulatorDashboard extends Application {
     //root pane for the drawing, we attach the component to this
     private Pane root = new Pane();
     private GraphicsContext gc;
-    application.Profile currentUser = new application.Profile("Parent",true,true,true,true,true,true);
+    application.Profile currentUser = new application.Profile("Parent", true, true, true, true, true, true);
     application.ProfileManagement profileManager = new application.ProfileManagement();
     //Moved alues Start Here
     GridPane rootLayoutMain = new GridPane();
@@ -75,7 +75,6 @@ public class smartHomeSimulatorDashboard extends Application {
     GridPane currentUserLabel = new GridPane();
     Label currentLocation = new Label("Select Room");
     VBox listOfOccupants = new VBox();
-    
 
     @Override
     public void start(Stage primaryStage) {
@@ -88,11 +87,11 @@ public class smartHomeSimulatorDashboard extends Application {
         //displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
 
         displayOutputTerminal(rootLayoutMain, 1, 3, consoleOutput);
-     
+
         primaryStage.setTitle("Smart Home Simulator -- Dashboard");
         primaryStage.setScene(primaryScene);
         primaryStage.show();
-        
+
         //add a checker for the stage
     }
 
@@ -116,7 +115,7 @@ public class smartHomeSimulatorDashboard extends Application {
      */
     public void displayModuleInterface(int module, int x, int y, GridPane pane, GridPane temp, Button btnChangeUser) {
         //pane.getChildren().remove(temp);
-        if(first){
+        if (first) {
             SmartHomeSecurity.module();
             //SmartHomeCore.module();
         }
@@ -153,15 +152,15 @@ public class smartHomeSimulatorDashboard extends Application {
                 temp.add(btnChangeUser, 0, 0);
                 break;
             case 1:
-                temp.add(SmartHomeCore.module(),0,0);
+                temp.add(SmartHomeCore.module(), 0, 0);
                 System.out.println("SHC");
                 break;
             case 2:
-                temp.add(SmartHomeSecurity.module(),0,0);
+                temp.add(SmartHomeSecurity.module(), 0, 0);
                 System.out.println("SHS--not showing!");
                 break;
         }
-        if (first){
+        if (first) {
             pane.add(temp, x, y);
             first = false;
         }
@@ -200,22 +199,6 @@ public class smartHomeSimulatorDashboard extends Application {
                 }
             }
         });
-         
-        DigitalClock.t.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(0),
-                        new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        if (ta==null || ts==null){//if these have not been set
-                            System.out.println("HERE");
-                            if (runSimulation){//if the simulation is on
-                                 displayOutputSimulationView(temp, 2, 1, "This is my house", primaryStage);		// display simulation
-                            }
-                        }
-                    }
-                }
-                ));
-        
         temp.add(simOnOff, 0, 1);
         //User Name
         //Label userName = new Label(user);
@@ -318,7 +301,7 @@ public class smartHomeSimulatorDashboard extends Application {
         });
         temp.add(btnPLUS, 5, 0);
         append.add(temp, x, y);
-        displayModuleInterface(activeModule, x, y+1, rootLayoutMain, currentModuleInterface, changeUser);
+        displayModuleInterface(activeModule, x, y + 1, rootLayoutMain, currentModuleInterface, changeUser);
     }
 
     /**
@@ -405,9 +388,8 @@ public class smartHomeSimulatorDashboard extends Application {
             utilBlockWindows();
             displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
         });
-        
+
         //
-        
         // button which shows room information based on choicebox
         Button btnPickRoom = new Button("Select Room");
         RoomControlPane.add(btnPickRoom, 0, 4);
@@ -440,7 +422,7 @@ public class smartHomeSimulatorDashboard extends Application {
             RoomControlPane.add(occupantBox, 0, 6);
             displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
         });
-        
+
         // button which shows room information based on choicebox
         Button btDropRoom = new Button("Remove Person");
         RoomControlPane.add(btDropRoom, 0, 5);
@@ -478,25 +460,23 @@ public class smartHomeSimulatorDashboard extends Application {
         append.add(RoomControlPane, x, y);
     }
 
-    
-    
     /**
-    *
-    * @param append
-    * @param x
-    * @param y
-    * @author Justin Loh 40073776
-    */
+     *
+     * @param append
+     * @param x
+     * @param y
+     * @author Justin Loh 40073776
+     */
     public void displayAdjustableClock(GridPane append, int x, int y) {
-    	
-    	append.getChildren().remove(AdjustableClockPane);
-    	AdjustableClockPane.getChildren().clear();
+
+        append.getChildren().remove(AdjustableClockPane);
+        AdjustableClockPane.getChildren().clear();
         Label outHeading = new Label("Adjustable Simulation Time Speed : ");
         AdjustableClockPane.add(outHeading, 0, 0);
-        
+
         adjClock = new AdjustableClock();
         AdjustableClockPane.add(adjClock, 0, 1);
-   
+
         // slider to change time speed
         Slider timeSlider = new Slider(0, 3, 0);
         timeSlider.setMin(0);
@@ -507,53 +487,59 @@ public class smartHomeSimulatorDashboard extends Application {
         timeSlider.setSnapToTicks(true);
         timeSlider.setShowTickMarks(true);
         timeSlider.setShowTickLabels(true);
-        
+
         // display custom text on slider
         timeSlider.setLabelFormatter(new StringConverter<Double>() {
             public String toString(Double n) {
-                if (n < 0.5) return "Slow";
-                if (n < 1.5) return "Normal";
-                if (n < 2.5) return "Fast";
+                if (n < 0.5) {
+                    return "Slow";
+                }
+                if (n < 1.5) {
+                    return "Normal";
+                }
+                if (n < 2.5) {
+                    return "Fast";
+                }
 
                 return "Super Fast";
             }
 
-			@Override
-			public Double fromString(String arg0) {
-				return null;
-			}
+            @Override
+            public Double fromString(String arg0) {
+                return null;
+            }
 
         });
-        
+
         // add slider to pane
         AdjustableClockPane.add(timeSlider, 0, 2);
-        
+
         // button to set time speed
         Button setSpeed = new Button();
         setSpeed.setText("Set Time Speed");
         setSpeed.setOnAction(e -> {
-        	newTimeSpeed = timeSlider.getValue();
-             AdjustableClockPane.getChildren().remove(adjClock);
+            newTimeSpeed = timeSlider.getValue();
+            AdjustableClockPane.getChildren().remove(adjClock);
 //            System.out.println(adjClock.getTime().get(Calendar.HOUR_OF_DAY));   COMPARE TIME VALUES WITH THIS - JUSTIN
-             adjClock.changeSpeed(timeSlider.getValue());
-             AdjustableClockPane.add(adjClock, 0, 1);
+            adjClock.changeSpeed(timeSlider.getValue());
+            AdjustableClockPane.add(adjClock, 0, 1);
         });
         AdjustableClockPane.add(setSpeed, 0, 3);
-        
+
         // button to reset time speed
         Button resetSpeed = new Button();
         resetSpeed.setText("Reset");
         resetSpeed.setOnAction(e -> {
-        	newTimeSpeed = timeSlider.getValue();
-             AdjustableClockPane.getChildren().remove(adjClock);
-             adjClock= new AdjustableClock();
-             AdjustableClockPane.add(adjClock, 0, 1);
+            newTimeSpeed = timeSlider.getValue();
+            AdjustableClockPane.getChildren().remove(adjClock);
+            adjClock = new AdjustableClock();
+            AdjustableClockPane.add(adjClock, 0, 1);
         });
         AdjustableClockPane.add(resetSpeed, 0, 4);
-        
+
         append.add(AdjustableClockPane, x, y);
     }
-    
+
     public void utilBlockWindows() {
         if (SmartHomeCore.activeRoom != null) {
             System.out.println("Noy Null Room");
@@ -564,6 +550,7 @@ public class smartHomeSimulatorDashboard extends Application {
     GridPane ta;
     int tx, ty;
     Stage ts;
+
     /**
      *
      * @param append
@@ -573,10 +560,10 @@ public class smartHomeSimulatorDashboard extends Application {
      * @author Matthew Giancola 40019131
      */
     public void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
-        if (ta==null || ts==null){
+        if (ta == null || ts == null) {
             ta = append;
-            tx=x;
-            ty=y;
+            tx = x;
+            ty = y;
             ts = stage;
         }
         System.out.println("ROOMS: " + SmartHomeCore.roomArray.length);
@@ -601,7 +588,7 @@ public class smartHomeSimulatorDashboard extends Application {
                 System.out.println("room array inludes" + SmartHomeCore.roomArray[i].getName());
             }
         }
-        */
+         */
     }
 
     /**
@@ -658,7 +645,7 @@ public class smartHomeSimulatorDashboard extends Application {
         d.bindToCurrentTime();
 
         //add all children to the layout
-        VBox layout = application.SetDateAndTime.layout;			
+        VBox layout = application.SetDateAndTime.layout;
         layout.getChildren().addAll(label, datePicker, d, timeInputs, btndate, btnTime);
         layout.getChildren().add(new Label("Date Unset"));
         // button to apply changes to times
@@ -678,6 +665,5 @@ public class smartHomeSimulatorDashboard extends Application {
         );
         append.add(application.SetDateAndTime.layout, x, y);
     }
-    
 
 }

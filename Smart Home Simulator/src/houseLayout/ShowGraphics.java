@@ -22,13 +22,13 @@ public class ShowGraphics {
             g.setStroke(onColour);
         }
         g.strokeRect(0, 0, 25, 25);
-        
+
         g.strokeText("W", 10, 15);          //Represents the windows
-        
+
         g.translate(25, 0);
         g.setStroke(mainDrawingColour);
         g.strokeRect(95, 0, 30, 30);
-        
+
         if (data.doorBlocked) {
             g.setStroke(offColour);
         } else {
@@ -67,7 +67,7 @@ public class ShowGraphics {
             g.setStroke(onColour);
         }
         g.strokeRect(100, 0, 25, 25);
-        
+
         g.strokeText("W", 105, 15);
         g.setStroke(mainDrawingColour);
         g.strokeText(s, 20, 50);
@@ -113,7 +113,7 @@ public class ShowGraphics {
             readJson.setRoomArray(rooms);
             // Parses items from the Json file into a room object and stores it into the roomArray variable in the main class -justin
             for (int i = 0; i < readJson.getRoomArray().size(); i++) {
-                if(roomArray[i]==null){
+                if (roomArray[i] == null) {
                     Room room = new Room();
                     room.setName(readJson.getRoomArray().get(i).toString());
                     roomArray[i] = room;
