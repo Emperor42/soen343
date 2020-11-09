@@ -48,7 +48,7 @@ public class Room {
     //simple boolean for a blocked window/door
     public boolean windowBlocked = false;
     public boolean doorBlocked = false;
-    public boolean lightBlocked = false;
+    public boolean lightBlocked = true;
 
     public void addOccupants(Person p) {
 
@@ -58,6 +58,9 @@ public class Room {
                 noOfOccupants++;
                 break;
             }
+        }
+        if(noOfOccupants>0){
+            lightBlocked=false;
         }
     }
 
@@ -69,6 +72,9 @@ public class Room {
                 noOfOccupants--;
                 break;
             }
+        }
+        if(noOfOccupants<=0){
+            lightBlocked=true;
         }
     }
 
@@ -111,7 +117,17 @@ public class Room {
     }
 
     public void blockWindows() {
+        System.out.println("window " + windowBlocked);
         windowBlocked = !windowBlocked;
-        System.out.println(windowBlocked);
+    }
+
+    public void blockLight() {
+        System.out.println("light " + lightBlocked);
+        lightBlocked = !lightBlocked;
+    }
+
+    public void blockDoor() {
+        System.out.println("door " + doorBlocked);
+        doorBlocked = !doorBlocked;
     }
 }
