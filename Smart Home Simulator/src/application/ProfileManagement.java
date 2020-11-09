@@ -2,6 +2,7 @@
 package application;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import org.json.simple.JSONArray;
@@ -56,4 +57,65 @@ public class ProfileManagement {
         }
         return null;
     }
+
+    public void saveProfile(Profile parent, Profile children, Profile guest, Profile stranger)
+    {
+        JSONObject parentPermission = new JSONObject(); // create object given the information of the object profile
+            parentPermission.put("profileName", parent.getProfileName());
+            parentPermission.put("windowAccess", parent.getWindowAccess());
+            parentPermission.put("doorAccess", parent.getDoorAccess());
+            parentPermission.put("garageAccess", parent.getGarageAccess());
+            parentPermission.put("lightAccess", parent.getLightAccess());
+            parentPermission.put("houseAccess", parent.getHouseAccess());
+            parentPermission.put("offPropertyAccess", parent.getOffPropertyAccess());
+
+        JSONObject childrenPermission = new JSONObject(); // create object given the information of the object profile
+            childrenPermission.put("profileName", children.getProfileName());
+            childrenPermission.put("windowAccess", children.getWindowAccess());
+            childrenPermission.put("doorAccess", children.getDoorAccess());
+            childrenPermission.put("garageAccess", children.getGarageAccess());
+            childrenPermission.put("lightAccess", children.getLightAccess());
+            childrenPermission.put("houseAccess", children.getHouseAccess());
+            childrenPermission.put("offPropertyAccess", children.getOffPropertyAccess());
+
+        JSONObject guestPermission = new JSONObject(); // create object given the information of the object profile
+            guestPermission.put("profileName", guest.getProfileName());
+            guestPermission.put("windowAccess", guest.getWindowAccess());
+            guestPermission.put("doorAccess", guest.getDoorAccess());
+            guestPermission.put("garageAccess", guest.getGarageAccess());
+            guestPermission.put("lightAccess", guest.getLightAccess());
+            guestPermission.put("houseAccess", guest.getHouseAccess());
+            guestPermission.put("offPropertyAccess", guest.getOffPropertyAccess());
+
+        JSONObject strangerPermission = new JSONObject(); // create object given the information of the object profile
+            strangerPermission.put("profileName", stranger.getProfileName());
+            strangerPermission.put("windowAccess", stranger.getWindowAccess());
+            strangerPermission.put("doorAccess", stranger.getDoorAccess());
+            strangerPermission.put("garageAccess", stranger.getGarageAccess());
+            strangerPermission.put("lightAccess", stranger.getLightAccess());
+            strangerPermission.put("houseAccess", stranger.getHouseAccess());
+            strangerPermission.put("offPropertyAccess", stranger.getOffPropertyAccess());
+
+        JSONArray userPermission =  new JSONArray(); // save all JSON object into a array
+        userPermission.add(parentPermission);
+        userPermission.add(childrenPermission);
+        userPermission.add(guestPermission);
+        userPermission.add(strangerPermission);
+
+        JSONObject profile = new JSONObject(); // name the array Profile
+        profile.put("Profile", userPermission);
+
+        // rewrite the profile.json file
+        try (FileWriter file = new FileWriter("profiles.json",false))
+        {
+ 
+            file.write(profile.toJSONString());
+            file.flush();
+            file.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
