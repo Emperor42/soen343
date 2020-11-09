@@ -14,6 +14,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import main.smartHomeSimulatorDashboard;
+
 /**
  * Creates a digital clock display as a simple label. Format of the clock
  * display is hh:mm:ss aa, where: hh Hour in am/pm (1-12) mm Minute in hour ss
@@ -23,6 +25,8 @@ import javafx.stage.Stage;
  */
 public class DigitalClock extends Label {
 
+    
+    
     public DigitalClock() {
         //create default clock which has value of current time
         t = new Timeline(
@@ -37,6 +41,7 @@ public class DigitalClock extends Label {
                         String ampmString = time.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
                         setText(hourString + ":" + minuteString + ":" + secondString + " " + ampmString);
                         time.set(Calendar.SECOND, time.get(Calendar.SECOND) + 1);
+                        smartHomeSimulatorDashboard.updateOutput();
                     }
                 }
                 ),

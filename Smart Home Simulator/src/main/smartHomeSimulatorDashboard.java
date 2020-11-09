@@ -1,4 +1,4 @@
-
+package main;
 import application.AdjustableClock;
 import application.DigitalClock;
 import application.Profile;
@@ -55,8 +55,8 @@ public class smartHomeSimulatorDashboard extends Application {
     private double newTimeSpeed = 0;
     private AdjustableClock adjClock;
     //root pane for the drawing, we attach the component to this
-    private Pane root = new Pane();
-    private GraphicsContext gc;
+    private static Pane root = new Pane();
+    private static GraphicsContext gc;
     application.Profile currentUser = new application.Profile("Parent", true, true, true, true, true, true);
     application.ProfileManagement profileManager = new application.ProfileManagement();
     //Moved alues Start Here
@@ -547,9 +547,9 @@ public class smartHomeSimulatorDashboard extends Application {
         }
     }
 
-    GridPane ta;
-    int tx, ty;
-    Stage ts;
+    static GridPane ta;
+    static int tx, ty;
+    static Stage ts;
 
     /**
      *
@@ -559,7 +559,7 @@ public class smartHomeSimulatorDashboard extends Application {
      * @param data
      * @author Matthew Giancola 40019131
      */
-    public void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
+    public static void displayOutputSimulationView(GridPane append, int x, int y, String data, Stage stage) {     // display output of rooms
         if (ta == null || ts == null) {
             ta = append;
             tx = x;
@@ -591,6 +591,15 @@ public class smartHomeSimulatorDashboard extends Application {
          */
     }
 
+    public static void updateOutput(){
+        if (ta != null && ts != null) {
+            if (runSimulation){
+                System.out.println("Runs");
+                displayOutputSimulationView(ta, tx, ty, "", ts);
+            }
+        }
+    }
+    
     /**
      *
      * @param in

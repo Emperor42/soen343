@@ -10,6 +10,6 @@
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="lib/json-simple-1.1.1.jar" size="23737" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="800" height="600" main-class="smartHomeSimulatorDashboard"  name="Smart Home Simulator" />
+  <jfx:javafx-desc  width="800" height="600" main-class="main.smartHomeSimulatorDashboard"  name="Smart Home Simulator" />
   <update check="always"/>
 </jnlp>
