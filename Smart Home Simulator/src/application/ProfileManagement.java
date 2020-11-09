@@ -105,7 +105,9 @@ public class ProfileManagement {
         JSONObject profile = new JSONObject(); // name the array Profile
         profile.put("Profile", userPermission);
 
-        try (FileWriter file = new FileWriter("profiles.json",false)) {
+        // rewrite the profile.json file
+        try (FileWriter file = new FileWriter("profiles.json",false))
+        {
  
             file.write(profile.toJSONString());
             file.flush();
