@@ -5,10 +5,11 @@
         <group>
             <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/shc/SmartHomeCore.java</file>
             <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/houseLayout/ShowGraphics.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/test/tests/JUNITTests.java</file>
             <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/shp/SmartHomeSecurity.java</file>
-            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/smartHomeSimulatorDashboard.java</file>
             <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/houseLayout/Room.java</file>
             <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/application/DigitalClock.java</file>
+            <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/main/smartHomeSimulatorDashboard.java</file>
             <file>file:/home/emperor/Desktop/SOEN343/DELIVEERY2/soen343/Smart%20Home%20Simulator/src/application/AdjustableClock.java</file>
         </group>
     </open-files>
