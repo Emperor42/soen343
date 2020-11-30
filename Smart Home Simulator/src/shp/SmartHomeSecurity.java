@@ -6,12 +6,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import shc.SmartHomeObserver;
+import shc.SmartHomeSubject;
 
 /**
  *
  * @author Justin Loh 40073776
  */
-public class SmartHomeSecurity {
+public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
 
     public static GridPane layout = new GridPane();
     public static GridPane awayModePane = new GridPane();
@@ -200,6 +202,26 @@ public class SmartHomeSecurity {
         timeSetBox.getChildren().addAll(timeInput1, new Label(" to "), timeInput2);
 
         append.add(timeSetBox, 1, x);
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setState(Object state) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getState() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void attach(SmartHomeObserver a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

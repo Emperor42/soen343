@@ -17,7 +17,7 @@ import static shp.SmartHomeSecurity.layout;
  *
  * @author Matthew Giancola (40019131)
  */
-public class SmartHomeCore {
+public class SmartHomeCore implements SmartHomeSubject{
 
     public static Room[] roomArray = new Room[10];
     public static GridPane temp = new GridPane();
@@ -104,6 +104,21 @@ public class SmartHomeCore {
         if (activeRoom != null) {
             //activeRoom.blockDoor();
         }
+    }
+
+    @Override
+    public void setState(Object state) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getState() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void attach(SmartHomeObserver a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
