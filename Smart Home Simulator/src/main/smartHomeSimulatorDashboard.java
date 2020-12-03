@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import shc.SmartHomeCore;
+import shh.SmartHomeHeater;
 import shp.SmartHomeSecurity;
 
 /**
@@ -88,7 +89,7 @@ public class smartHomeSimulatorDashboard extends Application {
 
         displayOutputTerminal(rootLayoutMain, 1, 3, consoleOutput);
 
-        primaryStage.setTitle("Smart Home Simulator -- Dashboard");
+        primaryStage.setTitle("Smart Home Simulator -- Dashboard ");
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
@@ -284,6 +285,7 @@ public class smartHomeSimulatorDashboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
+                SmartHomeHeater.display("Test SHH","TEST");
                 activeModule = 3;
                 displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }

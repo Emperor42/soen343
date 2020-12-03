@@ -144,7 +144,7 @@ public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
         temp.add(headingLightControl, 0, 1);
 
         GridPane lightPane = new GridPane();
-        displayLightRow(lightPane, 0, "KITCHEN LIGHT");           //dummy light
+        displayLightRow(lightPane, 0, "KITCHEN LIGHT");           //dummy lights
         displayLightRow(lightPane, 1, "BATHROOM LIGHT");
         temp.add(lightPane, 0, 2);
 
@@ -202,6 +202,8 @@ public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
         timeSetBox.getChildren().addAll(timeInput1, new Label(" to "), timeInput2);
 
         append.add(timeSetBox, 1, x);
+
+
     }
 
     @Override
