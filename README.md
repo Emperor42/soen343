@@ -13,3 +13,5 @@
 Note:
 1. The "SOEN343_Delivery_1-2020-10-20_09.26.44.mp4" file is the Demo1
 2. The "SmartHomeSimulation-Class Diagram.xml" file should be open with draw.io
+3. THE "SOEN343_Delivery_2-2020-11-08_22.16.20.mp4" file is the Demo2
+
