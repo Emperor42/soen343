@@ -41,7 +41,7 @@ public class SmartHomeHeater implements SmartHomeObserver{
     public static String log="";
     
     heater[] heaters;
-    ArrayList<heatZone> zones = new ArrayList<heatZone>();
+    public static ArrayList<heatZone> zones = new ArrayList<heatZone>();
     
     public SmartHomeHeater(Room[] rooms){
         //instantiate and connect the different heaters
