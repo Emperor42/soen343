@@ -40,8 +40,10 @@ public class SmartHomeHeater implements SmartHomeObserver{
     //public static 
     public static String log="";
     
-    heater[] heaters;
+    static heater[] heaters;
     public static ArrayList<heatZone> zones = new ArrayList<heatZone>();
+    
+    public SmartHomeHeater(){}
     
     public SmartHomeHeater(Room[] rooms){
         //instantiate and connect the different heaters
@@ -51,6 +53,29 @@ public class SmartHomeHeater implements SmartHomeObserver{
             //use the main heating zone for all the rooms by default
             heaters[i]= new heater(rooms[i].getName(), zones.get(0));
         }
+    }
+    
+    public static int makeHeatZone(int id){
+        int ret = zones.size();
+        zones.add((new SmartHomeHeater()).heatZoneWrapper(id));
+        return ret;
+    }
+    
+    private heatZone heatZoneWrapper(int id){
+        return new heatZone(id, 21);
+    }
+    
+    public static void changeHeater(int room, heatZone zone){
+        heaters[room].zone= zone;
+    }
+                
+    public static void overrideTemp(int room, double temp) {
+        heaters[room].override=true;
+        heaters[room].target = temp;
+    }
+    
+    public static void useAutoTemp(int room){
+        heaters[room].override=heaters[room].override;
     }
     
     public static boolean warnUser(double check){
