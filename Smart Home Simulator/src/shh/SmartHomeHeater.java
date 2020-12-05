@@ -36,7 +36,9 @@ public class SmartHomeHeater implements SmartHomeObserver{
     
     public static long time=0;
     public static double outTemp=20;
-    
+
+    public static GridPane heaterPane;
+
     //public static 
     public static String log="";
     
@@ -92,8 +94,8 @@ public class SmartHomeHeater implements SmartHomeObserver{
 
         Label templabel1 = new Label("A/C control here?");
         layout.add(templabel1, 0, 2);
-        Label templabel2 = new Label("Heater control here?");
-        layout.add(templabel2, 0, 3);
+        displayHeaterPane("Edit connected heaters here");
+        layout.add(heaterPane, 0, 3);
 
         Label headingSetMonths = new Label("Set Months for Winter and Summer Seasons :");
         layout.add(headingSetMonths, 0, 4);
@@ -198,7 +200,24 @@ public class SmartHomeHeater implements SmartHomeObserver{
     public void observe(SmartHomeSubject subject) {
         subjects.add(subject);
     }
-    
+
+
+    public static void displayHeaterPane(String message){
+        GridPane layout = new GridPane();
+
+        Label heaterLabel = new Label(message);
+        layout.add(heaterLabel ,0,0);
+
+        ChoiceBox<String> heaterChoiceBox = new ChoiceBox<String>();
+
+        for(heat: heaters);// working here
+
+
+        heaterPane=layout;
+    }
+
+
+
     private class heater{
         boolean hvac;
         boolean cool;
@@ -379,7 +398,8 @@ public class SmartHomeHeater implements SmartHomeObserver{
                 throw new Exception("The temperature zone has not been set!");
             }
         }
-        
+
+
     }
     
 }
