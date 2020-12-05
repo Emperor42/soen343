@@ -119,7 +119,7 @@ public class SmartHomeHeater implements SmartHomeObserver{
 
         Label templabel1 = new Label("A/C control here?");
         layout.add(templabel1, 0, 2);
-        displayHeaterPane("Edit connected heaters here");
+        displayHeaterPane("Edit connected heaterzones here");
         layout.add(heaterPane, 0, 3);
 
         Label headingSetMonths = new Label("Set Months for Winter and Summer Seasons :");
@@ -233,10 +233,13 @@ public class SmartHomeHeater implements SmartHomeObserver{
         Label heaterLabel = new Label(message);
         layout.add(heaterLabel ,0,0);
 
-        ChoiceBox<String> heaterChoiceBox = new ChoiceBox<String>();
+        ChoiceBox<String> heatZoneChoiceBox = new ChoiceBox<String>();
 
-        for(heat: heaters);// working here
+        for(heatZone h :zones){
+            heatZoneChoiceBox.getItems().add(Integer.toString(h.getid()));
+        }
 
+        layout.add(heatZoneChoiceBox,0,1);
 
         heaterPane=layout;
     }
@@ -323,6 +326,11 @@ public class SmartHomeHeater implements SmartHomeObserver{
         long startA;
         long startB;
         long startC;
+
+        public int getid(){
+            return this.id;
+        }
+
         public heatZone(int id, double tempA){
             this.id = id;
             setA = true;
