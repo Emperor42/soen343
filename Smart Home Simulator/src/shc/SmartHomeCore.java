@@ -9,6 +9,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import shh.SmartHomeHeater;
 import static shp.SmartHomeSecurity.awayModePane;
 import static shp.SmartHomeSecurity.displayAwayModePane;
 import static shp.SmartHomeSecurity.layout;
@@ -17,7 +18,7 @@ import static shp.SmartHomeSecurity.layout;
  *
  * @author Matthew Giancola (40019131)
  */
-public class SmartHomeCore implements SmartHomeSubject{
+public class SmartHomeCore {
 
     public static Room[] roomArray = new Room[10];
     public static GridPane temp = new GridPane();
@@ -70,55 +71,52 @@ public class SmartHomeCore implements SmartHomeSubject{
     }
     
     public static void requestWindows(){
-        outData.setText("SHC COMMAND: WINDOWS");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS");
         if (activeRoom != null) {
             activeRoom.blockWindows();
-            outData.setText("SHC COMMAND: WINDOWS -|- "+"SUCCESS -|- VALUE: "+activeRoom.windowBlocked);
+            outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS -|- "+"SUCCESS -|- VALUE: "+activeRoom.windowBlocked);
             return;
         }
-        outData.setText("SHC COMMAND: WINDOWS -|- "+"ERROR!");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS -|- "+"ERROR!");
     }
     
     public static void requestDoors(){
-        outData.setText("SHC COMMAND: DOORS");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: DOORS");
         if (activeRoom != null) {
             activeRoom.blockDoor();
-            outData.setText("SHC COMMAND: DOORS -|- "+"SUCCESS -|- VALUE: "+activeRoom.doorBlocked);
+            outData.setText(outData.getText()+"\n"+"SHC COMMAND: DOORS -|- "+"SUCCESS -|- VALUE: "+activeRoom.doorBlocked);
             return;
         }
-        outData.setText("SHC COMMAND: DOORS -|- "+"ERROR!");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: DOORS -|- "+"ERROR!");
     }
     
     public static void requestLights(){
-        outData.setText("SHC COMMAND: LIGHTS");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: LIGHTS");
         if (activeRoom != null) {
             activeRoom.blockLight();
-            outData.setText("SHC COMMAND: LIGHTS -|- "+"SUCCESS -|- VALUE: "+activeRoom.lightBlocked);
+            outData.setText(outData.getText()+"\n"+"SHC COMMAND: LIGHTS -|- "+"SUCCESS -|- VALUE: "+activeRoom.lightBlocked);
             return;
         }
-        outData.setText("SHC COMMAND: LIGHTS -|- "+"ERROR!");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: LIGHTS -|- "+"ERROR!");
     }
     
     public static void requesAuto(){
-        outData.setText("SHC COMMAND: AUTO");
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: AUTO");
         if (activeRoom != null) {
             //activeRoom.blockDoor();
         }
     }
-
-    @Override
-    public void setState(Object state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public static void updateTemps(double[] temps){
+        Room tmp = activeRoom;//save the active room
+        for(int i=0;i<temps.length;i++){
+            activeRoom = roomArray[i];
+            activeRoom.displayTemp(temps[i]);
+            if(SmartHomeHeater.warnUser(temps[i])){
+                outData.setText(outData.getText()+"\n"+"PIPE MAY BURST!");
+            }
+        }
     }
 
-    @Override
-    public Object getState() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void attach(SmartHomeObserver a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

@@ -73,6 +73,10 @@ public class DigitalClock extends Label {
     public Calendar getTime() {
         return time;
     }
+    
+    public long getTimeMinute(){
+        return time.getTimeInMillis();
+    }
 
 }
 

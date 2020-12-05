@@ -10,5 +10,15 @@ package shc;
  * @author Matthew Giancola (40019131)
  */
 public interface SmartHomeObserver {
+
+    /**
+     *
+     */
     public void update();
+
+    /**
+     *
+     * @param subject
+     */
+    public  void observe(SmartHomeSubject subject);
 }

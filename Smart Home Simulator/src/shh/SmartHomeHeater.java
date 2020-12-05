@@ -5,6 +5,8 @@
  */
 package shh;
 
+import houseLayout.Room;
+import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -14,23 +16,75 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import shc.SmartHomeObserver;
+import shc.SmartHomeSubject;
 
 /**
  *
  * @author Matthew Giancola (40019131)
  */
 public class SmartHomeHeater implements SmartHomeObserver{
+    
+    ArrayList<SmartHomeSubject> subjects = new ArrayList<SmartHomeSubject>();
+    
+    public static final double tempChange = 0.05;
+    public static final double hvacChange = 0.1;
+    public static final double tempRange = 0.25;
+    public static final double warning = 0;
+    public static long sRangeLow =0;
+    public static long sRangeHigh=0;
+    
+    
+    public static long time=0;
+    public static double outTemp=20;
+    
+    //public static 
+    public static String log="";
+    
+    heater[] heaters;
+    ArrayList<heatZone> zones = new ArrayList<heatZone>();
+    
+    public SmartHomeHeater(Room[] rooms){
+        //instantiate and connect the different heaters
+        heaters = new heater[rooms.length];
+        zones.add(new heatZone(1, 21));
+        for (int i=0;i<rooms.length;i++){
+            //use the main heating zone for all the rooms by default
+            heaters[i]= new heater(rooms[i].getName(), zones.get(0));
+        }
+    }
+    
+    public static boolean warnUser(double check){
+        return check<=warning;
+    }
+    
+    public static boolean summerTime(double check){
+        //if time out of range return false
+        return check>=outTemp;
+    }
+    
+    public double[] pullRoomTemps(){
+        double[] ret = new double[heaters.length];
+        for(int i=0;i<ret.length;i++){
+            heaters[i].run(time, outTemp);
+        }
+        return ret;
+    }
+    
 
-    public static GridPane layout = new GridPane();
-
-    public static void display(String title, String message) {
+    public static GridPane display(String title, String message) {
         // place holder for
         // set the message and title
+        /*
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(450);
         window.setMinHeight(450);
+*/
+        if (outTemp<1){
+            message = message+" \n PIPE BURST POSSIBLE!";
+        }
+        GridPane layout = new GridPane();
         Label label = new Label(message);
         layout.add(label, 0, 1);
 
@@ -119,21 +173,215 @@ public class SmartHomeHeater implements SmartHomeObserver{
         Button btnSetMonths = new Button("Finish and Save Settings");
         btnSetMonths.setOnAction(e -> {
             //TODO: set months value for winter/Summer here
-            window.close();
+            //window.close();
         });
         layout.add(btnSetMonths, 0, 7);
 
 
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.show();
-
+        //Scene scene = new Scene(layout);
+        //window.setScene(scene);
+        //window.show();
+        return layout;
     }
 
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(int i=0;i<subjects.size();i++){
+            //if(subjects.get(i) instanceOf smartHomeSimulatorDashboard){
+                
+            //}
+        }
+    }
+
+    @Override
+    public void observe(SmartHomeSubject subject) {
+        subjects.add(subject);
+    }
+    
+    private class heater{
+        boolean hvac;
+        boolean cool;
+        boolean override;
+        String room;
+        heatZone zone;
+        double temp;
+        double target;
+        public heater(String room, heatZone zone){
+            hvac = false;
+            cool = false;
+            override=false;
+            this.room=room;
+            this.zone = zone;
+            temp = 20;
+            target = 20;
+        }
+        
+        private double tempChange(double outdoor){
+            if(hvac){
+                if(cool){
+                    temp = temp-hvacChange;
+                }else {
+                    temp = temp+hvacChange;
+                }
+            }else {
+                if(outdoor<temp){
+                    temp = temp-tempChange;
+                } else if (outdoor>temp){
+                    temp = temp+tempChange;
+                }
+            }
+            return temp;
+        }
+        
+        public double run(long time, double outdoor){
+            double tar = getTempTarget(time);
+            double th = tar+tempRange;
+            double tl= tar-tempRange;
+            if(th<=temp && temp <= tl){
+                //the temp is acceptable
+                hvac = false;
+                cool=false;                
+            } else if (th<temp){
+                hvac = true;
+                cool = true;
+            } else {
+                hvac = true;
+                cool = false;
+            }
+            //change the temp in the desired direction
+            return tempChange(outdoor);
+        }
+        
+        public double getTempTarget(long time){
+            if (override){
+                return target;
+            }else {
+                try {
+                    return zone.getTempTargetAtTime(time);
+                }catch (Exception E){
+                    return target;
+                }
+            }
+        }
+        
+    }
+    
+    private class heatZone{
+        int id;
+        double aTemp;
+        boolean setA;
+        double bTemp;
+        boolean setB;
+        double cTemp;
+        boolean setC;
+        //used when more than one is set
+        long startA;
+        long startB;
+        long startC;
+        public heatZone(int id, double tempA){
+            this.id = id;
+            setA = true;
+            setB =false;
+            setC = false;
+            aTemp = tempA;
+        }
+        
+        public heatZone(int id, double tempA, double tempB, long timeA, long timeB){
+            this.id = id;
+            setA = true;
+            setB =true;
+            setC = false;
+            aTemp = tempA;
+            bTemp = tempB;
+            startA = timeA;
+            startB = timeB;
+        }
+        public heatZone(int id, double tempA, double tempB, double tempC, long timeA, long timeB, long timeC){
+            this.id = id;
+            setA = true;
+            setB =true;
+            setC = true;
+            aTemp = tempA;
+            bTemp = tempB;
+            cTemp = tempC;
+            startA = timeA;
+            startB = timeB;
+            startC = timeC;
+        }
+        
+        private void resetZone(){
+            aTemp=0;
+            bTemp=0;
+            cTemp=0;
+            setA=false;
+            setB=false;
+            setC=false;
+            startA=0;
+            startB=0;
+            startC=0;
+        }
+        public void setSingleTempZone(double tempA){
+            resetZone();
+            setA=true;
+            aTemp=tempA;
+        }
+        
+        public void setDoubleTempZone(double tempA, double tempB, long timeA, long timeB){
+            resetZone();
+            setA = true;
+            setB =true;
+            aTemp = tempA;
+            bTemp = tempB;
+            startA = timeA;
+            startB = timeB;
+        }
+        public void setTripleTempZone(double tempA, double tempB, double tempC, long timeA, long timeB, long timeC){
+            resetZone();
+            setA = true;
+            setB =true;
+            setC = true;
+            aTemp = tempA;
+            bTemp = tempB;
+            cTemp = tempC;
+            startA = timeA;
+            startB = timeB;
+            startC = timeC;
+        }
+        
+        
+        public double getTempTargetAtTime(long timeNow) throws Exception{
+            if(setA){
+                if(setB){
+                    if (setC){
+                        //use the time frame for A, B and C
+                        if (timeNow<startA || timeNow>=startB){
+                            //the time is inside of the frame for the B temperature
+                            return bTemp;
+                        }
+                        return aTemp;
+                    }else {
+                        //use the time frame for A and B
+                        if (timeNow>=startA && timeNow<startB){
+                            //the time is inside of the frame for the B temperature
+                            return aTemp;
+                        } else if (timeNow >= startB && timeNow<startC){
+                            return bTemp;
+                        }else{
+                            return cTemp;
+                        }
+                    }
+                }else{
+                    //set ignoring the time frame
+                    return aTemp;
+                }
+            } else{
+                throw new Exception("The temperature zone has not been set!");
+            }
+        }
+        
     }
     
 }
+
+

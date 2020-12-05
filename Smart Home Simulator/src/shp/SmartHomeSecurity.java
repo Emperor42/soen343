@@ -1,5 +1,6 @@
 package shp;
 
+import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -13,8 +14,10 @@ import shc.SmartHomeSubject;
  *
  * @author Justin Loh 40073776
  */
-public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
+public class SmartHomeSecurity implements SmartHomeSubject{
 
+    ArrayList<SmartHomeObserver> observers = new ArrayList<SmartHomeObserver>();
+    
     public static GridPane layout = new GridPane();
     public static GridPane awayModePane = new GridPane();
     public static GridPane lightControlPane = new GridPane();
@@ -22,6 +25,8 @@ public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
     public static Button saveAndClose = new Button("Save All Changes and Close Window"); // set static in case need to remove/readd
 
     public static int min;
+    
+    public static boolean away = false;
 
     public static Label timeLabel;
 
@@ -51,11 +56,13 @@ public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
 
         buttonOn.setOnAction(event -> {
             System.out.println("ON");
+            away = true;
             displayAwayModePane(layout, 0, 5);
         });
 
         buttonOff.setOnAction(event -> {
             System.out.println("OFF");
+            away = false;
             layout.getChildren().remove(awayModePane);
         });
 
@@ -206,14 +213,20 @@ public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
 
     }
 
-    @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void setState(Object state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean setting;
+        try{
+            setting = (boolean)state;
+        }catch (Exception E){
+            setting = away;
+        }
+        for(int i=0;i<observers.size();i++){
+            
+        }
+        
     }
 
     @Override
@@ -223,7 +236,8 @@ public class SmartHomeSecurity implements SmartHomeObserver, SmartHomeSubject{
 
     @Override
     public void attach(SmartHomeObserver a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.observers.add(a);
+        a.observe(this);
     }
 
 }

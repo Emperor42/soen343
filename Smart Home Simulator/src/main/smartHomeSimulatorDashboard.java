@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 import houseLayout.Person;
 import houseLayout.Room;
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -35,6 +36,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import shc.SmartHomeCore;
+import shc.SmartHomeObserver;
+import shc.SmartHomeSubject;
 import shh.SmartHomeHeater;
 import shp.SmartHomeSecurity;
 
@@ -42,8 +45,10 @@ import shp.SmartHomeSecurity;
  *
  * @author Matthew Giancola 40019131
  */
-public class smartHomeSimulatorDashboard extends Application {
+public class smartHomeSimulatorDashboard extends Application implements SmartHomeSubject{
 
+    static ArrayList<SmartHomeObserver> observers = new ArrayList<SmartHomeObserver>();
+    
     public static boolean runSimulation = false;
     public int activeModule = 0;
     public static GridPane SimulationPane = new GridPane();
@@ -77,12 +82,15 @@ public class smartHomeSimulatorDashboard extends Application {
     Label currentLocation = new Label("Select Room");
     VBox listOfOccupants = new VBox();
 
+    public smartHomeSimulatorDashboard(){  
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         houseLayout.BuildJsonFile.Prep();
 
         //for the simulation pane
-        displaySimulationPane(currentUserLabel, currentLocation, 15, rootLayoutMain, primaryStage, occupantsInRoom, listOfOccupants);
+        displaySimulationPane(currentUserLabel, currentLocation, newTemp, rootLayoutMain, primaryStage, occupantsInRoom, listOfOccupants);
         //for the module pane
         displayModuleTabs(rootLayoutMain, 1, 0, bSHS, bSHC, bSHP, bSHH, bPLUS);
         //displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
@@ -158,6 +166,10 @@ public class smartHomeSimulatorDashboard extends Application {
                 break;
             case 2:
                 temp.add(SmartHomeSecurity.module(), 0, 0);
+                System.out.println("SHS--not showing!");
+                break;
+            case 3:
+                temp.add(SmartHomeHeater.display("Test SHH","TEST"), 0, 0);
                 System.out.println("SHS--not showing!");
                 break;
         }
@@ -285,7 +297,6 @@ public class smartHomeSimulatorDashboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Dummy Function");
-                SmartHomeHeater.display("Test SHH","TEST");
                 activeModule = 3;
                 displayModuleInterface(activeModule, 1, 1, rootLayoutMain, currentModuleInterface, changeUser);
             }
@@ -598,8 +609,19 @@ public class smartHomeSimulatorDashboard extends Application {
             if (runSimulation){
                 System.out.println("Runs");
                 displayOutputSimulationView(ta, tx, ty, "", ts);
+                onUpdate();
             }
         }
+    }
+    
+    public static void onUpdate(){
+        smartHomeSimulatorDashboard a = new smartHomeSimulatorDashboard();
+        double[] newTemps = (double[]) a.getState();
+        for (int i=0;i<= newTemps.length;i++){
+            SmartHomeCore.roomArray[i].displayTemp(newTemps[i]);
+        }
+        a.setState(observers.get(0));
+        observers.get(0).update();
     }
     
     /**
@@ -675,6 +697,28 @@ public class smartHomeSimulatorDashboard extends Application {
         }
         );
         append.add(application.SetDateAndTime.layout, x, y);
+    }
+
+    @Override
+    public void setState(Object state) {
+        if(state instanceof  SmartHomeHeater){
+            //update for the smart home heater
+            SmartHomeHeater use = (SmartHomeHeater)state;
+            use.time = adjClock.getTimeMinute();//set to the given clock time as of now
+            use.outTemp = (double)newTemp;
+        }
+    }
+
+    @Override
+    public Object getState() {
+        //pull an array of temps
+        return ((SmartHomeHeater)observers.get(0)).pullRoomTemps();
+    }
+
+    @Override
+    public void attach(SmartHomeObserver a) {
+        this.observers.add(a);
+        a.observe(this);
     }
 
 }

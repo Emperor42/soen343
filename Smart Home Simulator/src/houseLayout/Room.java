@@ -30,7 +30,7 @@ public class Room {
     }
 
     public String UpdatedOutput(String given) {
-        return given + "\n" + " (" + noOfOccupants + ")";
+        return given + "\n" + " (" + noOfOccupants + ")|["+lastTmp+" C]";
     }
 
     public boolean doorBlocked() {
@@ -45,11 +45,16 @@ public class Room {
     int doors;
     Person[] occupants = new Person[10]; // limit of 10 people per room
     int noOfOccupants = 0;
+    double lastTmp = 20;
     //simple boolean for a blocked window/door
     public boolean windowBlocked = false;
     public boolean doorBlocked = false;
     public boolean lightBlocked = true;
 
+    public void displayTemp(double input){
+        lastTmp = input;
+    }
+    
     public void addOccupants(Person p) {
 
         for (int i = 0; i < 11; i++) {
