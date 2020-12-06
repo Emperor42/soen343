@@ -21,12 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="697dc889-e56c-49aa-9324-31a36006b198" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shh/SmartHomeHeater.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shh/SmartHomeHeater.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shp/SmartHomeSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shp/SmartHomeSecurity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/houseLayout/ReadJsonFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/houseLayout/ReadJsonFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/main/smartHomeSimulatorDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/main/smartHomeSimulatorDashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/test/tests/JUNITTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/test/tests/JUNITTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
