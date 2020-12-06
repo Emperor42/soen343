@@ -105,8 +105,16 @@ public class JUNITTests {
     @Test
     public void MovePeopleTest() {
         System.out.println("TESTING FOR USE CASE: Move people");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        Person p1 = new Person;
+        Room kitchen = new Room();
+        Room bedroom = new Room();
+        kitchen.addOccupants(p1);
+        Person[] kitchenPersons = kitchen.getOccupants();
+        assertEquals(kitchenPersons[0], p1);
+        kitchen.removeOccupants(p1);
+        bedroom.addOccupants(p1);
+        Person[] bedroomPersons = bedroom.getOccupants();
+        assertEquals(bedroomPersons, p1);
     }
 
     @Test
@@ -119,9 +127,30 @@ public class JUNITTests {
     @Test
     public void BlockWindowsTest() {
         System.out.println("TESTING FOR USE CASE: Block windows");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        Room bedroom = new Room();
+        bedroom.setWindows(3);
+        bedroom.blockWindows();
+        assertEquals(true, bedroom.windowBlocked);
     }
+
+    @Test
+    public void BlockDoorsTest() {
+        System.out.println("TESTING FOR USE CASE: Block doors");
+        Room bedroom = new Room();
+        bedroom.setDoors(3);
+        bedroom.blockDoors();
+        assertEquals(true, bedroom.doorBlocked);
+    }
+
+    @Test
+    public void BlockLightsTest() {
+        System.out.println("TESTING FOR USE CASE: Block lights");
+        Room bedroom = new Room();
+        bedroom.setLights(3);
+        bedroom.blockLights();
+        assertEquals(false, bedroom.lightBlocked);
+    }
+
 
     @Test
     public void UpdateHouseLayoutTest() {
@@ -132,8 +161,7 @@ public class JUNITTests {
 
     @Test
     public void SetElapsedTimeForAlertingAuthoritiesTest() {
-        System.out.println("TESTING FOR USE CASE: Block windows");
-
+        System.out.println("TESTING FOR USE CASE: Set Elapsed Time For Alerting Authorities");
         assertEquals(true, false);
     }
 
@@ -147,8 +175,8 @@ public class JUNITTests {
     @Test
     public void SetAwayModeTest() {
         System.out.println("TESTING FOR USE CASE: Block windows");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        boolean b = SmartHomeSecurity.awayMode;
+        assertEquals(false, b);
     }
 
     @Test
@@ -182,15 +210,26 @@ public class JUNITTests {
     @Test
     public void ChangeTimeSpeedTest() {
         System.out.println("TESTING FOR USE CASE: Block windows");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        AdjustableClock ac = new AdjustableClock();
+        assertEquals(1, ac.rate);
+        ac.changeSpeed(0.0);
+        assertEquals(0.5, ac.rate);
+        ac.changeSpeed(2.0);
+        assertEquals(100, ac.rate);
+        ac.changeSpeed(3.0);
+        assertEquals(5000, ac.rate);
+
     }
 
     @Test
     public void SavingProfileTest() {
         System.out.println("TESTING FOR USE CASE: Block windows");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        Profile p1 = new Profile("Parent",true,true,true,true,true,true);
+        Profile p2 = new Profile("Child",true,true,true,false,true,false);
+        Profile p3 = new Profile("Guest",true,true,false,false,false,false);
+        Profile p4 = new Profile("Stranger",false,false,false,false,false,false);
+        application.ProfileManagement.saveProfile(p1,p2,p3,p4);
+        assertEquals(!null,application.ProfileManagement.userprofile);
     }
 
 }

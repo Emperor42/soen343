@@ -17,6 +17,9 @@ public class Room {
         Name = name;
     }
 
+
+
+
     /**
      * A function to see if the given name from the Room JSON is the same as
      * this room

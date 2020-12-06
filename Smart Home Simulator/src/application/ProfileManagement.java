@@ -15,6 +15,8 @@ public class ProfileManagement {
     final boolean ha = true;
     static JSONArray profileArray;
 
+    JSONObject userprofile = null;
+
     public ProfileManagement() {
         profileArray = new JSONArray();
     }
@@ -104,7 +106,7 @@ public class ProfileManagement {
 
         JSONObject profile = new JSONObject(); // name the array Profile
         profile.put("Profile", userPermission);
-
+        userprofile=profile;
         // rewrite the profile.json file
         try (FileWriter file = new FileWriter("profiles.json",false))
         {

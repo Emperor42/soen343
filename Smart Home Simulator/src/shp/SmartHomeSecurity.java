@@ -29,6 +29,8 @@ public class SmartHomeSecurity implements SmartHomeSubject{
     public static boolean away = false;
 
     public static Label timeLabel;
+
+    public static boolean awayMode = false;
     
     public SmartHomeSecurity(){}
 
@@ -96,11 +98,13 @@ public class SmartHomeSecurity implements SmartHomeSubject{
 
         buttonOn.setOnAction(event -> {
             System.out.println("ON");
+            awayMode = true;
             displayAwayModePane(layout, 0, 5);
         });
 
         buttonOff.setOnAction(event -> {
             System.out.println("OFF");
+            awayMode = false;
             layout.getChildren().remove(awayModePane);
         });
         return layout;
