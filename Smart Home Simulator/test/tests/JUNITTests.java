@@ -41,8 +41,27 @@ public class JUNITTests {
     @Test
     public void ManageUserProfileTest() {
         System.out.println("TESTING FOR USE CASE: Manage user profile");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        String profileName = ("Parent");
+        Profile p1 = application.ProfileManagement.findProfileFromName(profileName);
+        Profile p2 = new Profile("Parent",true,true,true,true,true,true);
+
+        String profileName = ("Child");
+        Profile p3 = application.ProfileManagement.findProfileFromName(profileName);
+        Profile p4 = new Profile("Child",true,true,true,false,true,false);
+
+        String profileName = ("Guest");
+        Profile p5 = application.ProfileManagement.findProfileFromName(profileName);
+        Profile p6 = new Profile("Guest",true,true,false,false,false,false);
+
+        String profileName = ("Stranger");
+        Profile p7 = application.ProfileManagement.findProfileFromName(profileName);
+        Profile p8 = new Profile("Stranger",false,false,false,false,false,false);
+
+        assertEquals(p1, p2);
+        assertEquals(p3, p4);
+        assertEquals(p5, p6);
+        assertEquals(p8, p8);
+
     }
 
     @Test
@@ -93,8 +112,8 @@ public class JUNITTests {
     @Test
     public void ModifyTemperatureOutsideHomeTest() {
         System.out.println("TESTING FOR USE CASE: Modify temperature outside home");
-        System.out.println("Not Fully Implemented!");
-        assertEquals(true, false);
+        int oldTemperature = 20;
+        assertEquals(main.smartHomeDashboard.newTemp ,oldTemperature);
     }
 
     @Test
@@ -114,7 +133,7 @@ public class JUNITTests {
     @Test
     public void SetElapsedTimeForAlertingAuthoritiesTest() {
         System.out.println("TESTING FOR USE CASE: Block windows");
-        System.out.println("Not Fully Implemented!");
+
         assertEquals(true, false);
     }
 

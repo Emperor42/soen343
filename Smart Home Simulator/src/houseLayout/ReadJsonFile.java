@@ -15,6 +15,7 @@ import javax.lang.model.SourceVersion;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import shc.SmartHomeCore;
 
 public class ReadJsonFile {
 
@@ -27,7 +28,9 @@ public class ReadJsonFile {
             Object obj = parser.parse(reader);
             JSONObject jsonObject = (JSONObject) obj;
             roomArray = (JSONArray) jsonObject.get("Rooms");
-            reader.close();
+            System.out.println("Here is "+roomArray.toString());
+
+//            reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("I could not find the file");
             e.getMessage();

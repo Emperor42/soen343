@@ -21,8 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="697dc889-e56c-49aa-9324-31a36006b198" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shh/SmartHomeHeater.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shh/SmartHomeHeater.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/shh/SmartHomeHeater.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/shh/SmartHomeHeater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shp/SmartHomeSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shp/SmartHomeSecurity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/houseLayout/ReadJsonFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/houseLayout/ReadJsonFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/main/smartHomeSimulatorDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/main/smartHomeSimulatorDashboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/test/tests/JUNITTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/test/tests/JUNITTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +59,11 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.20689656" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alexm\Documents\GitHub\Soen343_alt\soen343\Smart Home Simulator\src\houseLayout" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="smartHomeSimulatorDashboard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -99,6 +108,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" width="1089" height="713" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1606974083964" />
+    <state x="428" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607230766925">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="428" y="214" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1607230766925" />
     <state x="498" y="214" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1606974080615">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -107,22 +120,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="473" y="154" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604788931690" />
-    <state width="1493" height="177" key="GridCell.Tab.0.bottom" timestamp="1607212017794">
+    <state width="1493" height="177" key="GridCell.Tab.0.bottom" timestamp="1607250862694">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
-    <state width="1493" height="177" key="GridCell.Tab.0.center" timestamp="1607212017794">
+    <state width="1493" height="177" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607250862694" />
+    <state width="1493" height="177" key="GridCell.Tab.0.center" timestamp="1607250862693">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
-    <state width="1493" height="177" key="GridCell.Tab.0.left" timestamp="1607212017794">
+    <state width="1493" height="177" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607250862693" />
+    <state width="1493" height="177" key="GridCell.Tab.0.left" timestamp="1607250862692">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
-    <state width="1493" height="177" key="GridCell.Tab.0.right" timestamp="1607212017794">
+    <state width="1493" height="177" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607250862692" />
+    <state width="1493" height="177" key="GridCell.Tab.0.right" timestamp="1607250862693">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
+    <state width="1493" height="177" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607250862693" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1604653669965">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -147,5 +160,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="498" y="304" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1604788924181" />
+    <state x="478" y="0" width="579" height="824" key="find.popup" timestamp="1607234755297">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="478" y="0" width="579" height="824" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607234755297" />
   </component>
 </project>

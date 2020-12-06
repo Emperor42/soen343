@@ -350,10 +350,13 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
         //Room control elements begin here
         //choice box with rooms parsed from json file
         ChoiceBox<String> roomBox = new ChoiceBox<>();
+        System.out.println("I AM HERE");
+        System.out.println("THIS IS "+SmartHomeCore.roomArray[0].toString());
+
         for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
             if (SmartHomeCore.roomArray[i] != null) {
                 roomBox.getItems().add(SmartHomeCore.roomArray[i].getName());
-            } 
+            }
         }//add in the heaters
         shh = new shh.SmartHomeHeater(SmartHomeCore.roomArray);
         shp.SmartHomeSecurity s = new shp.SmartHomeSecurity();
