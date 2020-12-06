@@ -57,7 +57,7 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
     //Check if this is first run
     boolean first = true;
     //
-    private static int newTemp = 20;
+    private static long newTemp = 20;
     private double newTimeSpeed = 0;
     private AdjustableClock adjClock;
     //root pane for the drawing, we attach the component to this
@@ -190,7 +190,7 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
      * @param temp
      * @author Matthew Giancola 40019131 & Justin Loh 40073776
      */
-    public void displaySimulationPane(GridPane userName, Label userLocation, int outTemp, GridPane temp, Stage primaryStage, Label occupantHeading, VBox occupants) {
+    public void displaySimulationPane(GridPane userName, Label userLocation, long outTemp, GridPane temp, Stage primaryStage, Label occupantHeading, VBox occupants) {
         //front Simulation heading, STATIC LABEL
         Label simHeading = new Label("Simulation");
         temp.add(simHeading, 0, 0);
@@ -241,7 +241,7 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
         Button setTemp = new Button();
         setTemp.setText("Set Temperature");
         setTemp.setOnAction(e -> {
-            newTemp = (int) tempSlider.getValue();
+            newTemp = (long) tempSlider.getValue();
             temp.getChildren().remove(tempOut);
             tempOut.setText(newTemp + " C");
             temp.add(tempOut, 0, 6);

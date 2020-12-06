@@ -128,6 +128,15 @@ public class SmartHomeCore {
                 System.out.println("TEMP CHANGING..."+i);
                 System.out.println("TEMP VALUE..."+temps[i]);
                 activeRoom.displayTemp(temps[i]);
+                if(SmartHomeHeater.hvacState(i)){
+                    if(SmartHomeHeater.coolState(i)){
+                        activeRoom.hvacStatus =-1;
+                    } else {
+                        activeRoom.hvacStatus =1;
+                    }
+                } else{
+                    activeRoom.hvacStatus =0;
+                }
                 if(SmartHomeHeater.warnUser(temps[i])){
                     outData.setText(outData.getText()+"\n"+"PIPE MAY BURST!");
                 }
