@@ -320,17 +320,18 @@ public class SmartHomeHeater implements SmartHomeObserver{
         private double tempChange(double outdoor){
             if(hvac){
                 if(cool){
-                    temp = temp-hvacChange;
+                    this.temp = this.temp-hvacChange;
                 }else {
-                    temp = temp+hvacChange;
+                    this.temp = this.temp+hvacChange;
                 }
             }else {
-                if(outdoor<temp){
-                    temp = temp-tempChange;
+                if(outdoor<=temp){
+                    this.temp = this.temp-tempChange;
                 } else if (outdoor>temp){
-                    temp = temp+tempChange;
+                    this.temp = this.temp+tempChange;
                 }
             }
+            System.out.println(room+" temp "+temp+" HVAC/COOL "+hvac+"/"+cool+" OD:"+outdoor);
             return temp;
         }
         
@@ -338,14 +339,20 @@ public class SmartHomeHeater implements SmartHomeObserver{
             double tar = getTempTarget(time);
             double th = tar+tempRange;
             double tl= tar-tempRange;
-            if(th<=temp && temp <= tl){
+            System.out.println(tar);
+            System.out.println(th);
+            System.out.println(tl);
+            if(th>temp && tl< temp){
                 //the temp is acceptable
+                System.out.println("flag1");
                 hvac = false;
                 cool=false;                
             } else if (th<temp){
+                System.out.println("flag2");
                 hvac = true;
                 cool = true;
             } else {
+                System.out.println("flag3");
                 hvac = true;
                 cool = false;
             }

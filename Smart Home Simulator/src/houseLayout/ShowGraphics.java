@@ -13,6 +13,7 @@ public class ShowGraphics {
     private static final long serialVersionUID = 1L;
     private static Color mainDrawingColour = Color.BLUE;
     private static Color onColour = Color.GREEN;
+    private static Color heatColour = Color.PURPLE;
     private static Color offColour = Color.RED;
 
     private static void drawRoomLeft(GraphicsContext g, String s, Room data) {
@@ -25,6 +26,17 @@ public class ShowGraphics {
         g.strokeRect(0, 0, 25, 25);
 
         g.strokeText("W", 10, 15);          //Represents the windows
+        
+        if (data.hvacStatus==0) {
+            g.setStroke(offColour);
+        } else if(data.hvacStatus<0){
+            g.setStroke(onColour);
+        } else{
+            g.setStroke(heatColour);
+        }
+        g.strokeRect(30, 0, 25, 25);
+
+        g.strokeText("H", 30, 15);          //Represents the heater
 
         g.translate(25, 0);
         g.setStroke(mainDrawingColour);
@@ -70,6 +82,18 @@ public class ShowGraphics {
         g.strokeRect(100, 0, 25, 25);
 
         g.strokeText("W", 105, 15);
+        
+        if (data.hvacStatus==0) {
+            g.setStroke(offColour);
+        } else if(data.hvacStatus<0){
+            g.setStroke(onColour);
+        } else{
+            g.setStroke(heatColour);
+        }
+        g.strokeRect(30, 0, 25, 25);
+
+        g.strokeText("H", 30, 15);          //Represents the heater
+        
         g.setStroke(mainDrawingColour);
         g.strokeText(s, 20, 50);
         g.translate(-25, 75);

@@ -30,7 +30,7 @@ public class Room {
     }
 
     public String UpdatedOutput(String given) {
-        return given + "\n" + " (" + noOfOccupants + ")|["+lastTmp+" C]";
+        return given + "\n" + " (" + noOfOccupants + ")|["+String.format("%.2f", lastTmp)+" C]";
     }
 
     public boolean doorBlocked() {
@@ -50,9 +50,11 @@ public class Room {
     public boolean windowBlocked = false;
     public boolean doorBlocked = false;
     public boolean lightBlocked = true;
+    public int hvacStatus=0;
 
     public void displayTemp(double input){
         lastTmp = input;
+        
     }
     
     public void addOccupants(Person p) {
