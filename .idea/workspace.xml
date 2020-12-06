@@ -21,41 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="697dc889-e56c-49aa-9324-31a36006b198" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/AdjustableClock.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/AdjustableClock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/DigitalClock$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/DigitalClock$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/DigitalClock.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/DigitalClock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/Profile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/ProfileManagement.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/ProfileManagement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/SetDateAndTime.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/SetDateAndTime.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/StringUtilities.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/application/StringUtilities.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/BuildJsonFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/BuildJsonFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/Person.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/Person.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/ReadJsonFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/ReadJsonFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/ShowGraphics.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/houseLayout/ShowGraphics.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/main/smartHomeSimulatorDashboard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shc/SmartHomeCore.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shp/SmartHomeSecurity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shp/SmartHomeSecurity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/main/smartHomeSimulatorDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/main/smartHomeSimulatorDashboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shh/SmartHomeHeater.class" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/build/classes/shh/SmartHomeHeater.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/shh/SmartHomeHeater.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/shh/SmartHomeHeater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smart Home Simulator/src/shp/SmartHomeSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Smart Home Simulator/src/shp/SmartHomeSecurity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,22 +107,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="473" y="154" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604788931690" />
-    <state width="1493" height="177" key="GridCell.Tab.0.bottom" timestamp="1607022283256">
+    <state width="1493" height="177" key="GridCell.Tab.0.bottom" timestamp="1607212017794">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607022283256" />
-    <state width="1493" height="177" key="GridCell.Tab.0.center" timestamp="1607022283256">
+    <state width="1493" height="177" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
+    <state width="1493" height="177" key="GridCell.Tab.0.center" timestamp="1607212017794">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607022283256" />
-    <state width="1493" height="177" key="GridCell.Tab.0.left" timestamp="1607022283255">
+    <state width="1493" height="177" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
+    <state width="1493" height="177" key="GridCell.Tab.0.left" timestamp="1607212017794">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607022283255" />
-    <state width="1493" height="177" key="GridCell.Tab.0.right" timestamp="1607022283256">
+    <state width="1493" height="177" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
+    <state width="1493" height="177" key="GridCell.Tab.0.right" timestamp="1607212017794">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="177" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607022283256" />
+    <state width="1493" height="177" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607212017794" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1604653669965">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
