@@ -41,7 +41,7 @@ public class DigitalClock extends Label {
                         String ampmString = time.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
                         setText(hourString + ":" + minuteString + ":" + secondString + " " + ampmString);
                         time.set(Calendar.SECOND, time.get(Calendar.SECOND) + 1);
-                        smartHomeSimulatorDashboard.updateOutput();
+                        smartHomeSimulatorDashboard.updateOutput(time.get(Calendar.SECOND), time.get(Calendar.MONTH));
                     }
                 }
                 ),

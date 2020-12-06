@@ -70,6 +70,19 @@ public class SmartHomeCore {
         return aux;
     }
     
+    public static void requestWindows(int i){
+        if(i<0 || i>=roomArray.length){
+            outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS");
+            if (roomArray[i] != null) {
+                roomArray[i].blockWindows();
+                outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS -|- "+"SUCCESS -|- VALUE: "+roomArray[i].windowBlocked);
+                return;
+            }
+        }
+        outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS -|- "+"ERROR!");
+        
+    }
+    
     public static void requestWindows(){
         outData.setText(outData.getText()+"\n"+"SHC COMMAND: WINDOWS");
         if (activeRoom != null) {
@@ -111,9 +124,13 @@ public class SmartHomeCore {
         Room tmp = activeRoom;//save the active room
         for(int i=0;i<temps.length;i++){
             activeRoom = roomArray[i];
-            activeRoom.displayTemp(temps[i]);
-            if(SmartHomeHeater.warnUser(temps[i])){
-                outData.setText(outData.getText()+"\n"+"PIPE MAY BURST!");
+            if (activeRoom!=null){
+                System.out.println("TEMP CHANGING..."+i);
+                System.out.println("TEMP VALUE..."+temps[i]);
+                activeRoom.displayTemp(temps[i]);
+                if(SmartHomeHeater.warnUser(temps[i])){
+                    outData.setText(outData.getText()+"\n"+"PIPE MAY BURST!");
+                }
             }
         }
     }

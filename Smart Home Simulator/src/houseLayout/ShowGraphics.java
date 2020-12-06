@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 
 import org.json.simple.JSONObject;
+import shc.SmartHomeCore;
 
 public class ShowGraphics {
 

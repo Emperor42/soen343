@@ -32,8 +32,10 @@ public class SmartHomeHeater implements SmartHomeObserver{
     public static final double warning = 0;
     public static long sRangeLow =0;
     public static long sRangeHigh=0;
+    public static long wRangeLow =0;
+    public static long wRangeHigh=0;
     
-    
+    public static long month=0;
     public static long time=0;
     public static double outTemp=20;
     
@@ -47,11 +49,19 @@ public class SmartHomeHeater implements SmartHomeObserver{
     
     public SmartHomeHeater(Room[] rooms){
         //instantiate and connect the different heaters
+        System.out.println(rooms.length);
         heaters = new heater[rooms.length];
         zones.add(new heatZone(1, 21));
         for (int i=0;i<rooms.length;i++){
             //use the main heating zone for all the rooms by default
-            heaters[i]= new heater(rooms[i].getName(), zones.get(0));
+            System.out.println(zones.get(0));
+            System.out.println(i);
+            //System.out.println(rooms[i].getName());
+            String tmp = "";//rooms[i].getName();
+            if (tmp==null){
+                tmp = "HEATER_"+i;
+            }
+            heaters[i]= new heater(tmp, zones.get(0));
         }
     }
     
@@ -82,20 +92,28 @@ public class SmartHomeHeater implements SmartHomeObserver{
         return check<=warning;
     }
     
-    public static boolean summerTime(double check){
+    public static boolean summerTime(){
         //if time out of range return false
-        return check>=outTemp;
+        return sRangeLow<=month && month <=sRangeHigh;
     }
     
-    public double[] pullRoomTemps(){
+    public static double[] pullRoomTemps(){
         double[] ret = new double[heaters.length];
         for(int i=0;i<ret.length;i++){
             heaters[i].run(time, outTemp);
+            ret[i] = heaters[i].temp;
         }
         return ret;
     }
     
+    public static boolean hvacState(int i){
+        return heaters[i].hvac;
+    }
 
+    public static boolean coolState(int i){
+        return heaters[i].cool;
+    }
+    
     public static GridPane display(String title, String message) {
         // place holder for
         // set the message and title
@@ -199,6 +217,10 @@ public class SmartHomeHeater implements SmartHomeObserver{
         btnSetMonths.setOnAction(e -> {
             //TODO: set months value for winter/Summer here
             //window.close();
+            sRangeLow =monthStringToLong(monthBox3.getValue());
+            sRangeHigh=monthStringToLong(monthBox4.getValue());
+            wRangeLow =monthStringToLong(monthBox1.getValue());
+            wRangeHigh=monthStringToLong(monthBox2.getValue());
         });
         layout.add(btnSetMonths, 0, 7);
 
@@ -208,14 +230,45 @@ public class SmartHomeHeater implements SmartHomeObserver{
         //window.show();
         return layout;
     }
+    
+    private static long monthStringToLong(String s){
+        long r=0;
+        switch(s){
+            case "January": r =1;break;
+            case "February": r=2;break;
+            case "March": r=3;break;
+            case "April": r=4;break;
+            case "May": r=5;break;
+            case "June": r=6;break;
+            case "July": r=7;break;
+            case "August": r=8;break;
+            case "September": r=9;break;
+            case "October": r=10;break;
+            case "November": r=11;break;
+            case "December": r=12;break;
+        }
+        return r;
+    }
 
 
     @Override
     public void update() {
         for(int i=0;i<subjects.size();i++){
-            //if(subjects.get(i) instanceOf smartHomeSimulatorDashboard){
-                
-            //}
+            if(subjects.get(i) instanceof main.smartHomeSimulatorDashboard){
+                for(int k=0;k<heaters.length;k++){
+                    heaters[k].run(time, outTemp);
+                }
+            }
+            if(subjects.get(i) instanceof shp.SmartHomeSecurity){
+                if(summerTime() && !shp.SmartHomeSecurity.away){
+                    //we can try and open windows
+                    for(int k=0;k<heaters.length;k++){
+                        if(heaters[k].openWindow(outTemp)){
+                            shc.SmartHomeCore.requestWindows(k);//sets the windows for the specific area
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -288,6 +341,10 @@ public class SmartHomeHeater implements SmartHomeObserver{
                     return target;
                 }
             }
+        }
+        
+        public boolean openWindow(double temp){
+            return temp<=this.temp;
         }
         
     }

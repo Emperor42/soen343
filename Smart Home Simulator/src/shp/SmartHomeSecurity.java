@@ -29,6 +29,8 @@ public class SmartHomeSecurity implements SmartHomeSubject{
     public static boolean away = false;
 
     public static Label timeLabel;
+    
+    public SmartHomeSecurity(){}
 
     public static void display(String title, String message) {
 

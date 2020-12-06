@@ -57,7 +57,7 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
     //Check if this is first run
     boolean first = true;
     //
-    private int newTemp = 20;
+    private static int newTemp = 20;
     private double newTimeSpeed = 0;
     private AdjustableClock adjClock;
     //root pane for the drawing, we attach the component to this
@@ -82,13 +82,15 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
     Label currentLocation = new Label("Select Room");
     VBox listOfOccupants = new VBox();
 
+    shh.SmartHomeHeater shh;
+    
     public smartHomeSimulatorDashboard(){  
     }
     
     @Override
     public void start(Stage primaryStage) {
         houseLayout.BuildJsonFile.Prep();
-
+        
         //for the simulation pane
         displaySimulationPane(currentUserLabel, currentLocation, newTemp, rootLayoutMain, primaryStage, occupantsInRoom, listOfOccupants);
         //for the module pane
@@ -109,6 +111,7 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
      */
     public static void main(String[] args) {
         houseLayout.BuildJsonFile.Prep();
+        
         launch(args);
     }
 
@@ -350,8 +353,12 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
         for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
             if (SmartHomeCore.roomArray[i] != null) {
                 roomBox.getItems().add(SmartHomeCore.roomArray[i].getName());
-            }
-        }
+            } 
+        }//add in the heaters
+        shh = new shh.SmartHomeHeater(SmartHomeCore.roomArray);
+        shp.SmartHomeSecurity s = new shp.SmartHomeSecurity();
+        s.attach(shh);
+        this.attach(shh);
         RoomControlPane.add(roomBox, 0, 1);
         // button which shows room information based on choicebox
         Button btnRoom = new Button("Add Person");
@@ -604,22 +611,23 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
          */
     }
 
-    public static void updateOutput(){
+    public static void updateOutput(long second, long month){
         if (ta != null && ts != null) {
             if (runSimulation){
                 System.out.println("Runs");
                 displayOutputSimulationView(ta, tx, ty, "", ts);
-                onUpdate();
+                onUpdate(second, month);
             }
         }
     }
     
-    public static void onUpdate(){
+    public static void onUpdate(long second, long month){
+        SmartHomeHeater.month = month;
+        SmartHomeHeater.time=second;
+        SmartHomeHeater.outTemp=newTemp;
         smartHomeSimulatorDashboard a = new smartHomeSimulatorDashboard();
         double[] newTemps = (double[]) a.getState();
-        for (int i=0;i<= newTemps.length;i++){
-            SmartHomeCore.roomArray[i].displayTemp(newTemps[i]);
-        }
+        SmartHomeCore.updateTemps(newTemps);
         a.setState(observers.get(0));
         observers.get(0).update();
     }
@@ -701,18 +709,22 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
 
     @Override
     public void setState(Object state) {
-        if(state instanceof  SmartHomeHeater){
-            //update for the smart home heater
-            SmartHomeHeater use = (SmartHomeHeater)state;
-            use.time = adjClock.getTimeMinute();//set to the given clock time as of now
-            use.outTemp = (double)newTemp;
+        if (state!=null && adjClock!=null){
+            if(state instanceof  SmartHomeHeater){
+                //update for the smart home heater
+                SmartHomeHeater use = (SmartHomeHeater)state;
+                use.time = adjClock.getTimeMinute();//set to the given clock time as of now
+                use.outTemp = (double)newTemp;
+               System.out.println(use.time);
+               System.out.println(use.outTemp);
+            }
         }
     }
 
     @Override
     public Object getState() {
         //pull an array of temps
-        return ((SmartHomeHeater)observers.get(0)).pullRoomTemps();
+        return SmartHomeHeater.pullRoomTemps();
     }
 
     @Override
