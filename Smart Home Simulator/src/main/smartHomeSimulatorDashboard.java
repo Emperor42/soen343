@@ -366,27 +366,26 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
         RoomControlPane.add(btnRoom, 0, 3);
         btnRoom.setOnAction(e -> {
             //Room r = new Room();
-            Room r = null;
+            //Room r = null;
             String roomName = roomBox.getValue();
             for (int i = 0; i < SmartHomeCore.roomArray.length; i++) {
                 if (SmartHomeCore.roomArray[i] != null) {
                     if (SmartHomeCore.roomArray[i].getName().equals(roomName)) {
-                        r = SmartHomeCore.roomArray[i];
-                        SmartHomeCore.activeRoom = r;
-                        currentLocation.setText(r.getName());
+                        SmartHomeCore.activeRoom = SmartHomeCore.roomArray[i];
+                        currentLocation.setText(SmartHomeCore.activeRoom.getName());
                     }
                 }
             }
-            r.addOccupants(new Person(currentUser.getProfileName()));
-            occupantHeading.setText("Occupants of " + r.getName() + " are : ");
+            SmartHomeCore.activeRoom.addOccupants(new Person(currentUser.getProfileName()));
+            occupantHeading.setText("Occupants of " + SmartHomeCore.activeRoom.getName() + " are : ");
             occupantBox.getChildren().clear();
-            if (r.getNoOfOccupants() != 0) {
+            if (SmartHomeCore.activeRoom.getNoOfOccupants() != 0) {
                 occupantBox.getChildren().add(occupantHeading);
-                for (int i = 0; i < r.getNoOfOccupants(); i++) {
-                    occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+                for (int i = 0; i < SmartHomeCore.activeRoom.getNoOfOccupants(); i++) {
+                    occupantBox.getChildren().add(new Label(SmartHomeCore.activeRoom.getOccupants()[i].getName()));
                 }
             } else {
-                occupantBox.getChildren().add(new Label(r.getName() + " is empty"));
+                occupantBox.getChildren().add(new Label(SmartHomeCore.activeRoom.getName() + " is empty"));
             }
             //was throwing a multiple appending error
             RoomControlPane.getChildren().remove(occupantBox);
@@ -427,20 +426,22 @@ public class smartHomeSimulatorDashboard extends Application implements SmartHom
                     }
                 }
             }
-            //r.addOccupants(new Person(currentUser.getProfileName()));
-            occupantHeading.setText("Occupants of " + r.getName() + " are : ");
-            occupantBox.getChildren().clear();
-            if (r.getNoOfOccupants() != 0) {
-                occupantBox.getChildren().add(occupantHeading);
-                for (int i = 0; i < r.getNoOfOccupants(); i++) {
-                    occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+            if(r==null){
+                //r.addOccupants(new Person(currentUser.getProfileName()));
+                occupantHeading.setText("Occupants of " + r.getName() + " are : ");
+                occupantBox.getChildren().clear();
+                if (r.getNoOfOccupants() != 0) {
+                    occupantBox.getChildren().add(occupantHeading);
+                    for (int i = 0; i < r.getNoOfOccupants(); i++) {
+                        occupantBox.getChildren().add(new Label(r.getOccupants()[i].getName()));
+                    }
+                } else {
+                    occupantBox.getChildren().add(new Label(r.getName() + " is empty"));
                 }
-            } else {
-                occupantBox.getChildren().add(new Label(r.getName() + " is empty"));
+                //was throwing a multiple appending error
+                RoomControlPane.getChildren().remove(occupantBox);
+                RoomControlPane.add(occupantBox, 0, 6);
             }
-            //was throwing a multiple appending error
-            RoomControlPane.getChildren().remove(occupantBox);
-            RoomControlPane.add(occupantBox, 0, 6);
             displayOutputSimulationView(RoomControlPane, 2, 1, "This is my house", primaryStage);
         });
 

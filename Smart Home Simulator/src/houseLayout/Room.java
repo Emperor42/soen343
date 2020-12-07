@@ -33,7 +33,10 @@ public class Room {
     }
 
     public String UpdatedOutput(String given) {
-        return given + "\n" + " (" + noOfOccupants + ")|["+String.format("%.2f", lastTmp)+" C]";
+        if(!overTemp){
+            return given + "\n" + " (" + noOfOccupants + ")|[Z"+zone+": "+String.format("%.2f", lastTmp)+" C]";
+        }
+        return given + "\n" + " (" + noOfOccupants + ")|[O: "+String.format("%.2f", lastTmp)+" C]";
     }
 
     public boolean doorBlocked() {
@@ -54,10 +57,13 @@ public class Room {
     public boolean doorBlocked = false;
     public boolean lightBlocked = true;
     public int hvacStatus=0;
+    public boolean overTemp = false;
+    public int zone = 1;
 
-    public void displayTemp(double input){
+    public void displayTemp(double input, boolean over, int zone){
         lastTmp = input;
-        
+        overTemp = over;
+        this.zone = zone;
     }
     
     public void addOccupants(Person p) {
@@ -76,8 +82,8 @@ public class Room {
 
     public void removeOccupants(Person p) {
 
-        for (int i = 0; i < 11; i++) {
-            if (occupants[i].name.equals(p.name)) {
+        for (int i = 0; i < occupants.length; i++) {
+            if (occupants[i]!=null&&occupants[i].name.equals(p.name)) {
                 occupants[i] = null;
                 noOfOccupants--;
                 break;
@@ -85,6 +91,8 @@ public class Room {
         }
         if(noOfOccupants<=0){
             lightBlocked=true;
+            //reset the overridden temp
+            shh.SmartHomeHeater.useAutoTemp(shc.SmartHomeCore.findRoomIndex(this));
         }
     }
 
@@ -114,6 +122,10 @@ public class Room {
 
     public int getNoOfOccupants() {
         return noOfOccupants;
+    }
+    
+    public boolean occupied(){
+        return noOfOccupants>0;
     }
 
     public void setNoOfOccupants(int noOfOccupants) {

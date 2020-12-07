@@ -5,10 +5,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
+import static main.smartHomeSimulatorDashboard.AdjustableClockPane;
 import shh.SmartHomeHeater;
 import static shp.SmartHomeSecurity.awayModePane;
 import static shp.SmartHomeSecurity.displayAwayModePane;
@@ -28,13 +31,35 @@ public class SmartHomeCore {
     static Label outData = new Label("");
     //active room
     public static Room activeRoom = roomArray[0];
-
+    
     public static GridPane terminalModule() {
         temp.getChildren().clear();
         temp.add(outHeading, 0, 0);
         //front Simulation heading
         temp.add(outData, 0, 1);
         return temp;
+    }
+    
+    public static int activeRoomIndex(){
+        int ret =0;
+        for(int i=0;i<roomArray.length;i++){
+            if(activeRoom==roomArray[i]){
+                ret = i;
+                break;
+            }
+        }
+        return ret;
+    }
+    
+    public static int findRoomIndex(Room aRoom){
+        int ret =0;
+        for(int i=0;i<roomArray.length;i++){
+            if(aRoom==roomArray[i]){
+                ret = i;
+                break;
+            }
+        }
+        return ret;
     }
 
     public static GridPane module() {
@@ -121,13 +146,14 @@ public class SmartHomeCore {
     }
     
     public static void updateTemps(double[] temps){
+        
         Room tmp = activeRoom;//save the active room
         for(int i=0;i<temps.length;i++){
             activeRoom = roomArray[i];
             if (activeRoom!=null){
                 System.out.println("TEMP CHANGING..."+i);
                 System.out.println("TEMP VALUE..."+temps[i]);
-                activeRoom.displayTemp(temps[i]);
+                activeRoom.displayTemp(temps[i], SmartHomeHeater.over(i), SmartHomeHeater.zone(i));
                 if(SmartHomeHeater.hvacState(i)){
                     if(SmartHomeHeater.coolState(i)){
                         activeRoom.hvacStatus =-1;
@@ -142,7 +168,49 @@ public class SmartHomeCore {
                 }
             }
         }
+        activeRoom=tmp;
     }
+    
+    //custom time slider
+    public static Slider timeSlider(int segment, int constant){
+        // slider to change time speed
+            Slider timeSlider = new Slider(0, constant*segment, constant);
+            timeSlider.setMin(0);
+            timeSlider.setMax(3);
+            timeSlider.setValue(1);
+            timeSlider.setMinorTickCount(0);
+            timeSlider.setMajorTickUnit(1);
+            timeSlider.setSnapToTicks(true);
+            timeSlider.setShowTickMarks(true);
+            timeSlider.setShowTickLabels(true);
+
+            // display custom text on slider
+            timeSlider.setLabelFormatter(new StringConverter<Double>() {
+                public String toString(Double n) {
+                    if (n < 0.5) {
+                        return "Slow";
+                    }
+                    if (n < 1.5) {
+                        return "Normal";
+                    }
+                    if (n < 2.5) {
+                        return "Fast";
+                    }
+
+                    return "Super Fast";
+                }
+
+                @Override
+                public Double fromString(String arg0) {
+                    return null;
+                }
+
+            });
+            return timeSlider;
+        }
+
+        // add slider to pane
+        //AdjustableClockPane.add(timeSlider, 0, 2);
 
 
 }
